@@ -1,0 +1,4 @@
+isatools==0.14.2
+uvicorn==0.35.0
+fastapi==0.116.1
+python-multipart==0.0.20

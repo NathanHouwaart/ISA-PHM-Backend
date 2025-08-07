@@ -1,0 +1,1150 @@
+{
+    "comments": [],
+    "description": "The complete set-up contains four centrifugal pumps, each driven by an induction motor. Two measurement methods, four motor speeds, and 11 fault types can be induced at various severity levels.",
+    "identifier": "i1",
+    "ontologySourceReferences": [],
+    "people": [
+        {
+            "address": "",
+            "affiliation": "University of Twente;Royal Netherlands Navy",
+            "comments": [],
+            "email": "",
+            "fax": "",
+            "firstName": "Sietze",
+            "lastName": "Bruinsma",
+            "midInitials": "",
+            "phone": "",
+            "roles": [
+                {
+                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                    "annotationValue": "Corresponding Author",
+                    "comments": [],
+                    "termAccession": "",
+                    "termSource": ""
+                }
+            ]
+        },
+        {
+            "address": "",
+            "affiliation": "Netherlands Defence Academy",
+            "comments": [],
+            "email": "",
+            "fax": "",
+            "firstName": "Rinze",
+            "lastName": "Geertsma",
+            "midInitials": "",
+            "phone": "",
+            "roles": [
+                {
+                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                    "annotationValue": "Author",
+                    "comments": [],
+                    "termAccession": "",
+                    "termSource": ""
+                }
+            ]
+        },
+        {
+            "address": "",
+            "affiliation": "University of Twente",
+            "comments": [],
+            "email": "",
+            "fax": "",
+            "firstName": "Richard",
+            "lastName": "Loendersloot",
+            "midInitials": "",
+            "phone": "",
+            "roles": [
+                {
+                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                    "annotationValue": "Author",
+                    "comments": [],
+                    "termAccession": "",
+                    "termSource": ""
+                }
+            ]
+        },
+        {
+            "address": "",
+            "affiliation": "Netherlands Defence Academy;University of Twente",
+            "comments": [],
+            "email": "",
+            "fax": "",
+            "firstName": "Tiedo",
+            "lastName": "Tinga",
+            "midInitials": "",
+            "phone": "",
+            "roles": [
+                {
+                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                    "annotationValue": "Author",
+                    "comments": [],
+                    "termAccession": "",
+                    "termSource": ""
+                }
+            ]
+        }
+    ],
+    "publicReleaseDate": "2023-12-17",
+    "publications": [
+        {
+            "authorList": "S. Bruinsma;R. Geertsma;R. Loendersloot;T.Tinga",
+            "doi": "",
+            "pubMedID": "",
+            "status": {
+                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                "annotationValue": "published",
+                "comments": [],
+                "termAccession": "",
+                "termSource": ""
+            },
+            "title": "Motor Current and Vibration Monitoring Dataset for various Faults in an E-motor-driven Centrifugal Pump"
+        }
+    ],
+    "studies": [
+        {
+            "assays": [
+                {
+                    "characteristicCategories": [],
+                    "comments": [],
+                    "dataFiles": [],
+                    "filename": "a_assay_st0_se0_run0.json",
+                    "materials": {
+                        "otherMaterials": [],
+                        "samples": [
+                            {
+                                "@id": "#sample/130788208135136",
+                                "characteristics": [
+                                    {
+                                        "category": {
+                                            "@id": "#130788208119968"
+                                        },
+                                        "value": "MG160MA4042-H3"
+                                    },
+                                    {
+                                        "category": {
+                                            "@id": "#130788412328048"
+                                        },
+                                        "value": "6309.C4"
+                                    },
+                                    {
+                                        "category": {
+                                            "@id": "#130788208120136"
+                                        },
+                                        "value": "NK80-250/270 A2F2AE-SBQQE"
+                                    },
+                                    {
+                                        "category": {
+                                            "@id": "#130788207893072"
+                                        },
+                                        "unit": {
+                                            "@id": "#130788208120248"
+                                        },
+                                        "value": "5"
+                                    }
+                                ],
+                                "factorValues": [
+                                    {
+                                        "category": {
+                                            "@id": "#130788208123632"
+                                        },
+                                        "unit": {
+                                            "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                        },
+                                        "value": "1480"
+                                    },
+                                    {
+                                        "category": {
+                                            "@id": "#130788208123856"
+                                        },
+                                        "unit": {
+                                            "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                        },
+                                        "value": "1.4"
+                                    },
+                                    {
+                                        "category": {
+                                            "@id": "#130788208132336"
+                                        },
+                                        "unit": {
+                                            "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                        },
+                                        "value": "140"
+                                    }
+                                ],
+                                "name": "Fault_center_3-0"
+                            }
+                        ]
+                    },
+                    "measurementType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "vibration",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    },
+                    "processSequence": [
+                        {
+                            "@id": "#process/130788207974720",
+                            "comments": [],
+                            "date": "",
+                            "executesProtocol": {
+                                "@id": "#130788207974608"
+                            },
+                            "inputs": [
+                                {
+                                    "@id": "#sample/130788208135136"
+                                }
+                            ],
+                            "name": "",
+                            "nextProcess": {
+                                "@id": "#process/130788207975056"
+                            },
+                            "outputs": [
+                                {
+                                    "@id": "#data/rawdatafile-130788207974888"
+                                }
+                            ],
+                            "parameterValues": [
+                                {
+                                    "category": {
+                                        "@id": "#130788207973768"
+                                    },
+                                    "unit": {
+                                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                    },
+                                    "value": 2.0
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788207973880"
+                                    },
+                                    "value": "Electric Motor non-driven end bearing"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788207973992"
+                                    },
+                                    "value": "vertical"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788207974104"
+                                    },
+                                    "value": "g"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788207974216"
+                                    },
+                                    "value": "NI (USB-4432)"
+                                }
+                            ],
+                            "performer": ""
+                        },
+                        {
+                            "@id": "#process/130788207975056",
+                            "comments": [],
+                            "date": "",
+                            "executesProtocol": {
+                                "@id": "#130788207974944"
+                            },
+                            "inputs": [
+                                {
+                                    "@id": "#data/rawdatafile-130788207974888"
+                                }
+                            ],
+                            "name": "",
+                            "outputs": [
+                                {
+                                    "@id": "#data/derivedarraydatafile-130788207975112"
+                                }
+                            ],
+                            "parameterValues": [
+                                {
+                                    "category": {
+                                        "@id": "#130788208101920"
+                                    },
+                                    "value": "Butterworth 2nd order 1-10.000Hz"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130791794889112"
+                                    },
+                                    "unit": {
+                                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                    },
+                                    "value": 12.0
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788208132784"
+                                    },
+                                    "value": "[-1,1]"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788208133008"
+                                    },
+                                    "unit": {
+                                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                    },
+                                    "value": 24.0
+                                }
+                            ],
+                            "performer": "",
+                            "previousProcess": {
+                                "@id": "#process/130788207974720"
+                            }
+                        }
+                    ],
+                    "technologyPlatform": "Wilcoxon 786B-10",
+                    "technologyType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "accelerometer",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    },
+                    "unitCategories": []
+                },
+                {
+                    "characteristicCategories": [],
+                    "comments": [],
+                    "dataFiles": [],
+                    "filename": "a_assay_st0_se0_run1.json",
+                    "materials": {
+                        "otherMaterials": [],
+                        "samples": [
+                            {
+                                "@id": "#sample/130788208135192",
+                                "characteristics": [
+                                    {
+                                        "category": {
+                                            "@id": "#130788208119968"
+                                        },
+                                        "value": "MG160MA4042-H3"
+                                    },
+                                    {
+                                        "category": {
+                                            "@id": "#130788412328048"
+                                        },
+                                        "value": "6309.C4"
+                                    },
+                                    {
+                                        "category": {
+                                            "@id": "#130788208120136"
+                                        },
+                                        "value": "NK80-250/270 A2F2AE-SBQQE"
+                                    },
+                                    {
+                                        "category": {
+                                            "@id": "#130788207893072"
+                                        },
+                                        "unit": {
+                                            "@id": "#130788208120248"
+                                        },
+                                        "value": "5"
+                                    }
+                                ],
+                                "factorValues": [
+                                    {
+                                        "category": {
+                                            "@id": "#130788208133344"
+                                        },
+                                        "unit": {
+                                            "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                        },
+                                        "value": "1480"
+                                    },
+                                    {
+                                        "category": {
+                                            "@id": "#130788208133568"
+                                        },
+                                        "unit": {
+                                            "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                        },
+                                        "value": "1.4"
+                                    },
+                                    {
+                                        "category": {
+                                            "@id": "#130788208133792"
+                                        },
+                                        "unit": {
+                                            "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                        },
+                                        "value": "140"
+                                    }
+                                ],
+                                "name": "Fault_center_3-1"
+                            }
+                        ]
+                    },
+                    "measurementType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "vibration",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    },
+                    "processSequence": [
+                        {
+                            "@id": "#process/130788207976344",
+                            "comments": [],
+                            "date": "",
+                            "executesProtocol": {
+                                "@id": "#130788207976232"
+                            },
+                            "inputs": [
+                                {
+                                    "@id": "#sample/130788208135192"
+                                }
+                            ],
+                            "name": "",
+                            "nextProcess": {
+                                "@id": "#process/130788207989032"
+                            },
+                            "outputs": [
+                                {
+                                    "@id": "#data/rawdatafile-130788207988864"
+                                }
+                            ],
+                            "parameterValues": [
+                                {
+                                    "category": {
+                                        "@id": "#130788207975392"
+                                    },
+                                    "unit": {
+                                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                    },
+                                    "value": 2.0
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788207975504"
+                                    },
+                                    "value": "Electric Motor non-driven end bearing"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788207975616"
+                                    },
+                                    "value": "vertical"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788207975728"
+                                    },
+                                    "value": "g"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788207975840"
+                                    },
+                                    "value": "NI (USB-4432)"
+                                }
+                            ],
+                            "performer": ""
+                        },
+                        {
+                            "@id": "#process/130788207989032",
+                            "comments": [],
+                            "date": "",
+                            "executesProtocol": {
+                                "@id": "#130788207988920"
+                            },
+                            "inputs": [
+                                {
+                                    "@id": "#data/rawdatafile-130788207988864"
+                                }
+                            ],
+                            "name": "",
+                            "outputs": [
+                                {
+                                    "@id": "#data/derivedarraydatafile-130788207989088"
+                                }
+                            ],
+                            "parameterValues": [
+                                {
+                                    "category": {
+                                        "@id": "#130788208134072"
+                                    },
+                                    "value": "Butterworth 2nd order 1-10.000Hz"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788208134296"
+                                    },
+                                    "value": "12"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788208134520"
+                                    },
+                                    "value": "[-1,1]"
+                                },
+                                {
+                                    "category": {
+                                        "@id": "#130788208134744"
+                                    },
+                                    "unit": {
+                                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                    },
+                                    "value": 24.0
+                                }
+                            ],
+                            "performer": "",
+                            "previousProcess": {
+                                "@id": "#process/130788207976344"
+                            }
+                        }
+                    ],
+                    "technologyPlatform": "Wilcoxon 786B-10",
+                    "technologyType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "accelerometer",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    },
+                    "unitCategories": []
+                }
+            ],
+            "characteristicCategories": [],
+            "comments": [],
+            "description": "Fault Severity 3 at full speed",
+            "factors": [
+                {
+                    "@id": "#130788208135024",
+                    "factorName": "Fault Type",
+                    "factorType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "Fault",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    }
+                },
+                {
+                    "@id": "#130788207972592",
+                    "factorName": "Fault Position",
+                    "factorType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "Fault",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    }
+                },
+                {
+                    "@id": "#130788207972704",
+                    "factorName": "Fault Severity",
+                    "factorType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "Fault",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    }
+                }
+            ],
+            "filename": "s_study_s0.json",
+            "identifier": "s0",
+            "materials": {
+                "otherMaterials": [],
+                "samples": [
+                    {
+                        "@id": "#sample/130788208135136",
+                        "characteristics": [
+                            {
+                                "category": {
+                                    "@id": "#130788208119968"
+                                },
+                                "value": "MG160MA4042-H3"
+                            },
+                            {
+                                "category": {
+                                    "@id": "#130788412328048"
+                                },
+                                "value": "6309.C4"
+                            },
+                            {
+                                "category": {
+                                    "@id": "#130788208120136"
+                                },
+                                "value": "NK80-250/270 A2F2AE-SBQQE"
+                            },
+                            {
+                                "category": {
+                                    "@id": "#130788207893072"
+                                },
+                                "unit": {
+                                    "@id": "#130788208120248"
+                                },
+                                "value": "5"
+                            }
+                        ],
+                        "factorValues": [
+                            {
+                                "category": {
+                                    "@id": "#130788208123632"
+                                },
+                                "unit": {
+                                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                },
+                                "value": "1480"
+                            },
+                            {
+                                "category": {
+                                    "@id": "#130788208123856"
+                                },
+                                "unit": {
+                                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                },
+                                "value": "1.4"
+                            },
+                            {
+                                "category": {
+                                    "@id": "#130788208132336"
+                                },
+                                "unit": {
+                                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                },
+                                "value": "140"
+                            }
+                        ],
+                        "name": "Fault_center_3-0"
+                    },
+                    {
+                        "@id": "#sample/130788208135192",
+                        "characteristics": [
+                            {
+                                "category": {
+                                    "@id": "#130788208119968"
+                                },
+                                "value": "MG160MA4042-H3"
+                            },
+                            {
+                                "category": {
+                                    "@id": "#130788412328048"
+                                },
+                                "value": "6309.C4"
+                            },
+                            {
+                                "category": {
+                                    "@id": "#130788208120136"
+                                },
+                                "value": "NK80-250/270 A2F2AE-SBQQE"
+                            },
+                            {
+                                "category": {
+                                    "@id": "#130788207893072"
+                                },
+                                "unit": {
+                                    "@id": "#130788208120248"
+                                },
+                                "value": "5"
+                            }
+                        ],
+                        "factorValues": [
+                            {
+                                "category": {
+                                    "@id": "#130788208133344"
+                                },
+                                "unit": {
+                                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                },
+                                "value": "1480"
+                            },
+                            {
+                                "category": {
+                                    "@id": "#130788208133568"
+                                },
+                                "unit": {
+                                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                },
+                                "value": "1.4"
+                            },
+                            {
+                                "category": {
+                                    "@id": "#130788208133792"
+                                },
+                                "unit": {
+                                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd"
+                                },
+                                "value": "140"
+                            }
+                        ],
+                        "name": "Fault_center_3-1"
+                    }
+                ],
+                "sources": [
+                    {
+                        "@id": "#source/130788208134912",
+                        "characteristics": [],
+                        "name": "Techport"
+                    }
+                ]
+            },
+            "people": [
+                {
+                    "address": "",
+                    "affiliation": "University of Twente;Royal Netherlands Navy",
+                    "comments": [],
+                    "email": "",
+                    "fax": "",
+                    "firstName": "Sietze",
+                    "lastName": "Bruinsma",
+                    "midInitials": "",
+                    "phone": "",
+                    "roles": [
+                        {
+                            "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                            "annotationValue": "Corresponding Author",
+                            "comments": [],
+                            "termAccession": "",
+                            "termSource": ""
+                        }
+                    ]
+                },
+                {
+                    "address": "",
+                    "affiliation": "Netherlands Defence Academy",
+                    "comments": [],
+                    "email": "",
+                    "fax": "",
+                    "firstName": "Rinze",
+                    "lastName": "Geertsma",
+                    "midInitials": "",
+                    "phone": "",
+                    "roles": [
+                        {
+                            "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                            "annotationValue": "Author",
+                            "comments": [],
+                            "termAccession": "",
+                            "termSource": ""
+                        }
+                    ]
+                },
+                {
+                    "address": "",
+                    "affiliation": "University of Twente",
+                    "comments": [],
+                    "email": "",
+                    "fax": "",
+                    "firstName": "Richard",
+                    "lastName": "Loendersloot",
+                    "midInitials": "",
+                    "phone": "",
+                    "roles": [
+                        {
+                            "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                            "annotationValue": "Author",
+                            "comments": [],
+                            "termAccession": "",
+                            "termSource": ""
+                        }
+                    ]
+                },
+                {
+                    "address": "",
+                    "affiliation": "Netherlands Defence Academy;University of Twente",
+                    "comments": [],
+                    "email": "",
+                    "fax": "",
+                    "firstName": "Tiedo",
+                    "lastName": "Tinga",
+                    "midInitials": "",
+                    "phone": "",
+                    "roles": [
+                        {
+                            "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                            "annotationValue": "Author",
+                            "comments": [],
+                            "termAccession": "",
+                            "termSource": ""
+                        }
+                    ]
+                }
+            ],
+            "processSequence": [
+                {
+                    "@id": "#process/130788428879856",
+                    "comments": [],
+                    "date": "",
+                    "executesProtocol": {
+                        "@id": "#130788207973320"
+                    },
+                    "inputs": [
+                        {
+                            "@id": "#source/130788208134912"
+                        }
+                    ],
+                    "name": "",
+                    "outputs": [
+                        {
+                            "@id": "#sample/130788208135136"
+                        },
+                        {
+                            "@id": "#sample/130788208135192"
+                        }
+                    ],
+                    "parameterValues": [
+                        {
+                            "category": {
+                                "@id": "#130788207972816"
+                            },
+                            "value": "Fault"
+                        },
+                        {
+                            "category": {
+                                "@id": "#130788207972928"
+                            },
+                            "value": "center"
+                        },
+                        {
+                            "category": {
+                                "@id": "#130788207973040"
+                            },
+                            "value": "3"
+                        }
+                    ],
+                    "performer": ""
+                }
+            ],
+            "protocols": [
+                {
+                    "@id": "#130788207973320",
+                    "comments": [],
+                    "components": [],
+                    "description": "",
+                    "name": "Fault_introduction.pdf",
+                    "parameters": [
+                        {
+                            "@id": "#130788207972816",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Fault Type",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788207972928",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Fault Position",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788207973040",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Fault Severity",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        }
+                    ],
+                    "protocolType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "Fault/degradation protocol",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    },
+                    "uri": "",
+                    "version": ""
+                },
+                {
+                    "@id": "#130788207974608",
+                    "comments": [],
+                    "components": [],
+                    "description": "",
+                    "name": "data collection",
+                    "parameters": [
+                        {
+                            "@id": "#130788207973768",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "sampling rate",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788207973880",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Sensor location",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788207973992",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Sensor orientation",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788207974104",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Measured unit",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788207974216",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Data Acquisition Unit",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        }
+                    ],
+                    "protocolType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "data collection",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    },
+                    "uri": "",
+                    "version": ""
+                },
+                {
+                    "@id": "#130788207974944",
+                    "comments": [],
+                    "components": [],
+                    "description": "",
+                    "name": "data transformation",
+                    "parameters": [
+                        {
+                            "@id": "#130788208101920",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Filter Type",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130791794889112",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Chunk Size",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788208132784",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Scaling Range",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788208133008",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Scaling Resolution",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        }
+                    ],
+                    "protocolType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "data transformation",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    },
+                    "uri": "",
+                    "version": ""
+                },
+                {
+                    "@id": "#130788207976232",
+                    "comments": [],
+                    "components": [],
+                    "description": "",
+                    "name": "data collection",
+                    "parameters": [
+                        {
+                            "@id": "#130788207975392",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "sampling rate",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788207975504",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Sensor location",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788207975616",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Sensor orientation",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788207975728",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Measured unit",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788207975840",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Data Acquisition Unit",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        }
+                    ],
+                    "protocolType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "data collection",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    },
+                    "uri": "",
+                    "version": ""
+                },
+                {
+                    "@id": "#130788207988920",
+                    "comments": [],
+                    "components": [],
+                    "description": "",
+                    "name": "data transformation",
+                    "parameters": [
+                        {
+                            "@id": "#130788208134072",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Filter Type",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788208134296",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Chunk Size",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788208134520",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Scaling Range",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        },
+                        {
+                            "@id": "#130788208134744",
+                            "parameterName": {
+                                "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                                "annotationValue": "Scaling Resolution",
+                                "comments": [],
+                                "termAccession": "",
+                                "termSource": ""
+                            }
+                        }
+                    ],
+                    "protocolType": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "data transformation",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    },
+                    "uri": "",
+                    "version": ""
+                }
+            ],
+            "publicReleaseDate": "2023-12-17",
+            "publications": [
+                {
+                    "authorList": "S. Bruinsma;R. Geertsma;R. Loendersloot;T.Tinga",
+                    "doi": "",
+                    "pubMedID": "",
+                    "status": {
+                        "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                        "annotationValue": "published",
+                        "comments": [],
+                        "termAccession": "",
+                        "termSource": ""
+                    },
+                    "title": "Motor Current and Vibration Monitoring Dataset for various Faults in an E-motor-driven Centrifugal Pump"
+                }
+            ],
+            "studyDesignDescriptors": [
+                {
+                    "@id": "#54ca4f6d-822e-46e6-be73-c1205cfdafbd",
+                    "annotationValue": "Diagnostic",
+                    "comments": [],
+                    "termAccession": "",
+                    "termSource": ""
+                }
+            ],
+            "submissionDate": "2023-10-26",
+            "title": "Fault Severity 3 100%",
+            "unitCategories": []
+        }
+    ],
+    "submissionDate": "2023-10-26",
+    "title": "Diagnostics on an E-motor-driven centrifugal pump set-up"
+}
