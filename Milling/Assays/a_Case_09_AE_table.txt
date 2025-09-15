@@ -1,0 +1,280 @@
+Sample Name	Protocol REF	Parameter Value[Sensor Location]	Parameter Value[Sensor frequency range]	Unit	Parameter Value[Preamplifier]	Parameter Value[Amplifier]	Parameter Value[Amplifier max load]	Unit	Parameter Value[Amplifier min load]	Unit	Protocol REF	Parameter Value[Filter type]	Parameter Value[Filter HP cutoff frequency]	Unit	Parameter Value[Smoothening method]	Parameter Value[Smoothening time constant]	Unit	Parameter Value[Smoothening sampling frequency]	Unit	Processed Data File
+Specimen-0	Acoustic Emissin Measurement	Table	2	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE1801	DE302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Acoustic Emissin Processing	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\AE_table\Case_09_time_run_01.csv
+Specimen-1	Acoustic Emissin Measurement	Table	2	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE1801	DE302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Acoustic Emissin Processing	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\AE_table\Case_09_time_run_02.csv
+Specimen-2	Acoustic Emissin Measurement	Table	2	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE1801	DE302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Acoustic Emissin Processing	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\AE_table\Case_09_time_run_03.csv
+Specimen-3	Acoustic Emissin Measurement	Table	2	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE1801	DE302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Acoustic Emissin Processing	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\AE_table\Case_09_time_run_04.csv
+Specimen-4	Acoustic Emissin Measurement	Table	2	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE1801	DE302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Acoustic Emissin Processing	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\AE_table\Case_09_time_run_05.csv
+Specimen-5	Acoustic Emissin Measurement	Table	2	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE1801	DE302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Acoustic Emissin Processing	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\AE_table\Case_09_time_run_06.csv
+Specimen-6	Acoustic Emissin Measurement	Table	2	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE1801	DE302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Acoustic Emissin Processing	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\AE_table\Case_09_time_run_07.csv
+Specimen-7	Acoustic Emissin Measurement	Table	2	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE1801	DE302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Acoustic Emissin Processing	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\AE_table\Case_09_time_run_08.csv
+Specimen-8	Acoustic Emissin Measurement	Table	2	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE1801	DE302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Acoustic Emissin Processing	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\AE_table\Case_09_time_run_09.csv

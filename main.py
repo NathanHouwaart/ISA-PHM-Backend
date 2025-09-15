@@ -9,8 +9,11 @@ app = FastAPI()
 
 # CORS setup
 origins = [
-    "https://nathanhouwaart.github.io/",  # ✅ Your production domain
-    "http://localhost:5173"       # For development
+    "https://nathanhouwaart.github.io",                    # Base domain without slash
+    "https://nathanhouwaart.github.io/",                   # Base domain with slash  
+    "https://nathanhouwaart.github.io/ISA-PHM-Wizard",     # Your app without slash
+    "https://nathanhouwaart.github.io/ISA-PHM-Wizard/",    # Your app with slash
+    "http://localhost:5173"                                # For development
 ]
 
 app.add_middleware(
@@ -46,14 +49,17 @@ async def convert_json(file: UploadFile = File(...)):
             check=True
         )
 
-        # Read output
+        # Read and parse the JSON output properly
+        import json
         with open(output_path, "r") as out_f:
-            converted_data = out_f.read()
+            converted_data = json.load(out_f)  # Parse JSON instead of reading as string
 
-        return JSONResponse(content=converted_data)
+        return converted_data  # Return the parsed JSON directly
 
-    except subprocess.CalledProcessError:
-        raise HTTPException(status_code=500, detail="Conversion process failed")
+    except subprocess.CalledProcessError as e:
+        raise HTTPException(status_code=500, detail=f"Conversion process failed: {str(e)}")
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=500, detail="Invalid JSON output from conversion script")
 
     finally:
         # Always clean up

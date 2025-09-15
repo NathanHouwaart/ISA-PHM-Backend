@@ -1,0 +1,505 @@
+Sample Name	Protocol REF	Parameter Value[Sensor Location]	Parameter Value[Sensor frequency range]	Unit	Parameter Value[Filter type]	Parameter Value[HP cutoff frequency]	Unit	Parameter Value[Amplifier]	Parameter Value[Amplifier max load]	Unit	Parameter Value[Amplifier min load]	Unit	Parameter Value[Amplifier Sensitivity]	Unit	Parameter Value[Amplifier output]	Unit	Protocol REF	Parameter Value[Filter type]	Parameter Value[Filter roll-off rate]	Unit	Parameter Value[Filter LP cutoff frequency]	Unit	Parameter Value[Filter HP cutoff frequency]	Unit	Parameter Value[Smoothening method]	Parameter Value[Smoothening time constant]	Unit	Parameter Value[Smoothening sampling frequency]	Unit	Processed Data File
+Specimen-0	Vibration Measurement	Table	13	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE 302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	5.71	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	100	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Vibration Processing	ITHACO 4302 bandpass	24	"OntologyAnnotation(
+	term=dB/octave
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	400	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	1	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\vib_table\Case_09_time_run_01.csv
+Specimen-1	Vibration Measurement	Table	13	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE 302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	5.71	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	100	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Vibration Processing	ITHACO 4302 bandpass	24	"OntologyAnnotation(
+	term=dB/octave
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	400	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	1	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\vib_table\Case_09_time_run_02.csv
+Specimen-2	Vibration Measurement	Table	13	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE 302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	5.71	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	100	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Vibration Processing	ITHACO 4302 bandpass	24	"OntologyAnnotation(
+	term=dB/octave
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	400	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	1	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\vib_table\Case_09_time_run_03.csv
+Specimen-3	Vibration Measurement	Table	13	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE 302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	5.71	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	100	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Vibration Processing	ITHACO 4302 bandpass	24	"OntologyAnnotation(
+	term=dB/octave
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	400	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	1	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\vib_table\Case_09_time_run_04.csv
+Specimen-4	Vibration Measurement	Table	13	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE 302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	5.71	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	100	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Vibration Processing	ITHACO 4302 bandpass	24	"OntologyAnnotation(
+	term=dB/octave
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	400	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	1	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\vib_table\Case_09_time_run_05.csv
+Specimen-5	Vibration Measurement	Table	13	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE 302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	5.71	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	100	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Vibration Processing	ITHACO 4302 bandpass	24	"OntologyAnnotation(
+	term=dB/octave
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	400	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	1	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\vib_table\Case_09_time_run_06.csv
+Specimen-6	Vibration Measurement	Table	13	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE 302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	5.71	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	100	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Vibration Processing	ITHACO 4302 bandpass	24	"OntologyAnnotation(
+	term=dB/octave
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	400	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	1	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\vib_table\Case_09_time_run_07.csv
+Specimen-7	Vibration Measurement	Table	13	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE 302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	5.71	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	100	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Vibration Processing	ITHACO 4302 bandpass	24	"OntologyAnnotation(
+	term=dB/octave
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	400	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	1	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\vib_table\Case_09_time_run_08.csv
+Specimen-8	Vibration Measurement	Table	13	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	High pass	8	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	DE 302A	5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	-5	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	5.71	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	100	"OntologyAnnotation(
+	term=mV/g
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	Vibration Processing	ITHACO 4302 bandpass	24	"OntologyAnnotation(
+	term=dB/octave
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	400	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	1	"OntologyAnnotation(
+	term=kHz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	RMS	8	"OntologyAnnotation(
+	term=ms
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	250	"OntologyAnnotation(
+	term=Hz
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_09\Sensor\vib_table\Case_09_time_run_09.csv

@@ -1,0 +1,2 @@
+Sample Name	Protocol REF	Parameter Value[Sensor location]	Parameter Value[Sampling rate]	Unit	Parameter Value[Measured unit]	Parameter Value[Phase]	Protocol REF	Parameter Value[Chunk size]	Unit	Parameter Value[Scaling range]	Parameter Value[Scaling resolution]	Unit	Processed Data File
+Test set-up-0	Voltage Measurement	After motor Variable Frequency Drive (VFD)	20	kHz	V	2	Voltage Processing	15	s	to denote voltage	24	bit	Vibration_Motor-2_100_time-bearing bpfo 2-ch10.txt

@@ -1,0 +1,85 @@
+Sample Name	Protocol REF	Parameter Value[Current converter]	Parameter Value[Power supply]	Parameter Value[Power supply output]	Unit	Parameter Value[Current type]	Protocol REF	Processed Data File
+Specimen-0	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_01.csv
+Specimen-1	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_02.csv
+Specimen-10	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_11.csv
+Specimen-11	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_12.csv
+Specimen-12	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_13.csv
+Specimen-13	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_14.csv
+Specimen-2	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_03.csv
+Specimen-3	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_04.csv
+Specimen-4	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_05.csv
+Specimen-5	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_06.csv
+Specimen-6	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_07.csv
+Specimen-7	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_08.csv
+Specimen-8	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_09.csv
+Specimen-9	Current Measurement	OMRON K3TB-A1015	HP6237 triple output	15	"OntologyAnnotation(
+	term=V
+	term_source=None
+	term_accession=
+	comments=0 Comment objects
+)"	AC	Current Processing	D:\DPL\ISA3\Example Implementations\NASA Tool Wear\01) N_studies_with_1_assay_each\Data_mill\Case_02\Sensor\smcAC\Case_02_time_run_10.csv

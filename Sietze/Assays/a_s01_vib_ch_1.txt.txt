@@ -1,0 +1,2 @@
+Sample Name	Protocol REF	Parameter Value[Sensor location]	Parameter Value[Sensor orientation]	Parameter Value[Sampling rate]	Unit	Parameter Value[Measured unit]	Protocol REF	Parameter Value[Filter type]	Parameter Value[Chunk size]	Unit	Parameter Value[Scaling range]	Parameter Value[Scaling resolution]	Unit	Processed Data File
+Test set-up-0	Vibration Measurement	Electric Motor non-driven end bearing	horizontal	20	kHz	g	Vibration Processing	Butterworth 2nd order 1-10.000Hz	12	s	[-1,1]	24	bit	Vibration_Motor-2_100_time-bearing bpfo 3-ch1.txt

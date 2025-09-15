@@ -1,0 +1,2 @@
+Sample Name	Protocol REF	Parameter Value[Sensor location]	Parameter Value[Sampling rate]	Unit	Parameter Value[Measured unit]	Parameter Value[Phase]	Protocol REF	Parameter Value[Chunk size]	Unit	Parameter Value[Scaling range]	Parameter Value[Scaling resolution]	Unit	Processed Data File
+Test set-up-0	Current Measurement	After motor Variable Frequency Drive (VFD)	20	kHz	A	2	Current Processing	15	s	to denote current	24	bit	Vibration_Motor-2_100_time-bearing bpfo 2-ch7.txt

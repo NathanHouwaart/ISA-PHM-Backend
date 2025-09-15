@@ -1,0 +1,16 @@
+{
+    "id": "2f948c90-f7e7-4f8e-af16-0c4e8f339a10",
+    "measurementType": "Temperature",
+    "measurementUnit": "celcius",
+    "description": "measures temperature of bearing",
+    "technologyType": "PT",
+    "technologyPlatform": "PT100",
+    "dataAcquisitionUnit": "PLC S7-1200",
+    "samplingRate": "10",
+    "samplingUnit": "Hz",
+    "sensorLocation": "Bearing House",
+    "locationUnit": "",
+    "sensorOrientation": "",
+    "orientationUnit": "",
+    "alias": "vib_ch_3"
+}

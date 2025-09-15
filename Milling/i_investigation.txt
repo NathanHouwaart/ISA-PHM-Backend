@@ -1,0 +1,991 @@
+ONTOLOGY SOURCE REFERENCE
+Term Source Name
+Term Source File
+Term Source Version
+Term Source Description
+INVESTIGATION
+Investigation Identifier	i1
+Investigation Title	
+Investigation Description	Measuring fault responses of worn milling tools
+Investigation Submission Date	
+Investigation Public Release Date	
+INVESTIGATION PUBLICATIONS
+Investigation PubMed ID	
+Investigation Publication DOI	
+Investigation Publication Author List	
+Investigation Publication Title	
+Investigation Publication Status	
+Investigation Publication Status Term Accession Number	
+Investigation Publication Status Term Source REF	
+INVESTIGATION CONTACTS
+Investigation Person Last Name	Goebel	Agogino
+Investigation Person First Name	Kai	Alice
+Investigation Person Mid Initials		
+Investigation Person Email		
+Investigation Person Phone		
+Investigation Person Fax		
+Investigation Person Address		
+Investigation Person Affiliation	NASA Ames	UC Berkeley
+Investigation Person Roles	Investigator	Investigator
+Investigation Person Roles Term Accession Number		
+Investigation Person Roles Term Source REF		
+STUDY
+Study Identifier	
+Study Title	Case 1
+Study Description	Combination 1
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s01.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_01_vib_table.txt	a_Case_01_vib_spindle.txt	a_Case_01_smcAC.txt	a_Case_01_smcDC.txt	a_Case_01_AE_table.txt	a_Case_01_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 2
+Study Description	Combination 2
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s02.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_02_vib_table.txt	a_Case_02_vib_spindle.txt	a_Case_02_smcAC.txt	a_Case_02_smcDC.txt	a_Case_02_AE_table.txt	a_Case_02_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 3
+Study Description	Combination 3
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s03.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_03_vib_table.txt	a_Case_03_vib_spindle.txt	a_Case_03_smcAC.txt	a_Case_03_smcDC.txt	a_Case_03_AE_table.txt	a_Case_03_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 4
+Study Description	Combination 4
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s04.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_04_vib_table.txt	a_Case_04_vib_spindle.txt	a_Case_04_smcAC.txt	a_Case_04_smcDC.txt	a_Case_04_AE_table.txt	a_Case_04_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 5
+Study Description	Combination 5
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s05.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_05_vib_table.txt	a_Case_05_vib_spindle.txt	a_Case_05_smcAC.txt	a_Case_05_smcDC.txt	a_Case_05_AE_table.txt	a_Case_05_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 6
+Study Description	Combination 6
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s06.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_06_vib_table.txt	a_Case_06_vib_spindle.txt	a_Case_06_smcAC.txt	a_Case_06_smcDC.txt	a_Case_06_AE_table.txt	a_Case_06_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 7
+Study Description	Combination 7
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s07.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_07_vib_table.txt	a_Case_07_vib_spindle.txt	a_Case_07_smcAC.txt	a_Case_07_smcDC.txt	a_Case_07_AE_table.txt	a_Case_07_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 8
+Study Description	Combination 8
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s08.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_08_vib_table.txt	a_Case_08_vib_spindle.txt	a_Case_08_smcAC.txt	a_Case_08_smcDC.txt	a_Case_08_AE_table.txt	a_Case_08_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 9
+Study Description	Combination 9
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s09.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_09_vib_table.txt	a_Case_09_vib_spindle.txt	a_Case_09_smcAC.txt	a_Case_09_smcDC.txt	a_Case_09_AE_table.txt	a_Case_09_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 10
+Study Description	Combination 10
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s10.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_10_vib_table.txt	a_Case_10_vib_spindle.txt	a_Case_10_smcAC.txt	a_Case_10_smcDC.txt	a_Case_10_AE_table.txt	a_Case_10_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 11
+Study Description	Combination 11
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s11.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_11_vib_table.txt	a_Case_11_vib_spindle.txt	a_Case_11_smcAC.txt	a_Case_11_smcDC.txt	a_Case_11_AE_table.txt	a_Case_11_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 12
+Study Description	Combination 12
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s12.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_12_vib_table.txt	a_Case_12_vib_spindle.txt	a_Case_12_smcAC.txt	a_Case_12_smcDC.txt	a_Case_12_AE_table.txt	a_Case_12_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 13
+Study Description	Combination 13
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s13.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_13_vib_table.txt	a_Case_13_vib_spindle.txt	a_Case_13_smcAC.txt	a_Case_13_smcDC.txt	a_Case_13_AE_table.txt	a_Case_13_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 14
+Study Description	Combination 14
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s14.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_14_vib_table.txt	a_Case_14_vib_spindle.txt	a_Case_14_smcAC.txt	a_Case_14_smcDC.txt	a_Case_14_AE_table.txt	a_Case_14_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 15
+Study Description	Combination 15
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s15.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_15_vib_table.txt	a_Case_15_vib_spindle.txt	a_Case_15_smcAC.txt	a_Case_15_smcDC.txt	a_Case_15_AE_table.txt	a_Case_15_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	Case 16
+Study Description	Combination 16
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s16.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Time	Cutting speed	Depth of Cut	Feed	Material	VB
+Study Factor Type	Time	Operating condition	Operating condition	Operating condition	Operating condition	Damage
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_Case_16_vib_table.txt	a_Case_16_vib_spindle.txt	a_Case_16_smcAC.txt	a_Case_16_smcDC.txt	a_Case_16_AE_table.txt	a_Case_16_AE_spindle.txt
+Study Assay Measurement Type	Vibration	Vibration	Current	Current	Acoustic Emissin	Acoustic Emission
+Study Assay Measurement Type Term Accession Number						
+Study Assay Measurement Type Term Source REF						
+Study Assay Technology Type	Accelerometer	Accelerometer	Current clamp	Current clamp	Microphone	Microphone
+Study Assay Technology Type Term Accession Number						
+Study Assay Technology Type Term Source REF						
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	CTA 213	CTA 213	WD 925	WD 925
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Acoustic Emissin Measurement	Acoustic Emission Measurement	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Acoustic Emissin Processing	Acoustic Emission Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number													
+Study Protocol Type Term Source REF													
+Study Protocol Description													
+Study Protocol URI													
+Study Protocol Version													
+Study Protocol Parameters Name		Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Sensor Location;Sensor frequency range;Filter type;HP cutoff frequency;Amplifier;Amplifier max load;Amplifier min load;Amplifier Sensitivity;Amplifier output	Current converter;Power supply;Power supply output;Current type	Current converter;Power supply;Power supply output;Current type	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Sensor Location;Sensor frequency range;Preamplifier;Amplifier;Amplifier max load;Amplifier min load	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter roll-off rate;Filter LP cutoff frequency;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency			Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency	Filter type;Filter HP cutoff frequency;Smoothening method;Smoothening time constant;Smoothening sampling frequency
+Study Protocol Parameters Name Term Accession Number		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Parameters Name Term Source REF		;;;;;;;;	;;;;;;;;	;;;	;;;	;;;;;	;;;;;	;;;;;;	;;;;;;			;;;;	;;;;
+Study Protocol Components Name													
+Study Protocol Components Type													
+Study Protocol Components Type Term Accession Number													
+Study Protocol Components Type Term Source REF													
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF

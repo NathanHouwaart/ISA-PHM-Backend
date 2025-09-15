@@ -1,0 +1,151 @@
+ONTOLOGY SOURCE REFERENCE
+Term Source Name
+Term Source File
+Term Source Version
+Term Source Description
+INVESTIGATION
+Investigation Identifier	i1
+Investigation Title	
+Investigation Description	The complete set-up contains four centrifugal pumps, each driven by an induction motor. Two measurement methods, four motor speeds and 11 fault types can be induced at various severity levels.
+Investigation Submission Date	
+Investigation Public Release Date	2023-12-17 00:00:00
+INVESTIGATION PUBLICATIONS
+Investigation PubMed ID	
+Investigation Publication DOI	10.1016/j.dib.2023.109987
+Investigation Publication Author List	S. Bruinsma; R. Geertsma; R. Loendersloot; T.Tinga
+Investigation Publication Title	Motor Current and Vibration Monitoring Dataset for various Faults in an E-motor-driven Centrifugal Pump
+Investigation Publication Status	Published
+Investigation Publication Status Term Accession Number	
+Investigation Publication Status Term Source REF	
+INVESTIGATION CONTACTS
+Investigation Person Last Name	Bruinsma	Geertsma	Loendersloot	Tinga
+Investigation Person First Name	Sietze	Rinze	Richard	Tiedo
+Investigation Person Mid Initials		D.		
+Investigation Person Email	sj.bruinsma.01@mindef.nl			
+Investigation Person Phone				
+Investigation Person Fax				
+Investigation Person Address				
+Investigation Person Affiliation	University  of Twente, Royal Netherlands Navy	Netherlands Defence Academy	University of Twente	Netherlands Defence Academy, Royal Netherlands navy
+Investigation Person Roles	Corresponding Author;Author	Author	Author	Author
+Investigation Person Roles Term Accession Number	;			
+Investigation Person Roles Term Source REF	;			
+STUDY
+Study Identifier	
+Study Title	BPFO Fault Severity 1 100%
+Study Description	BPFO Fault Severity 1 at 100%
+Study Submission Date	2023-10-26 00:00:00
+Study Public Release Date	2023-12-17 00:00:00
+Study File Name	s01.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Fault Type	Fault Position	Fault Severity	Motor Speed	Discharge Pressure	Flow
+Study Factor Type	Qualitative fault specification	Qualitative fault specification	Quantitative fault specification	Operating condition	Operating condition	Operating condition
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_s01_vib_ch_1.txt.txt	a_s01_vib_ch_2.txt.txt	a_s01_vib_ch_3.txt.txt	a_s01_vib_ch_4.txt.txt	a_s01_vib_ch_5.txt.txt	a_s01_curr_ph_1.txt.txt	a_s01_curr_ph_2.txt.txt	a_s01_curr_ph_3.txt.txt	a_s01_volt_ph_1.txt.txt	a_s01_volt_ph_2.txt.txt	a_s01_volt_ph_3.txt.txt
+Study Assay Measurement Type	Vibration	Vibration	Vibration	Vibration	Vibration	Current	Current	Current	Voltage	Voltage	Voltage
+Study Assay Measurement Type Term Accession Number											
+Study Assay Measurement Type Term Source REF											
+Study Assay Technology Type	Accelerometer	Accelerometer	Accelerometer	Accelerometer	Accelerometer	Current Clamp	Current Clamp	Current Clamp	Voltage Tap	Voltage Tap	Voltage Tap
+Study Assay Technology Type Term Accession Number											
+Study Assay Technology Type Term Source REF											
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	Wilcoxon 786B-10	Wilcoxon 786B-10	Wilcoxon 786B-10	CR Magnetics CR3110	CR Magnetics CR3110	CR Magnetics CR3110	Wago 855	Wago 855	Wago 855
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Vibration Measurement	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Current Measurement	Voltage Measurement	Voltage Measurement	Voltage Measurement	Vibration Processing	Vibration Processing	Vibration Processing	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Current Processing	Voltage Processing	Voltage Processing	Voltage Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number																							
+Study Protocol Type Term Source REF																							
+Study Protocol Description																							
+Study Protocol URI																							
+Study Protocol Version																							
+Study Protocol Parameters Name		Sensor location;Sensor orientation;Sampling rate;Measured unit	Sensor location;Sensor orientation;Sampling rate;Measured unit	Sensor location;Sensor orientation;Sampling rate;Measured unit	Sensor location;Sensor orientation;Sampling rate;Measured unit	Sensor location;Sensor orientation;Sampling rate;Measured unit	Sensor location;Sampling rate;Measured unit;Phase	Sensor location;Sampling rate;Measured unit;Phase	Sensor location;Sampling rate;Measured unit;Phase	Sensor location;Sampling rate;Measured unit;Phase	Sensor location;Sampling rate;Measured unit;Phase	Sensor location;Sampling rate;Measured unit;Phase	Filter type;Chunk size;Scaling range;Scaling resolution	Filter type;Chunk size;Scaling range;Scaling resolution	Filter type;Chunk size;Scaling range;Scaling resolution	Filter type;Chunk size;Scaling range;Scaling resolution	Filter type;Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution
+Study Protocol Parameters Name Term Accession Number		;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;	;;	;;	;;	;;	;;
+Study Protocol Parameters Name Term Source REF		;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;	;;	;;	;;	;;	;;
+Study Protocol Components Name																							
+Study Protocol Components Type																							
+Study Protocol Components Type Term Accession Number																							
+Study Protocol Components Type Term Source REF																							
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
+STUDY
+Study Identifier	
+Study Title	BPFO Fault Severity 2 100%
+Study Description	BPFO Fault Severity 2 at 100%
+Study Submission Date	2023-10-26 00:00:00
+Study Public Release Date	2023-12-17 00:00:00
+Study File Name	s02.txt
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	Fault Type	Fault Position	Fault Severity	Motor Speed	Discharge Pressure	Flow
+Study Factor Type	Qualitative fault specification	Qualitative fault specification	Quantitative fault specification	Operating condition	Operating condition	Operating condition
+Study Factor Type Term Accession Number						
+Study Factor Type Term Source REF						
+STUDY ASSAYS
+Study Assay File Name	a_s02_vib_ch_1.txt.txt	a_s02_vib_ch_2.txt.txt	a_s02_vib_ch_3.txt.txt	a_s02_vib_ch_4.txt.txt	a_s02_vib_ch_5.txt.txt	a_s02_curr_ph_1.txt.txt	a_s02_curr_ph_2.txt.txt	a_s02_curr_ph_3.txt.txt	a_s02_volt_ph_1.txt.txt	a_s02_volt_ph_2.txt.txt	a_s02_volt_ph_3.txt.txt
+Study Assay Measurement Type	Vibration	Vibration	Vibration	Vibration	Vibration	Current	Current	Current	Voltage	Voltage	Voltage
+Study Assay Measurement Type Term Accession Number											
+Study Assay Measurement Type Term Source REF											
+Study Assay Technology Type	Accelerometer	Accelerometer	Accelerometer	Accelerometer	Accelerometer	Current Clamp	Current Clamp	Current Clamp	Voltage Tap	Voltage Tap	Voltage Tap
+Study Assay Technology Type Term Accession Number											
+Study Assay Technology Type Term Source REF											
+Study Assay Technology Platform	Wilcoxon 786B-10	Wilcoxon 786B-10	Wilcoxon 786B-10	Wilcoxon 786B-10	Wilcoxon 786B-10	CR Magnetics CR3110	CR Magnetics CR3110	CR Magnetics CR3110	Wago 855	Wago 855	Wago 855
+STUDY PROTOCOLS
+Study Protocol Name	Experiment preparation	Vibration Measurement	Vibration Measurement	Vibration Measurement	Vibration Measurement	Vibration Measurement	Current Measurement	Current Measurement	Current Measurement	Voltage Measurement	Voltage Measurement	Voltage Measurement	Vibration Processing	Vibration Processing	Vibration Processing	Vibration Processing	Vibration Processing	Current Processing	Current Processing	Current Processing	Voltage Processing	Voltage Processing	Voltage Processing
+Study Protocol Type	Experiment preparation	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Measurement	Processing	Processing	Processing	Processing	Processing	Processing	Processing	Processing	Processing	Processing	Processing
+Study Protocol Type Term Accession Number																							
+Study Protocol Type Term Source REF																							
+Study Protocol Description																							
+Study Protocol URI																							
+Study Protocol Version																							
+Study Protocol Parameters Name		Sensor location;Sensor orientation;Sampling rate;Measured unit	Sensor location;Sensor orientation;Sampling rate;Measured unit	Sensor location;Sensor orientation;Sampling rate;Measured unit	Sensor location;Sensor orientation;Sampling rate;Measured unit	Sensor location;Sensor orientation;Sampling rate;Measured unit	Sensor location;Sampling rate;Measured unit;Phase	Sensor location;Sampling rate;Measured unit;Phase	Sensor location;Sampling rate;Measured unit;Phase	Sensor location;Sampling rate;Measured unit;Phase	Sensor location;Sampling rate;Measured unit;Phase	Sensor location;Sampling rate;Measured unit;Phase	Filter type;Chunk size;Scaling range;Scaling resolution	Filter type;Chunk size;Scaling range;Scaling resolution	Filter type;Chunk size;Scaling range;Scaling resolution	Filter type;Chunk size;Scaling range;Scaling resolution	Filter type;Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution	Chunk size;Scaling range;Scaling resolution
+Study Protocol Parameters Name Term Accession Number		;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;	;;	;;	;;	;;	;;
+Study Protocol Parameters Name Term Source REF		;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;;	;;	;;	;;	;;	;;	;;
+Study Protocol Components Name																							
+Study Protocol Components Type																							
+Study Protocol Components Type Term Accession Number																							
+Study Protocol Components Type Term Source REF																							
+STUDY CONTACTS
+Study Person Last Name
+Study Person First Name
+Study Person Mid Initials
+Study Person Email
+Study Person Phone
+Study Person Fax
+Study Person Address
+Study Person Affiliation
+Study Person Roles
+Study Person Roles Term Accession Number
+Study Person Roles Term Source REF
