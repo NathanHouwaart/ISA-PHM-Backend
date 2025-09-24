@@ -155,10 +155,10 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         person.fax          = contact.get("fax", "")
         person.address      = contact.get("address", "")
         person.affiliation  = "; ".join(contact.get("affiliations", []))
+        person.roles.extend([OntologyAnnotation(role) for role in contact.get("roles", [])])
         person.comments.append(Comment(name="orcid", value=contact.get("orcid", "")))
         person.comments.append(Comment(name="subroles", value="; ".join(contact.get("subroles", []))))
         person.comments.append(Comment(name="author_id", value=contact.get("id", "")))
-        person.roles.extend([OntologyAnnotation(role) for role in contact.get("roles", [])])
         
         investigation.contacts.append(person)
 

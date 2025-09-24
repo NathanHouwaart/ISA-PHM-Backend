@@ -49,17 +49,15 @@ async def convert_json(file: UploadFile = File(...)):
             check=True
         )
 
-        # Read and parse the JSON output properly
-        import json
+        # Read the raw JSON output and return it as-is to preserve key order
         with open(output_path, "r") as out_f:
-            converted_data = json.load(out_f)  # Parse JSON instead of reading as string
+            raw_json = out_f.read()
 
-        return converted_data  # Return the parsed JSON directly
+        # Return the JSON text unchanged so the script's original ordering is preserved
+        return PlainTextResponse(content=raw_json, media_type="application/json")
 
     except subprocess.CalledProcessError as e:
         raise HTTPException(status_code=500, detail=f"Conversion process failed: {str(e)}")
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=500, detail="Invalid JSON output from conversion script")
 
     finally:
         # Always clean up
