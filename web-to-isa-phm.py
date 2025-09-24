@@ -48,6 +48,36 @@ def add_unit_to_study(study_obj: Study, unit_term: str) -> OntologyAnnotation:
     return unit
 
 
+def parse_numeric_if_possible(raw_value: Any) -> Tuple[Any, bool]:
+    """
+    Try to parse raw_value into an int or float.
+    Returns a tuple (parsed_value, is_numeric).
+    If parsing fails, returns (original_value, False).
+    """
+    if raw_value is None:
+        return raw_value, False
+    # If it's already a numeric type, keep it
+    if isinstance(raw_value, (int, float)):
+        return raw_value, True
+
+    s = str(raw_value).strip()
+    # Try integer
+    try:
+        iv = int(s)
+        return iv, True
+    except Exception:
+        pass
+
+    # Try float
+    try:
+        fv = float(s)
+        return fv, True
+    except Exception:
+        pass
+
+    return raw_value, False
+
+
 def parse_processing_protocol_entry(processing_entry: Dict[str, Any], expected_source_id: Optional[str], processing_defs: Dict[str, Dict[str, Any]]) -> Optional[Tuple[Optional[str], str, Any, str]]:
     """
     Parse a single processing_protocol entry and return:
@@ -373,19 +403,16 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
                     for parameter in protocol.parameters:
                         if parameter.parameter_name.term in parameter_map:
                             value = parameter_map[parameter.parameter_name.term]
-                            try:
-                                # Try to convert to int if it looks like a number and has a unit
-                                param_value = int(value[0]) if value[1] and value[0].isdigit() else value[0]
-                            except (ValueError, TypeError):
-                                param_value = value[0]
-                                
-                            parameter_list.append(
-                                ParameterValue(
-                                    category=parameter,
-                                    value=param_value,
-                                    unit=add_unit_to_study(study_obj, value[1]) if value[1] else None
-                                )
-                            )
+                            parsed_value, is_numeric = parse_numeric_if_possible(value[0])
+                            if value[1] and is_numeric:
+                                unit_obj = add_unit_to_study(study_obj, value[1])
+                            else:
+                                # If a unit was provided but the value is not numeric, skip attaching the unit
+                                if value[1]:
+                                    print(f"Warning: not attaching unit '{value[1]}' to non-numeric value '{value[0]}' for parameter '{parameter.parameter_name.term}'")
+                                unit_obj = None
+
+                            parameter_list.append(ParameterValue(category=parameter, value=parsed_value, unit=unit_obj))
 
                     process = Process(executes_protocol=protocol, parameter_values=parameter_list)
                     process.inputs.append(dummy_sample)
@@ -410,12 +437,15 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
                         matching_param = next((p for p in protocol.parameters if getattr(p.parameter_name, "term", None) in (pname, target_id)), None)
                         category_param = matching_param if matching_param is not None else ProtocolParameter(parameter_name=OntologyAnnotation(pname))
 
-                        try:
-                            param_value = int(raw_value) if raw_unit and isinstance(raw_value, str) and raw_value.isdigit() else raw_value
-                        except (ValueError, TypeError):
-                            param_value = raw_value
+                        parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
+                        if raw_unit and is_numeric:
+                            unit_obj = add_unit_to_study(study_obj, raw_unit)
+                        else:
+                            if raw_unit and not is_numeric:
+                                print(f"Warning: not attaching unit '{raw_unit}' to non-numeric processing value '{raw_value}' (parameter {pname})")
+                            unit_obj = None
 
-                        parameter_list.append(ParameterValue(category=category_param, value=param_value, unit=add_unit_to_study(study_obj, raw_unit) if raw_unit else None))
+                        parameter_list.append(ParameterValue(category=category_param, value=parsed_value, unit=unit_obj))
 
                     process = Process(executes_protocol=protocol, parameter_values=parameter_list)
                     process.inputs.append(raw_data_file)
