@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import subprocess
 import tempfile
 import os
+import uvicorn
 
 app = FastAPI()
 
@@ -70,3 +71,13 @@ async def convert_json(file: UploadFile = File(...)):
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
     return PlainTextResponse("Internal server error", status_code=500)
+
+
+if __name__ == "__main__":
+    print("Starting Webserver")
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", 8080)),
+        proxy_headers=True
+    )

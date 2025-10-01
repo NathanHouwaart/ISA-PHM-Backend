@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Tuple
+from uuid import uuid4
 from isatools.model import *
 from isatools import isatab
 # from isatools.isatab.dump.write import *
@@ -22,6 +23,22 @@ def get_or_create_unit(unit_term):
         new_unit = OntologyAnnotation(term=unit_term)
         unit_list.append(new_unit)
         return new_unit
+    else:
+        return None  # Nothing to assign
+
+# %%
+#The following function creates roles based on specified roles in the input file. It prevents generation of duplicate roles when the same role occurs multiple times.
+role_list = [] #Initilize role list
+def get_or_create_role(role_term):
+    if pd.notna(role_term):
+        # Check if the role already exists
+        for existing_role in role_list:
+            if existing_role.term == role_term:
+                return existing_role  # Reuse
+        # Create and store new role
+        new_role = OntologyAnnotation(term=role_term)
+        role_list.append(new_role)
+        return new_role
     else:
         return None  # Nothing to assign
 
@@ -166,12 +183,12 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
     """
     investigation = Investigation()
     investigation.filename = output_path if output_path else "isa_phm.json"
-    investigation.identifier = IsaPhmInfo.get("identifier", "i0")
+    investigation.identifier = IsaPhmInfo.get("identifier", uuid4().hex)
     investigation.title = IsaPhmInfo.get("title", "")
     investigation.description = IsaPhmInfo.get("description", "")
     investigation.submission_date = IsaPhmInfo.get("submission_date", "")
     investigation.public_release_date = IsaPhmInfo.get("public_release_date", "")
-    investigation.comments.append(Comment(name="License", value="MIT License"))
+    investigation.comments.append(Comment(name="License", value=IsaPhmInfo.get("license", "")))
     
     # INVESTIGATION CONTACTS
     authors: List[Dict[str, Any]] = IsaPhmInfo.get("authors", [])
@@ -185,9 +202,8 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         person.fax          = contact.get("fax", "")
         person.address      = contact.get("address", "")
         person.affiliation  = "; ".join(contact.get("affiliations", []))
-        person.roles.extend([OntologyAnnotation(role) for role in contact.get("roles", [])])
+        person.roles.extend([get_or_create_role(role) for role in contact.get("roles", [])])
         person.comments.append(Comment(name="orcid", value=contact.get("orcid", "")))
-        person.comments.append(Comment(name="subroles", value="; ".join(contact.get("subroles", []))))
         person.comments.append(Comment(name="author_id", value=contact.get("id", "")))
         
         investigation.contacts.append(person)
@@ -198,7 +214,7 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         publication_obj = Publication()
         publication_obj.title = publication.get("title", "")
         publication_obj.author_list = "; ".join(["#" + author for author in publication.get("authorList", [])])
-        publication_obj.status = OntologyAnnotation(publication.get("publicationStatus", "unknown"))
+        publication_obj.status = OntologyAnnotation(publication.get("publicationStatus", ""))
         publication_obj.doi = publication.get("doi", "")
         investigation.publications.append(publication_obj)
 
