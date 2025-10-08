@@ -191,8 +191,8 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
     investigation.comments.append(Comment(name="License", value=IsaPhmInfo.get("license", "")))
     
     # INVESTIGATION CONTACTS
-    authors: List[Dict[str, Any]] = IsaPhmInfo.get("authors", [])
-    for contact in authors:
+    contacts: List[Dict[str, Any]] = IsaPhmInfo.get("contacts", [])
+    for contact in contacts:
         person = Person()
         person.first_name   = contact.get("firstName", "")
         person.mid_initials = contact.get("midInitials", "")
@@ -213,14 +213,17 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
     for publication in publications:
         publication_obj = Publication()
         publication_obj.title = publication.get("title", "")
-        publication_obj.author_list = "; ".join(["#" + author for author in publication.get("authorList", [])])
-        publication_obj.status = OntologyAnnotation(publication.get("publicationStatus", ""))
+        publication_obj.author_list = "; ".join(["#" + author for author in publication.get("contactList", [])])
+        publication_obj.status = OntologyAnnotation(publication.get("publicationStatus", "unknown"))
         publication_obj.doi = publication.get("doi", "")
+        publication_obj.comments.append(Comment(name="Corresponding author ID", value=publication.get("correspondingContactId", "")))
         investigation.publications.append(publication_obj)
 
 
     # Precompute processing definitions lookup (id -> def) for the whole investigation
+    measurement_protocol_defs = {p.get("id"): p for p in IsaPhmInfo.get("measurement_protocols", [])} if IsaPhmInfo.get("measurement_protocols") else {}
     processing_defs = {p.get("id"): p for p in IsaPhmInfo.get("processing_protocols", [])} if IsaPhmInfo.get("processing_protocols") else {}
+    
 
     # INVESTIGATION STUDIES
     studies: List[Dict[str, Any]] = IsaPhmInfo.get("studies", [])
@@ -237,15 +240,16 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         #TODO: Add experiment type in online form
         study_obj.design_descriptors.append(OntologyAnnotation(study.get("experimentType", "Diagnostics")))
 
-    # (processing_defs is precomputed for the whole investigation)
+
+        # Test Setup (used as Source and Sample)
+        test_setup_obj: Dict[str, Any] = study.get("used_setup", {})
 
         # Experiment preparation Protocol
-        experiment_prep_protocol = Protocol(name="Experiment Preparation")
+        experiment_prep_protocol = Protocol(name=test_setup_obj.get("experimentPreparationProtocolName", "Experiment Preparation"))
         experiment_prep_protocol.protocol_type = OntologyAnnotation("Experiment Preparation Protocol")
         study_obj.protocols.append(experiment_prep_protocol)
 
         # Measurement Protocols
-        test_setup_obj: Dict[str, Any] = study.get("used_setup", {})
         for sensor in test_setup_obj.get("sensors", []):
             # Include sensor ID or name to make protocol names unique
             sensor_id = sensor.get("id", "") or sensor.get("name", "") or sensor.get("sensorLocation", "") or f"sensor_{len(study_obj.protocols)}"
@@ -257,17 +261,17 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
             protocol.protocol_type = OntologyAnnotation("Measurement Protocol")
             protocol.comments.append(Comment(name="Sensor id", value=sensor.get("id", "")))
             
-            # Add parameters only if they exist in the sensor definition
-            if sensor.get("sensorLocation", ""):
-                protocol.parameters.append(ProtocolParameter(parameter_name=OntologyAnnotation("Sensor Location")))
-            if sensor.get("sensorOrientation", ""):
-                protocol.parameters.append(ProtocolParameter(parameter_name=OntologyAnnotation("Sensor Orientation")))
-            if sensor.get("samplingRate", ""):
-                protocol.parameters.append(ProtocolParameter(parameter_name=OntologyAnnotation("Sampling Rate")))
-            if sensor.get("measurementUnit", ""):
-                protocol.parameters.append(ProtocolParameter(parameter_name=OntologyAnnotation("Measured Unit")))
-            if sensor.get("phase", ""):
-                protocol.parameters.append(ProtocolParameter(parameter_name=OntologyAnnotation("Phase")))
+            # Measurement Protocols
+            for measurement_protocol in IsaPhmInfo.get("measurement_protocols", []):
+                measurement_protocol_name = measurement_protocol.get("name", "")
+                if measurement_protocol_name:
+                    parameter = ProtocolParameter(parameter_name= OntologyAnnotation(
+                                                      measurement_protocol_name,
+                                                      comments=[
+                                                          Comment(name="description", value=measurement_protocol.get("description", ""))
+                                                      ]
+                                                  ))
+                    protocol.parameters.append(parameter)
 
             # Add protocol to study
             study_obj.protocols.append(protocol)
@@ -291,6 +295,7 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         
         # Adds Material -> Source to ISA
         source = Source(name=test_setup_obj.get("name", "Test Setup"))
+        source.comments.append(Comment(name="description", value=test_setup_obj.get("description", "")))
         study_obj.sources.append(source)
         
         # Adds Material -> Sample to ISA
@@ -377,17 +382,17 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
             assay_obj.data_files.append(raw_data_file)
             
             processed_data_file = DataFile(
-                filename=assay.get("processed_file_name", "") if assay.get("processed_file_name") else "not-used.txt",
+                filename=assay.get("processed_file_name", "") if assay.get("processed_file_name") else "",
                 label="Processed Data File",
                 generated_from=dummy_sample
             )
             assay_obj.data_files.append(processed_data_file)
 
             # Raw data and Processed data files are generated by processes
-            collect_raw_data_process = Process(name="Collect Raw Data", executes_protocol=experiment_prep_protocol, parameter_values=[])
-            collect_raw_data_process.inputs.append(dummy_sample)
-            collect_raw_data_process.outputs.append(raw_data_file)
-            assay_obj.process_sequence.append(collect_raw_data_process)
+            # collect_raw_data_process = Process(name="Collect Raw Data", executes_protocol=experiment_prep_protocol, parameter_values=[])
+            # collect_raw_data_process.inputs.append(dummy_sample)
+            # collect_raw_data_process.outputs.append(raw_data_file)
+            # assay_obj.process_sequence.append(collect_raw_data_process)
 
             # Now find and use ONLY the protocols for THIS specific sensor/measurement type
             for protocol in study_obj.protocols:
@@ -408,27 +413,29 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
                 if (protocol.name == expected_measurement_name or 
                     (not assay_sensor_id and protocol.name.startswith(f'{assay_measurement_type} measurement'))):
                     
-                    parameter_map = {
-                        "Sensor Location": [assay_sensor.get("sensorLocation", ""), assay_sensor.get("locationUnit", "")],
-                        "Sensor Orientation": [assay_sensor.get("sensorOrientation", ""), assay_sensor.get("orientationUnit", "")],
-                        "Sampling Rate": [assay_sensor.get("samplingRate", ""), assay_sensor.get("samplingUnit", "")],
-                        "Measured Unit": [assay_sensor.get("measurementUnit", ""), ""]
-                    }
                     parameter_list = []
                     
-                    for parameter in protocol.parameters:
-                        if parameter.parameter_name.term in parameter_map:
-                            value = parameter_map[parameter.parameter_name.term]
-                            parsed_value, is_numeric = parse_numeric_if_possible(value[0])
-                            if value[1] and is_numeric:
-                                unit_obj = add_unit_to_study(study_obj, value[1])
-                            else:
-                                # If a unit was provided but the value is not numeric, skip attaching the unit
-                                if value[1]:
-                                    print(f"Warning: not attaching unit '{value[1]}' to non-numeric value '{value[0]}' for parameter '{parameter.parameter_name.term}'")
-                                unit_obj = None
+                    for measurement_protocol in assay.get("measurement_protocols", []):
+                        parsed_entry = parse_processing_protocol_entry(measurement_protocol, assay_sensor_id, measurement_protocol_defs)
+                        if not parsed_entry:
+                            continue
 
-                            parameter_list.append(ParameterValue(category=parameter, value=parsed_value, unit=unit_obj))
+                        target_id, pname, raw_value, raw_unit = parsed_entry
+                        
+                        # Try to match existing ProtocolParameter in the protocol by term or id
+                        matching_param = next((p for p in protocol.parameters if getattr(p.parameter_name, "term", None) in (pname, target_id)), None)
+                        category_param = matching_param if matching_param is not None else ProtocolParameter(parameter_name=OntologyAnnotation(pname))
+
+                        parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
+                        
+                        if raw_unit and is_numeric:
+                            unit_obj = add_unit_to_study(study_obj, raw_unit)
+                        else:
+                            if raw_unit and not is_numeric:
+                                print(f"Warning: not attaching unit '{raw_unit}' to non-numeric processing value '{raw_value}' (parameter {pname})")
+                            unit_obj = None
+
+                        parameter_list.append(ParameterValue(category=category_param, value=parsed_value, unit=unit_obj))
 
                     process = Process(executes_protocol=protocol, parameter_values=parameter_list)
                     process.inputs.append(dummy_sample)
