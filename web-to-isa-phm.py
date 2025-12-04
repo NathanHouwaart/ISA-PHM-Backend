@@ -542,12 +542,15 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
     return investigation
 
 def main(args):
-    json_data = json.load(open(args.file, "r"))
+
+    with open(args.file, "r", encoding="utf-8") as infile:
+        json_data = json.load(infile)
     print(f"Loading ISA-PhM JSON file: {args.file}")
     print(type(json_data))
     investigation = create_isa_data(IsaPhmInfo=json_data, output_path=args.outfile)
 
-    with open(investigation.filename, "w") as f:
+    
+    with open(investigation.filename, "w", encoding="utf-8", newline="\n") as f:
         json.dump(investigation, f, cls=ISAJSONEncoder, sort_keys=True,
                   indent=4, separators=(',', ': '))
 
