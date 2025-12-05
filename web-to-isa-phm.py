@@ -192,7 +192,8 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
     """
     investigation = Investigation()
     investigation.filename = output_path if output_path else "isa_phm.json"
-    investigation.identifier = uuid4().hex
+    # Use standard hyphenated UUID format (e.g., efaa741b-b04c-4fe5-9787-6bc3c99dd52a)
+    investigation.identifier = str(uuid4())
     investigation.title = IsaPhmInfo.get("title", "")
     investigation.description = IsaPhmInfo.get("description", "")
     investigation.submission_date = IsaPhmInfo.get("submission_date", "")
