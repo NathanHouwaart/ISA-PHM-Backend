@@ -311,29 +311,58 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
             study_obj.protocols.append(protocol)
         
         # Adds Material -> Source to ISA
+        # The source represents the test setup with its fixed hardware characteristics
         source = Source(name=test_setup_obj.get("name", "Test Setup"))
         source.comments.append(Comment(name="description", value=test_setup_obj.get("description", "")))
-        study_obj.sources.append(source) 
-        
-        # Adds Material -> Sample to ISA
-        dummy_sample = Sample(name="Test Setup Characteristics", derives_from=[source])
-        for characteristic in test_setup_obj.get("characteristics", []):           
+        for characteristic in test_setup_obj.get("characteristics", []):
             category = OntologyAnnotation(term=characteristic.get("category", "unknown"))
             study_obj.characteristic_categories.append(category)
-            
-            # Extract unit (if exists) and add to study units
+
             unit = add_unit_to_study(study_obj, characteristic.get("unit", ""))
-            
+
             characteristic_obj = Characteristic()
             characteristic_obj.category = category
             characteristic_obj.value = characteristic.get("value", "")
-            characteristic_obj.unit = unit  # will be None if no unit specified and will not be added
-            
-            ## TODO: May delete these two lines if they are redundant
-            characteristic_obj.comments.append(Comment(name="name", value=characteristic.get("category", "")))
-            characteristic_obj.comments.append(Comment(name="unit", value=characteristic.get("unit", "")))
-            
-            dummy_sample.characteristics.append(characteristic_obj)
+            characteristic_obj.unit = unit
+
+            source.characteristics.append(characteristic_obj)
+        study_obj.sources.append(source)
+
+        # Resolve the active configuration for this study (may be None if not specified)
+        configuration_id = study.get("configurationId")
+        active_config = next(
+            (c for c in test_setup_obj.get("configurations", []) if c.get("id") == configuration_id),
+            None
+        )
+
+        # Adds Material -> Sample to ISA
+        # The sample represents the source + the active configuration (e.g. which bearing is installed)
+        if active_config:
+            sample_name = f"{test_setup_obj.get('name', 'Test Setup')} - {active_config.get('name', 'Configuration')}"
+        else:
+            sample_name = f"{test_setup_obj.get('name', 'Test Setup')} - No Configuration"
+        dummy_sample = Sample(name=sample_name, derives_from=[source])
+
+        # Add configuration fields as characteristics on the sample
+        if active_config:
+            for config_cat, config_val in [
+                ("Configuration Name", active_config.get("name", "")),
+                ("Replaceable Component", active_config.get("replaceableComponentId", "")),
+            ]:
+                cat_annotation = OntologyAnnotation(term=config_cat)
+                study_obj.characteristic_categories.append(cat_annotation)
+                config_char = Characteristic(category=cat_annotation, value=config_val)
+                dummy_sample.characteristics.append(config_char)
+
+            # Add any detail entries from the configuration (future-proof)
+            for detail in active_config.get("details", []):
+                detail_cat = OntologyAnnotation(term=detail.get("name", "Configuration Detail"))
+                study_obj.characteristic_categories.append(detail_cat)
+                detail_char = Characteristic(
+                    category=detail_cat,
+                    value=detail.get("value", "")
+                )
+                dummy_sample.characteristics.append(detail_char)
         
         
         # Study Factors - Create factor definitions (no values yet)
