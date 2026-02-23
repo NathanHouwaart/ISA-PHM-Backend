@@ -56,16 +56,16 @@ def add_unit_to_study(study_obj: Study, unit_term: str) -> OntologyAnnotation:
         OntologyAnnotation object for the unit, or None if unit_term is empty
     """
     if not unit_term:
-        print(f"DEBUG: add_unit_to_study called with EMPTY unit_term")
+        # print(f"DEBUG: add_unit_to_study called with EMPTY unit_term")
         return None
     
-    print(f"DEBUG: add_unit_to_study called with unit_term='{unit_term}'")
+    # print(f"DEBUG: add_unit_to_study called with unit_term='{unit_term}'")
     unit = get_or_create_unit(unit_term)
     if unit and unit not in study_obj.units:
         study_obj.units.append(unit)
-        print(f"  ✅ Added unit '{unit_term}' to study.units (total: {len(study_obj.units)})")
-    elif unit:
-        print(f"  ⏭️  Unit '{unit_term}' already in study.units")
+        # print(f"  ✅ Added unit '{unit_term}' to study.units (total: {len(study_obj.units)})")
+    # elif unit:
+    #     # print(f"  ⏭️  Unit '{unit_term}' already in study.units")
     
     return unit
 
@@ -313,7 +313,7 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         # Adds Material -> Source to ISA
         source = Source(name=test_setup_obj.get("name", "Test Setup"))
         source.comments.append(Comment(name="description", value=test_setup_obj.get("description", "")))
-        study_obj.sources.append(source)
+        study_obj.sources.append(source) 
         
         # Adds Material -> Sample to ISA
         dummy_sample = Sample(name="Test Setup Characteristics", derives_from=[source])
@@ -403,7 +403,6 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
             assay_obj.technology_platform = assay_sensor.get("technologyPlatform", "unknown")
             
             for sample in study_obj.samples:
-                print(sample)
                 assay_obj.samples.append(sample)
             
             # Each assay will have a raw and processed data file
@@ -417,7 +416,7 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
                 assay_obj.data_files.append(raw_data_file)
             
             for run in runs:
-                print("run: ", run)
+                # print("run: ", run)
                 processed_data_file = DataFile(
                     filename=run.get("processed_file_name", ""),
                     label="Processed Data File",
@@ -471,7 +470,7 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
                             raw_unit_str = str(raw_unit) if raw_unit is not None else ""
                             clean_unit = raw_unit_str.strip().replace('\xa0', '').replace('\u00a0', '')
                             
-                            print(f"DEBUG MEASUREMENT: pname={pname}, raw_value={raw_value}, raw_unit='{raw_unit}', clean_unit='{clean_unit}', is_numeric={is_numeric}")
+                            # print(f"DEBUG MEASUREMENT: pname={pname}, raw_value={raw_value}, raw_unit='{raw_unit}', clean_unit='{clean_unit}', is_numeric={is_numeric}")
                             
                             if clean_unit and is_numeric:
                                 unit_obj = add_unit_to_study(study_obj, clean_unit)
