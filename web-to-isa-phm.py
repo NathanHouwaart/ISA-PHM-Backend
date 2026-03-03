@@ -56,16 +56,16 @@ def add_unit_to_study(study_obj: Study, unit_term: str) -> OntologyAnnotation:
         OntologyAnnotation object for the unit, or None if unit_term is empty
     """
     if not unit_term:
-        print(f"DEBUG: add_unit_to_study called with EMPTY unit_term")
+        # print(f"DEBUG: add_unit_to_study called with EMPTY unit_term")
         return None
     
-    print(f"DEBUG: add_unit_to_study called with unit_term='{unit_term}'")
+    # print(f"DEBUG: add_unit_to_study called with unit_term='{unit_term}'")
     unit = get_or_create_unit(unit_term)
     if unit and unit not in study_obj.units:
         study_obj.units.append(unit)
-        print(f"  ✅ Added unit '{unit_term}' to study.units (total: {len(study_obj.units)})")
-    elif unit:
-        print(f"  ⏭️  Unit '{unit_term}' already in study.units")
+        # print(f"  ✅ Added unit '{unit_term}' to study.units (total: {len(study_obj.units)})")
+    # elif unit:
+    #     # print(f"  ⏭️  Unit '{unit_term}' already in study.units")
     
     return unit
 
@@ -312,29 +312,58 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
             study_obj.protocols.append(protocol)
         
         # Adds Material -> Source to ISA
+        # The source represents the test setup with its fixed hardware characteristics
         source = Source(name=test_setup_obj.get("name", "Test Setup"))
         source.comments.append(Comment(name="description", value=test_setup_obj.get("description", "")))
-        study_obj.sources.append(source)
-        
-        # Adds Material -> Sample to ISA
-        dummy_sample = Sample(name="Test Setup Characteristics", derives_from=[source])
-        for characteristic in test_setup_obj.get("characteristics", []):           
+        for characteristic in test_setup_obj.get("characteristics", []):
             category = OntologyAnnotation(term=characteristic.get("category", "unknown"))
             study_obj.characteristic_categories.append(category)
-            
-            # Extract unit (if exists) and add to study units
+
             unit = add_unit_to_study(study_obj, characteristic.get("unit", ""))
-            
+
             characteristic_obj = Characteristic()
             characteristic_obj.category = category
             characteristic_obj.value = characteristic.get("value", "")
-            characteristic_obj.unit = unit  # will be None if no unit specified and will not be added
-            
-            ## TODO: May delete these two lines if they are redundant
-            characteristic_obj.comments.append(Comment(name="name", value=characteristic.get("category", "")))
-            characteristic_obj.comments.append(Comment(name="unit", value=characteristic.get("unit", "")))
-            
-            dummy_sample.characteristics.append(characteristic_obj)
+            characteristic_obj.unit = unit
+
+            source.characteristics.append(characteristic_obj)
+        study_obj.sources.append(source)
+
+        # Resolve the active configuration for this study (may be None if not specified)
+        configuration_id = study.get("configurationId")
+        active_config = next(
+            (c for c in test_setup_obj.get("configurations", []) if c.get("id") == configuration_id),
+            None
+        )
+
+        # Adds Material -> Sample to ISA
+        # The sample represents the source + the active configuration (e.g. which bearing is installed)
+        if active_config:
+            sample_name = f"{test_setup_obj.get('name', 'Test Setup')} - {active_config.get('name', 'Configuration')}"
+        else:
+            sample_name = f"{test_setup_obj.get('name', 'Test Setup')} - No Configuration"
+        dummy_sample = Sample(name=sample_name, derives_from=[source])
+
+        # Add configuration fields as characteristics on the sample
+        if active_config:
+            for config_cat, config_val in [
+                ("Configuration Name", active_config.get("name", "")),
+                ("Replaceable Component", active_config.get("replaceableComponentId", "")),
+            ]:
+                cat_annotation = OntologyAnnotation(term=config_cat)
+                study_obj.characteristic_categories.append(cat_annotation)
+                config_char = Characteristic(category=cat_annotation, value=config_val)
+                dummy_sample.characteristics.append(config_char)
+
+            # Add any detail entries from the configuration (future-proof)
+            for detail in active_config.get("details", []):
+                detail_cat = OntologyAnnotation(term=detail.get("name", "Configuration Detail"))
+                study_obj.characteristic_categories.append(detail_cat)
+                detail_char = Characteristic(
+                    category=detail_cat,
+                    value=detail.get("value", "")
+                )
+                dummy_sample.characteristics.append(detail_char)
         
         
         # Study Factors - Create factor definitions (no values yet)
@@ -353,6 +382,10 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         
         # Create samples WITHOUT factor values first
         study_obj.samples = batch_create_materials(dummy_sample, n=study_total_runs)
+        # batch_create_materials copies the template UUID to all clones (library bug).
+        # Reset each clone's @id so every sample gets a unique identifier in the JSON output.
+        for s in study_obj.samples:
+            s.id = ''
         
         # Now assign factor values to each sample based on run number
         for run_number in range(1, study_total_runs + 1):
@@ -404,134 +437,142 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
             assay_obj.technology_platform = assay_sensor.get("technologyPlatform", "unknown")
             
             for sample in study_obj.samples:
-                print(sample)
                 assay_obj.samples.append(sample)
             
-            # Each assay will have a raw and processed data file
+            # Build per-run data file lists.
+            # Both raw_file_name and processed_file_name may be empty for a given run.
+            # We only create a DataFile node when the filename is non-empty, so no
+            # unnamed placeholder nodes ever appear in the ISA graph.
+            # Possible graphs per run:
+            #   raw + processed:  Sample → [measurement] → RawFile → [processing] → ProcessedFile
+            #   processed only:   Sample → [measurement] → ProcessedFile → [processing] → ProcessedFile
+            #   raw only:         Sample → [measurement] → RawFile  (no processing step)
+            #   neither:          run is skipped entirely
             runs = assay.get("runs", [])
-            for run in runs:
-                raw_data_file = DataFile(
-                    filename=run.get("raw_file_name", ""),
-                    label="Raw Data File",
-                    generated_from=dummy_sample
-                )
-                assay_obj.data_files.append(raw_data_file)
-            
-            for run in runs:
-                print("run: ", run)
-                processed_data_file = DataFile(
-                    filename=run.get("processed_file_name", ""),
-                    label="Processed Data File",
-                    generated_from=dummy_sample
-                )
-                assay_obj.data_files.append(processed_data_file)
+            run_has_raw = []        # parallel bool list
+            run_has_processed = []  # parallel bool list
+            run_raw_df_index = {}          # run index -> position in assay_obj.data_files
+            run_processed_df_index = {}    # run index -> position in assay_obj.data_files
 
-            # Raw data and Processed data files are generated by processes
-            # collect_raw_data_process = Process(name="Collect Raw Data", executes_protocol=experiment_prep_protocol, parameter_values=[])
-            # collect_raw_data_process.inputs.append(dummy_sample)
-            # collect_raw_data_process.outputs.append(raw_data_file)
-            # assay_obj.process_sequence.append(collect_raw_data_process)
+            for run_idx, run in enumerate(runs):
+                raw_name = (run.get("raw_file_name") or "").strip()
+                proc_name = (run.get("processed_file_name") or "").strip()
+                has_raw = bool(raw_name)
+                has_proc = bool(proc_name)
+                run_has_raw.append(has_raw)
+                run_has_processed.append(has_proc)
 
-            # Now find and use ONLY the protocols for THIS specific sensor/measurement type
+                if has_raw:
+                    run_raw_df_index[run_idx] = len(assay_obj.data_files)
+                    assay_obj.data_files.append(DataFile(
+                        filename=raw_name,
+                        label="Raw Data File",
+                        generated_from=dummy_sample
+                    ))
+                if has_proc:
+                    run_processed_df_index[run_idx] = len(assay_obj.data_files)
+                    assay_obj.data_files.append(DataFile(
+                        filename=proc_name,
+                        label="Processed Data File",
+                        generated_from=dummy_sample
+                    ))
+
+            # Build processes for each run.
+            # Only create measurement/processing steps when the corresponding DataFile exists.
+            # The sensor ID and alias are constant across all runs in this assay.
+            assay_sensor_id = assay_sensor.get("id", "") or assay_sensor.get("name", "") or assay_sensor.get("sensorLocation", "")
+            sensor_alias = assay_sensor.get("alias", "") or assay_sensor.get("id", "sensor")
+            expected_measurement_name = f'{assay_measurement_type} measurement ({assay_sensor_id})' if assay_sensor_id else f'{assay_measurement_type} measurement'
+            expected_processing_name  = f'{assay_measurement_type} processing ({assay_sensor_id})'  if assay_sensor_id else f'{assay_measurement_type} processing'
+
+            # Pre-build parameter lists once per assay (they are the same for every run)
+            measurement_params = []
+            processing_params  = []
+            measurement_protocol_obj = None
+            processing_protocol_obj  = None
+            for protocol in study_obj.protocols:
+                if protocol.name == "Experiment Preparation":
+                    continue
+                is_meas = (protocol.name == expected_measurement_name or
+                           (not assay_sensor_id and protocol.name.startswith(f'{assay_measurement_type} measurement')))
+                is_proc = (protocol.name == expected_processing_name or
+                           (not assay_sensor_id and protocol.name.startswith(f'{assay_measurement_type} processing')))
+                if is_meas:
+                    measurement_protocol_obj = protocol
+                    for entry in assay.get("measurement_protocols", []):
+                        parsed = parse_processing_protocol_entry(entry, assay_sensor_id, measurement_protocol_defs)
+                        if not parsed:
+                            continue
+                        target_id, pname, raw_value, raw_unit = parsed
+                        matching_param = next((p for p in protocol.parameters if getattr(p.parameter_name, "term", None) in (pname, target_id)), None)
+                        category_param = matching_param or ProtocolParameter(parameter_name=OntologyAnnotation(pname))
+                        parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
+                        raw_unit_str = str(raw_unit) if raw_unit is not None else ""
+                        clean_unit = raw_unit_str.strip().replace('\xa0', '').replace('\u00a0', '')
+                        if clean_unit and is_numeric:
+                            unit_obj = add_unit_to_study(study_obj, clean_unit)
+                        else:
+                            if clean_unit and not is_numeric:
+                                print(f"Warning: not attaching unit '{clean_unit}' to non-numeric measurement value '{raw_value}' (parameter {pname})")
+                            unit_obj = None
+                        measurement_params.append(ParameterValue(category=category_param, value=parsed_value, unit=unit_obj))
+                elif is_proc:
+                    processing_protocol_obj = protocol
+                    for entry in assay.get("processing_protocols", []):
+                        parsed = parse_processing_protocol_entry(entry, assay_sensor_id, processing_defs)
+                        if not parsed:
+                            continue
+                        target_id, pname, raw_value, raw_unit = parsed
+                        matching_param = next((p for p in protocol.parameters if getattr(p.parameter_name, "term", None) in (pname, target_id)), None)
+                        category_param = matching_param or ProtocolParameter(parameter_name=OntologyAnnotation(pname))
+                        parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
+                        raw_unit_str = str(raw_unit) if raw_unit is not None else ""
+                        clean_unit = raw_unit_str.strip().replace('\xa0', '').replace('\u00a0', '')
+                        if clean_unit and is_numeric:
+                            unit_obj = add_unit_to_study(study_obj, clean_unit)
+                        else:
+                            if clean_unit and not is_numeric:
+                                print(f"Warning: not attaching unit '{clean_unit}' to non-numeric processing value '{raw_value}' (parameter {pname})")
+                            unit_obj = None
+                        processing_params.append(ParameterValue(category=category_param, value=parsed_value, unit=unit_obj))
+
             for index, run in enumerate(runs):
-                for protocol in study_obj.protocols:
-                    if protocol.name == "Experiment Preparation":
-                        continue
-                    
-                    # Get the sensor ID from the assay
-                    assay_sensor_id = assay_sensor.get("id", "") or assay_sensor.get("name", "") or assay_sensor.get("sensorLocation", "")
-                    if not assay_sensor_id:
-                        # If no ID found, try to match by measurement type only (fallback)
-                        assay_sensor_id = ""
-                    
-                    # Check if this protocol belongs to THIS specific sensor
-                    expected_measurement_name = f'{assay_measurement_type} measurement ({assay_sensor_id})' if assay_sensor_id else f'{assay_measurement_type} measurement'
-                    expected_processing_name = f'{assay_measurement_type} processing ({assay_sensor_id})' if assay_sensor_id else f'{assay_measurement_type} processing'
-                    
-                    # Match protocols with exact names or fallback to partial matching
-                    if (protocol.name == expected_measurement_name or 
-                        (not assay_sensor_id and protocol.name.startswith(f'{assay_measurement_type} measurement'))):
-                        
-                        parameter_list = []
-                        
-                        for measurement_protocol in assay.get("measurement_protocols", []):
-                            parsed_entry = parse_processing_protocol_entry(measurement_protocol, assay_sensor_id, measurement_protocol_defs)
-                            if not parsed_entry:
-                                continue
+                run_number = run.get("run_number", index + 1)
+                has_raw  = run_has_raw[index]
+                has_proc = run_has_processed[index]
 
-                            target_id, pname, raw_value, raw_unit = parsed_entry
-                            
-                            # Try to match existing ProtocolParameter in the protocol by term or id
-                            matching_param = next((p for p in protocol.parameters if getattr(p.parameter_name, "term", None) in (pname, target_id)), None)
-                            category_param = matching_param if matching_param is not None else ProtocolParameter(parameter_name=OntologyAnnotation(pname))
+                # Skip run entirely if it produced no files at all
+                if not has_raw and not has_proc:
+                    print(f"Warning: run {run_number} has no raw or processed file; skipping.")
+                    continue
 
-                            parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
-                            
-                            # Clean unit string: strip whitespace and special characters like \xa0
-                            # Convert to string first to handle None and ensure we can call strip()
-                            raw_unit_str = str(raw_unit) if raw_unit is not None else ""
-                            clean_unit = raw_unit_str.strip().replace('\xa0', '').replace('\u00a0', '')
-                            
-                            print(f"DEBUG MEASUREMENT: pname={pname}, raw_value={raw_value}, raw_unit='{raw_unit}', clean_unit='{clean_unit}', is_numeric={is_numeric}")
-                            
-                            if clean_unit and is_numeric:
-                                unit_obj = add_unit_to_study(study_obj, clean_unit)
-                            else:
-                                if clean_unit and not is_numeric:
-                                    print(f"Warning: not attaching unit '{clean_unit}' to non-numeric measurement value '{raw_value}' (parameter {pname})")
-                                unit_obj = None
+                raw_df  = assay_obj.data_files[run_raw_df_index[index]]       if has_raw  else None
+                proc_df = assay_obj.data_files[run_processed_df_index[index]] if has_proc else None
 
-                            parameter_list.append(ParameterValue(category=category_param, value=parsed_value, unit=unit_obj))
+                meas_process = None
+                proc_process = None
 
-                        process = Process(executes_protocol=protocol, parameter_values=parameter_list)
-                        process.inputs.append(dummy_sample)
-                        process.outputs.append(assay_obj.data_files[index])
-                        assay_obj.process_sequence.append(process)
-                        
-                    # Use per-assay processing_protocols entries (from front-end) as ParameterValue(s)
-                    elif (protocol.name == expected_processing_name or 
-                        (not assay_sensor_id and protocol.name.startswith(f'{assay_measurement_type} processing'))):
+                # Measurement process: always created when there is at least one output file
+                if measurement_protocol_obj:
+                    meas_out = raw_df if has_raw else proc_df
+                    meas_process = Process(executes_protocol=measurement_protocol_obj, parameter_values=measurement_params)
+                    meas_process.name = f"{sensor_alias}_run_{run_number}_measurement"
+                    meas_process.inputs.append(study_obj.samples[index])
+                    meas_process.outputs.append(meas_out)
+                    assay_obj.process_sequence.append(meas_process)
 
-                        parameter_list = []
+                # Processing process: only created when a processed file exists
+                if processing_protocol_obj and has_proc:
+                    proc_in = raw_df if has_raw else proc_df
+                    proc_process = Process(executes_protocol=processing_protocol_obj, parameter_values=processing_params)
+                    proc_process.name = f"{sensor_alias}_run_{run_number}_processing"
+                    proc_process.inputs.append(proc_in)
+                    proc_process.outputs.append(proc_df)
+                    assay_obj.process_sequence.append(proc_process)
 
-                        # Each processing protocol entry is parsed via helper; it returns (target_id, pname, raw_value, raw_unit)
-                        for processing_entry in assay.get("processing_protocols", []):
-                            parsed_entry = parse_processing_protocol_entry(processing_entry, assay_sensor_id, processing_defs)
-                            if not parsed_entry:
-                                continue
-
-                            target_id, pname, raw_value, raw_unit = parsed_entry
-
-                            # Try to match existing ProtocolParameter in the protocol by term or id
-                            matching_param = next((p for p in protocol.parameters if getattr(p.parameter_name, "term", None) in (pname, target_id)), None)
-                            category_param = matching_param if matching_param is not None else ProtocolParameter(parameter_name=OntologyAnnotation(pname))
-
-                            parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
-                            
-                            # Clean unit string: strip whitespace and special characters like \xa0
-                            # Convert to string first to handle None and ensure we can call strip()
-                            raw_unit_str = str(raw_unit) if raw_unit is not None else ""
-                            clean_unit = raw_unit_str.strip().replace('\xa0', '').replace('\u00a0', '')
-                            
-                            if clean_unit and is_numeric:
-                                unit_obj = add_unit_to_study(study_obj, clean_unit)
-                            else:
-                                if clean_unit and not is_numeric:
-                                    print(f"Warning: not attaching unit '{clean_unit}' to non-numeric processing value '{raw_value}' (parameter {pname})")
-                                unit_obj = None
-
-                            parameter_list.append(ParameterValue(category=category_param, value=parsed_value, unit=unit_obj))
-
-                        process = Process(executes_protocol=protocol, parameter_values=parameter_list)
-                        process.inputs.append(assay_obj.data_files[index])
-                        process.outputs.append(assay_obj.data_files[index+ (int(len(assay_obj.data_files) / 2))])
-                        assay_obj.process_sequence.append(process)
-
-            # Link the processes in sequence
-            for i in range(len(assay_obj.process_sequence) - 1):
-                process1 = assay_obj.process_sequence[i]
-                process2 = assay_obj.process_sequence[i + 1]
-                plink(process1, process2)
+                # Link measurement → processing within this run only
+                if meas_process and proc_process:
+                    plink(meas_process, proc_process)
 
             study_obj.assays.append(assay_obj)
         
