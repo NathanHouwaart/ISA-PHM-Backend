@@ -14,17 +14,21 @@ import pandas as pd
 #The following function creates units based on specified units in the input file. It prevents generation of duplicate units when the same unit occurs multiple times.
 unit_list = [] #Initilize unit list
 def get_or_create_unit(unit_term):
-    if pd.notna(unit_term):
-        # Check if the unit already exists
-        for existing_unit in unit_list:
-            if existing_unit.term == unit_term:
-                return existing_unit  # Reuse
-        # Create and store new unit
-        new_unit = OntologyAnnotation(term=unit_term)
-        unit_list.append(new_unit)
-        return new_unit
-    else:
+    if not pd.notna(unit_term):
         return None  # Nothing to assign
+
+    normalized_unit_term = str(unit_term).strip()
+    if not normalized_unit_term:
+        return None
+
+    # Check if the unit already exists
+    for existing_unit in unit_list:
+        if existing_unit.term == normalized_unit_term:
+            return existing_unit  # Reuse
+    # Create and store new unit
+    new_unit = OntologyAnnotation(term=normalized_unit_term, id_=f"#unit/{uuid4()}")
+    unit_list.append(new_unit)
+    return new_unit
 
 # %%
 #The following function creates roles based on specified roles in the input file. It prevents generation of duplicate roles when the same role occurs multiple times.
@@ -43,7 +47,7 @@ def get_or_create_role(role_term):
         return None  # Nothing to assign
 
 
-def add_unit_to_study(study_obj: Study, unit_term: str) -> OntologyAnnotation:
+def add_unit_to_study(study_obj: Study, unit_term: str) -> Optional[OntologyAnnotation]:
     """
     Adds a unit to the study's unit categories if it doesn't already exist.
     Returns the unit annotation object.
@@ -61,7 +65,7 @@ def add_unit_to_study(study_obj: Study, unit_term: str) -> OntologyAnnotation:
     
     # print(f"DEBUG: add_unit_to_study called with unit_term='{unit_term}'")
     unit = get_or_create_unit(unit_term)
-    if unit and unit not in study_obj.units:
+    if unit and all(existing_unit.term != unit.term for existing_unit in study_obj.units):
         study_obj.units.append(unit)
         # print(f"  ✅ Added unit '{unit_term}' to study.units (total: {len(study_obj.units)})")
     # elif unit:
@@ -104,7 +108,16 @@ def parse_numeric_if_possible(raw_value: Any) -> Tuple[Any, bool]:
     return raw_value, False
 
 
-def parse_processing_protocol_entry(processing_entry: Dict[str, Any], expected_source_id: Optional[str], processing_defs: Dict[str, Dict[str, Any]]) -> Optional[Tuple[Optional[str], str, Any, str]]:
+def as_comment_value(value: Any) -> str:
+    return "" if value is None else str(value)
+
+
+def parse_processing_protocol_entry(
+    processing_entry: Dict[str, Any],
+    expected_source_id: Optional[str],
+    processing_defs: Dict[str, Dict[str, Any]],
+    expected_protocol_id: Optional[str] = None
+) -> Optional[Tuple[Optional[str], str, Any, str]]:
     """
     Parse a single processing_protocol entry and return:
       (target_id, resolved_name, raw_value, raw_unit)
@@ -112,6 +125,10 @@ def parse_processing_protocol_entry(processing_entry: Dict[str, Any], expected_s
     """
     # If a specific sourceId is expected and this entry doesn't match, skip it
     if expected_source_id and processing_entry.get("sourceId") != expected_source_id:
+        return None
+
+    # Optional protocol variant filter
+    if expected_protocol_id and processing_entry.get("protocolId") not in (expected_protocol_id, "", None):
         return None
 
     value_list = processing_entry.get("value", []) or []
@@ -135,6 +152,7 @@ def build_processing_parameters_for_sensor(
     study: Dict[str, Any],
     sensor: Dict[str, Any],
     processing_defs: Dict[str, Dict[str, Any]],
+    selected_protocol_id: Optional[str] = None,
 ) -> List[ProtocolParameter]:
     """
     Build a list of ProtocolParameter objects for a sensor by scanning all assays
@@ -150,7 +168,12 @@ def build_processing_parameters_for_sensor(
     # collect referenced targetIds where the first value is non-empty
     for assay in study.get("assay_details", []):
         for processing_entry in assay.get("processing_protocols", []):
-            parsed_entry = parse_processing_protocol_entry(processing_entry, sensor_id, processing_defs)
+            parsed_entry = parse_processing_protocol_entry(
+                processing_entry,
+                sensor_id,
+                processing_defs,
+                expected_protocol_id=selected_protocol_id
+            )
             if not parsed_entry:
                 continue
             target_id, _, _, _ = parsed_entry
@@ -162,6 +185,47 @@ def build_processing_parameters_for_sensor(
         for pid in processing_defs.keys():
             if pid in target_ids:
                 pdef = processing_defs.get(pid, {})
+                pname = pdef.get("name") or pdef.get("title") or pid
+                params.append(ProtocolParameter(parameter_name=OntologyAnnotation(pname)))
+    else:
+        for pid in target_ids:
+            params.append(ProtocolParameter(parameter_name=OntologyAnnotation(pid)))
+
+    return params
+
+
+def build_measurement_parameters_for_sensor(
+    study: Dict[str, Any],
+    sensor: Dict[str, Any],
+    measurement_defs: Dict[str, Dict[str, Any]],
+    selected_protocol_id: Optional[str] = None,
+) -> List[ProtocolParameter]:
+    """
+    Build a list of ProtocolParameter objects for a sensor by scanning all assays
+    in the provided study for measurement_protocols where value[0] is non-empty.
+    """
+    params: List[ProtocolParameter] = []
+    target_ids = set()
+
+    sensor_id = sensor.get("id")
+    for assay in study.get("assay_details", []):
+        for measurement_entry in assay.get("measurement_protocols", []):
+            parsed_entry = parse_processing_protocol_entry(
+                measurement_entry,
+                sensor_id,
+                measurement_defs,
+                expected_protocol_id=selected_protocol_id
+            )
+            if not parsed_entry:
+                continue
+            target_id, _, _, _ = parsed_entry
+            if target_id:
+                target_ids.add(target_id)
+
+    if measurement_defs:
+        for pid in measurement_defs.keys():
+            if pid in target_ids:
+                pdef = measurement_defs.get(pid, {})
                 pname = pdef.get("name") or pdef.get("title") or pid
                 params.append(ProtocolParameter(parameter_name=OntologyAnnotation(pname)))
     else:
@@ -198,9 +262,9 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
     investigation.description = IsaPhmInfo.get("description", "")
     investigation.submission_date = IsaPhmInfo.get("submission_date", "")
     investigation.public_release_date = IsaPhmInfo.get("public_release_date", "")
-    investigation.comments.append(Comment(name="ud_identifier", value=IsaPhmInfo.get("identifier", "")))
-    investigation.comments.append(Comment(name="experiment_type", value=IsaPhmInfo.get("experiment_type", "")))
-    investigation.comments.append(Comment(name="license", value=IsaPhmInfo.get("license", "")))
+    investigation.comments.append(Comment(name="ud_identifier", value=as_comment_value(IsaPhmInfo.get("identifier", ""))))
+    investigation.comments.append(Comment(name="experiment_type", value=as_comment_value(IsaPhmInfo.get("experiment_type", ""))))
+    investigation.comments.append(Comment(name="license", value=as_comment_value(IsaPhmInfo.get("license", ""))))
     
     
     # INVESTIGATION CONTACTS
@@ -216,8 +280,8 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         person.address      = contact.get("address", "")
         person.affiliation  = "; ".join(contact.get("affiliations", []))
         person.roles.extend([get_or_create_role(role) for role in contact.get("roles", [])])
-        person.comments.append(Comment(name="orcid", value=contact.get("orcid", "")))
-        person.comments.append(Comment(name="author_id", value=contact.get("id", "")))
+        person.comments.append(Comment(name="orcid", value=as_comment_value(contact.get("orcid", ""))))
+        person.comments.append(Comment(name="author_id", value=as_comment_value(contact.get("id", ""))))
         
         investigation.contacts.append(person)
 
@@ -229,13 +293,13 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         publication_obj.author_list = "; ".join(["#" + author for author in publication.get("contactList", [])])
         publication_obj.status = OntologyAnnotation(publication.get("publicationStatus", "unknown"))
         publication_obj.doi = publication.get("doi", "")
-        publication_obj.comments.append(Comment(name="Corresponding author ID", value=publication.get("correspondingContactId", "")))
+        publication_obj.comments.append(Comment(name="Corresponding author ID", value=as_comment_value(publication.get("correspondingContactId", ""))))
         investigation.publications.append(publication_obj)
 
 
-    # Precompute processing definitions lookup (id -> def) for the whole investigation
-    measurement_protocol_defs = {p.get("id"): p for p in IsaPhmInfo.get("measurement_protocols", [])} if IsaPhmInfo.get("measurement_protocols") else {}
-    processing_defs = {p.get("id"): p for p in IsaPhmInfo.get("processing_protocols", [])} if IsaPhmInfo.get("processing_protocols") else {}
+    # Fallback protocol definition lookups (legacy flat payload support)
+    global_measurement_protocol_defs = {p.get("id"): p for p in IsaPhmInfo.get("measurement_protocols", [])} if IsaPhmInfo.get("measurement_protocols") else {}
+    global_processing_defs = {p.get("id"): p for p in IsaPhmInfo.get("processing_protocols", [])} if IsaPhmInfo.get("processing_protocols") else {}
     
 
     # INVESTIGATION STUDIES
@@ -254,11 +318,60 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         study_obj.design_descriptors.append(OntologyAnnotation(study.get("experimentType", "Diagnostics")))
         
         study_total_runs = study.get("total_runs", 1)
-        study_obj.comments.append(Comment(name="total_runs", value=study_total_runs))
+        study_obj.comments.append(Comment(name="total_runs", value=as_comment_value(study_total_runs)))
 
 
         # Test Setup (used as Source and Sample)
         test_setup_obj: Dict[str, Any] = study.get("used_setup", {})
+        measurement_protocol_variants = test_setup_obj.get("measurementProtocols", []) or []
+        processing_protocol_variants = test_setup_obj.get("processingProtocols", []) or []
+
+        selected_measurement_protocol_id = (
+            study.get("selectedMeasurementProtocolId")
+            or study.get("selected_measurement_protocol_id")
+            or ""
+        )
+        selected_processing_protocol_id = (
+            study.get("selectedProcessingProtocolId")
+            or study.get("selected_processing_protocol_id")
+            or ""
+        )
+
+        selected_measurement_protocol = next(
+            (protocol for protocol in measurement_protocol_variants if protocol.get("id") == selected_measurement_protocol_id),
+            None
+        )
+        selected_processing_protocol = next(
+            (protocol for protocol in processing_protocol_variants if protocol.get("id") == selected_processing_protocol_id),
+            None
+        )
+
+        # Variant-aware protocol selection rules:
+        # - If variants exist, only the selected variant contributes parameters.
+        # - If no variant is selected, emit no variant parameters.
+        # - Fall back to legacy flat payload only when variants are absent.
+        selected_measurement_parameters = (
+            selected_measurement_protocol.get("parameters", [])
+            if selected_measurement_protocol
+            else ([] if measurement_protocol_variants else IsaPhmInfo.get("measurement_protocols", []))
+        )
+        selected_processing_parameters = (
+            selected_processing_protocol.get("parameters", [])
+            if selected_processing_protocol
+            else ([] if processing_protocol_variants else IsaPhmInfo.get("processing_protocols", []))
+        )
+
+        measurement_protocol_defs = (
+            {p.get("id"): p for p in selected_measurement_parameters if p.get("id")}
+            if selected_measurement_parameters
+            else (global_measurement_protocol_defs if not measurement_protocol_variants else {})
+        )
+
+        processing_defs = (
+            {p.get("id"): p for p in selected_processing_parameters if p.get("id")}
+            if selected_processing_parameters
+            else (global_processing_defs if not processing_protocol_variants else {})
+        )
 
         # Experiment preparation Protocol
         experiment_prep_protocol = Protocol(name=test_setup_obj.get("experimentPreparationProtocolName", "Experiment Preparation"))
@@ -276,19 +389,18 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
                 description=sensor.get("description", "no description provided")
             )
             protocol.protocol_type = OntologyAnnotation("Measurement Protocol")
-            protocol.comments.append(Comment(name="Sensor id", value=sensor.get("id", "")))
+            protocol.comments.append(Comment(name="Sensor id", value=as_comment_value(sensor.get("id", ""))))
+            protocol.comments.append(Comment(name="selected_measurement_protocol_id", value=as_comment_value(selected_measurement_protocol_id)))
             
-            # Measurement Protocols
-            for measurement_protocol in IsaPhmInfo.get("measurement_protocols", []):
-                measurement_protocol_name = measurement_protocol.get("name", "")
-                if measurement_protocol_name:
-                    parameter = ProtocolParameter(parameter_name= OntologyAnnotation(
-                                                      measurement_protocol_name,
-                                                      comments=[
-                                                          Comment(name="description", value=measurement_protocol.get("description", ""))
-                                                      ]
-                                                  ))
-                    protocol.parameters.append(parameter)
+            # Dynamically build measurement parameters for this sensor
+            protocol.parameters.extend(
+                build_measurement_parameters_for_sensor(
+                    study,
+                    sensor,
+                    measurement_protocol_defs,
+                    selected_protocol_id=selected_measurement_protocol_id
+                )
+            )
 
             # Add protocol to study
             study_obj.protocols.append(protocol)
@@ -304,17 +416,25 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
                 description=sensor.get("description", "")
             )
             protocol.protocol_type = OntologyAnnotation("Processing Protocol")
-            protocol.comments.append(Comment(name="Sensor id", value=sensor.get("id", "")))
+            protocol.comments.append(Comment(name="Sensor id", value=as_comment_value(sensor.get("id", ""))))
+            protocol.comments.append(Comment(name="selected_processing_protocol_id", value=as_comment_value(selected_processing_protocol_id)))
             
             # Dynamically build processing parameters for this sensor (helper handles ordering)
-            protocol.parameters.extend(build_processing_parameters_for_sensor(study, sensor, processing_defs))
+            protocol.parameters.extend(
+                build_processing_parameters_for_sensor(
+                    study,
+                    sensor,
+                    processing_defs,
+                    selected_protocol_id=selected_processing_protocol_id
+                )
+            )
        
             study_obj.protocols.append(protocol)
         
         # Adds Material -> Source to ISA
         # The source represents the test setup with its fixed hardware characteristics
         source = Source(name=test_setup_obj.get("name", "Test Setup"))
-        source.comments.append(Comment(name="description", value=test_setup_obj.get("description", "")))
+        source.comments.append(Comment(name="description", value=as_comment_value(test_setup_obj.get("description", ""))))
         for characteristic in test_setup_obj.get("characteristics", []):
             category = OntologyAnnotation(term=characteristic.get("category", "unknown"))
             study_obj.characteristic_categories.append(category)
@@ -372,11 +492,11 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
             # Create Study Factor for each study variable
             study_factor_obj = StudyFactor(name=variable.get("name", ""), factor_type=OntologyAnnotation(variable.get("type", "unknown")))
 
-            study_factor_obj.comments.append(Comment(name="description", value=variable.get("description", "")))
-            study_factor_obj.comments.append(Comment(name="unit", value=variable.get("unit", "")))
-            study_factor_obj.comments.append(Comment(name="min", value=variable.get("min", "")))
-            study_factor_obj.comments.append(Comment(name="max", value=variable.get("max", "")))
-            study_factor_obj.comments.append(Comment(name="step", value=variable.get("step", "")))
+            study_factor_obj.comments.append(Comment(name="description", value=as_comment_value(variable.get("description", ""))))
+            study_factor_obj.comments.append(Comment(name="unit", value=as_comment_value(variable.get("unit", ""))))
+            study_factor_obj.comments.append(Comment(name="min", value=as_comment_value(variable.get("min", ""))))
+            study_factor_obj.comments.append(Comment(name="max", value=as_comment_value(variable.get("max", ""))))
+            study_factor_obj.comments.append(Comment(name="step", value=as_comment_value(variable.get("step", ""))))
             
             study_obj.factors.append(study_factor_obj)
         
@@ -420,7 +540,10 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
         # Study Process Sequence to get from source (test setup) to sample (test setup characteristics)
         experiment_prerparation_process = Process(executes_protocol=experiment_prep_protocol)
         experiment_prerparation_process.inputs.append(source)
-        experiment_prerparation_process.outputs.append(dummy_sample)
+        # Output actual study samples (not the template sample) so process graph IDs
+        # are guaranteed to resolve to nodes under study.materials.samples.
+        for sample in study_obj.samples:
+            experiment_prerparation_process.outputs.append(sample)
         study_obj.process_sequence.append(experiment_prerparation_process)
         
         
@@ -444,8 +567,8 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
             # We only create a DataFile node when the filename is non-empty, so no
             # unnamed placeholder nodes ever appear in the ISA graph.
             # Possible graphs per run:
-            #   raw + processed:  Sample → [measurement] → RawFile → [processing] → ProcessedFile
-            #   processed only:   Sample → [measurement] → ProcessedFile → [processing] → ProcessedFile
+            #   raw + derived:    Sample → [measurement] → RawFile → [processing] → DerivedFile
+            #   derived only:     Sample → [measurement] → DerivedFile → [processing] → DerivedFile
             #   raw only:         Sample → [measurement] → RawFile  (no processing step)
             #   neither:          run is skipped entirely
             runs = assay.get("runs", [])
@@ -473,7 +596,7 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
                     run_processed_df_index[run_idx] = len(assay_obj.data_files)
                     assay_obj.data_files.append(DataFile(
                         filename=proc_name,
-                        label="Processed Data File",
+                        label="Derived Data File",
                         generated_from=dummy_sample
                     ))
 
@@ -499,42 +622,56 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
                            (not assay_sensor_id and protocol.name.startswith(f'{assay_measurement_type} processing')))
                 if is_meas:
                     measurement_protocol_obj = protocol
-                    for entry in assay.get("measurement_protocols", []):
-                        parsed = parse_processing_protocol_entry(entry, assay_sensor_id, measurement_protocol_defs)
-                        if not parsed:
-                            continue
-                        target_id, pname, raw_value, raw_unit = parsed
-                        matching_param = next((p for p in protocol.parameters if getattr(p.parameter_name, "term", None) in (pname, target_id)), None)
-                        category_param = matching_param or ProtocolParameter(parameter_name=OntologyAnnotation(pname))
-                        parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
-                        raw_unit_str = str(raw_unit) if raw_unit is not None else ""
-                        clean_unit = raw_unit_str.strip().replace('\xa0', '').replace('\u00a0', '')
-                        if clean_unit and is_numeric:
-                            unit_obj = add_unit_to_study(study_obj, clean_unit)
-                        else:
-                            if clean_unit and not is_numeric:
-                                print(f"Warning: not attaching unit '{clean_unit}' to non-numeric measurement value '{raw_value}' (parameter {pname})")
-                            unit_obj = None
-                        measurement_params.append(ParameterValue(category=category_param, value=parsed_value, unit=unit_obj))
+                    use_measurement_entries = bool(selected_measurement_protocol_id) or not measurement_protocol_variants
+                    if use_measurement_entries:
+                        for entry in assay.get("measurement_protocols", []):
+                            parsed = parse_processing_protocol_entry(
+                                entry,
+                                assay_sensor_id,
+                                measurement_protocol_defs,
+                                expected_protocol_id=selected_measurement_protocol_id
+                            )
+                            if not parsed:
+                                continue
+                            target_id, pname, raw_value, raw_unit = parsed
+                            matching_param = next((p for p in protocol.parameters if getattr(p.parameter_name, "term", None) in (pname, target_id)), None)
+                            category_param = matching_param or ProtocolParameter(parameter_name=OntologyAnnotation(pname))
+                            parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
+                            raw_unit_str = str(raw_unit) if raw_unit is not None else ""
+                            clean_unit = raw_unit_str.strip().replace('\xa0', '').replace('\u00a0', '')
+                            if clean_unit and is_numeric:
+                                unit_obj = add_unit_to_study(study_obj, clean_unit)
+                            else:
+                                if clean_unit and not is_numeric:
+                                    print(f"Warning: not attaching unit '{clean_unit}' to non-numeric measurement value '{raw_value}' (parameter {pname})")
+                                unit_obj = None
+                            measurement_params.append(ParameterValue(category=category_param, value=parsed_value, unit=unit_obj))
                 elif is_proc:
                     processing_protocol_obj = protocol
-                    for entry in assay.get("processing_protocols", []):
-                        parsed = parse_processing_protocol_entry(entry, assay_sensor_id, processing_defs)
-                        if not parsed:
-                            continue
-                        target_id, pname, raw_value, raw_unit = parsed
-                        matching_param = next((p for p in protocol.parameters if getattr(p.parameter_name, "term", None) in (pname, target_id)), None)
-                        category_param = matching_param or ProtocolParameter(parameter_name=OntologyAnnotation(pname))
-                        parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
-                        raw_unit_str = str(raw_unit) if raw_unit is not None else ""
-                        clean_unit = raw_unit_str.strip().replace('\xa0', '').replace('\u00a0', '')
-                        if clean_unit and is_numeric:
-                            unit_obj = add_unit_to_study(study_obj, clean_unit)
-                        else:
-                            if clean_unit and not is_numeric:
-                                print(f"Warning: not attaching unit '{clean_unit}' to non-numeric processing value '{raw_value}' (parameter {pname})")
-                            unit_obj = None
-                        processing_params.append(ParameterValue(category=category_param, value=parsed_value, unit=unit_obj))
+                    use_processing_entries = bool(selected_processing_protocol_id) or not processing_protocol_variants
+                    if use_processing_entries:
+                        for entry in assay.get("processing_protocols", []):
+                            parsed = parse_processing_protocol_entry(
+                                entry,
+                                assay_sensor_id,
+                                processing_defs,
+                                expected_protocol_id=selected_processing_protocol_id
+                            )
+                            if not parsed:
+                                continue
+                            target_id, pname, raw_value, raw_unit = parsed
+                            matching_param = next((p for p in protocol.parameters if getattr(p.parameter_name, "term", None) in (pname, target_id)), None)
+                            category_param = matching_param or ProtocolParameter(parameter_name=OntologyAnnotation(pname))
+                            parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
+                            raw_unit_str = str(raw_unit) if raw_unit is not None else ""
+                            clean_unit = raw_unit_str.strip().replace('\xa0', '').replace('\u00a0', '')
+                            if clean_unit and is_numeric:
+                                unit_obj = add_unit_to_study(study_obj, clean_unit)
+                            else:
+                                if clean_unit and not is_numeric:
+                                    print(f"Warning: not attaching unit '{clean_unit}' to non-numeric processing value '{raw_value}' (parameter {pname})")
+                                unit_obj = None
+                            processing_params.append(ParameterValue(category=category_param, value=parsed_value, unit=unit_obj))
 
             for index, run in enumerate(runs):
                 run_number = run.get("run_number", index + 1)
@@ -608,4 +745,3 @@ if __name__ == "__main__":
                         help="output file name for the isa-phm json file")
     args = parser.parse_args()
     main(args)
-

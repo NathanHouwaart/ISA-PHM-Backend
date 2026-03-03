@@ -11,7 +11,7 @@ app = FastAPI()
 # CORS setup
 origins = [
     "https://nathanhouwaart.github.io",                    # Base domain without slash
-    "https://nathanhouwaart.github.io/",                   # Base domain with slash  
+    "https://nathanhouwaart.github.io/",                   # Base domain with slash
     "https://nathanhouwaart.github.io/ISA-PHM-Wizard",     # Your app without slash
     "https://nathanhouwaart.github.io/ISA-PHM-Wizard/",    # Your app with slash
     "http://localhost:5173"                                # For development
@@ -21,12 +21,28 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["POST"],
+    allow_methods=["POST", "GET", "OPTIONS"],
     allow_headers=["Content-Type"],
 )
 
+@app.get("/")
+async def root():
+    return {"message": "API is running"}
+
+@app.post("/testPost")
+async def test_post():
+    print("Received Post request for /testPost")
+    return {"message": "API is running"}
+
+@app.post("/testPostFile")
+async def test_post_file(file: UploadFile = File(...)):
+    print("Received Post request for /testPost")
+    return {"message": "API is running"}
+
 @app.post("/convert")
 async def convert_json(file: UploadFile = File(...)):
+    print("Received Post request for /convert")
+    
     if not file.filename.endswith(".json"):
         raise HTTPException(status_code=400, detail="Only .json files are allowed")
 
@@ -46,7 +62,7 @@ async def convert_json(file: UploadFile = File(...)):
 
         # Run your external script
         subprocess.run(
-            ["python3.9", "web-to-isa-phm.py", input_path, output_path],
+            ["python", "web-to-isa-phm.py", input_path, output_path],
             check=True
         )
 
