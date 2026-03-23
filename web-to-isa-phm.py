@@ -558,7 +558,10 @@ def create_isa_data(IsaPhmInfo: dict, output_path: str = None) -> Investigation:
             assay_obj.measurement_type = OntologyAnnotation(assay_measurement_type)
             assay_obj.technology_type = OntologyAnnotation(assay_sensor.get("technologyType", "unknown"))
             assay_obj.technology_platform = assay_sensor.get("technologyPlatform", "unknown")
-            
+            sensor_alias_value = assay_sensor.get("alias", "") or assay_sensor.get("id", "")
+            if sensor_alias_value:
+                assay_obj.comments.append(Comment(name="sensor alias", value=sensor_alias_value))
+
             for sample in study_obj.samples:
                 assay_obj.samples.append(sample)
             
