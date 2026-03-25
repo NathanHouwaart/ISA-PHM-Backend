@@ -1,0 +1,577 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ISA-PHM Wizard Conversion Payload (Strict)",
+    "description": "Stricter v2 schema for ISA-PHM conversion payloads.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "license": {
+            "type": "string"
+        },
+        "submission_date": {
+            "type": "string"
+        },
+        "public_release_date": {
+            "type": "string"
+        },
+        "experiment_type": {
+            "type": "string"
+        },
+        "publications": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Publication"
+            }
+        },
+        "contacts": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Contact"
+            }
+        },
+        "study_variables": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/StudyVariable"
+            }
+        },
+        "measurement_protocols": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Protocol"
+            }
+        },
+        "processing_protocols": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Protocol"
+            }
+        },
+        "studies": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Study"
+            }
+        }
+    },
+    "required": [
+        "identifier",
+        "title",
+        "description",
+        "submission_date",
+        "public_release_date",
+        "study_variables",
+        "studies"
+    ],
+    "definitions": {
+        "Contact": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "midInitials": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "fax": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "orcid": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "affiliations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "Publication": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "doi": {
+                    "type": "string"
+                },
+                "publicationStatus": {
+                    "type": "string"
+                },
+                "contactList": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "correspondingContactId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            }
+        },
+        "StudyVariable": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "type"
+            ]
+        },
+        "Parameter": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "Protocol": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "parameters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Parameter"
+                    }
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "Characteristic": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "comments": {
+                    "type": "array"
+                }
+            }
+        },
+        "Sensor": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "alias": {
+                    "type": "string"
+                },
+                "technologyPlatform": {
+                    "type": "string"
+                },
+                "technologyType": {
+                    "type": "string"
+                },
+                "measurementType": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "measurementUnit": {
+                    "type": "string"
+                },
+                "samplingRate": {
+                    "type": "string"
+                },
+                "phase": {
+                    "type": "string"
+                },
+                "additionalInfo": {
+                    "type": "array"
+                }
+            },
+            "required": [
+                "id",
+                "measurementType"
+            ]
+        },
+        "Configuration": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "replaceableComponentId": {
+                    "type": "string"
+                },
+                "details": {
+                    "type": "array"
+                }
+            }
+        },
+        "SensorProtocolMapping": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "protocolId": {
+                    "type": "string"
+                },
+                "sourceId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "targetId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "sourceId",
+                "targetId",
+                "value"
+            ]
+        },
+        "TestSetup": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "experimentPreparationProtocolName": {
+                    "type": "string"
+                },
+                "testSpecimenName": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "number_of_sensors": {
+                    "type": "integer"
+                },
+                "version": {
+                    "type": "integer"
+                },
+                "lastModified": {
+                    "type": "number"
+                },
+                "characteristics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Characteristic"
+                    }
+                },
+                "sensors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Sensor"
+                    }
+                },
+                "configurations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Configuration"
+                    }
+                },
+                "measurementProtocols": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Protocol"
+                    }
+                },
+                "processingProtocols": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Protocol"
+                    }
+                },
+                "sensorToMeasurementProtocolMapping": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SensorProtocolMapping"
+                    }
+                },
+                "sensorToProcessingProtocolMapping": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SensorProtocolMapping"
+                    }
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "sensors"
+            ]
+        },
+        "StudyVariableMapping": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "studyId": {
+                    "type": "string"
+                },
+                "studyRunId": {
+                    "type": "string"
+                },
+                "runNumber": {
+                    "type": "integer"
+                },
+                "studyVariableId": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "variableName": {
+                    "type": "string"
+                }
+            }
+        },
+        "RunDetail": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "run_number": {
+                    "type": "integer"
+                },
+                "study_run_id": {
+                    "type": "string"
+                },
+                "study_id": {
+                    "type": "string"
+                },
+                "raw_file_name": {
+                    "type": "string"
+                },
+                "processed_file_name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "run_number",
+                "raw_file_name",
+                "processed_file_name"
+            ]
+        },
+        "AssayDetail": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "assay_file_name": {
+                    "type": "string"
+                },
+                "used_sensor": {
+                    "$ref": "#/definitions/Sensor"
+                },
+                "measurement_protocol_id": {
+                    "type": "string"
+                },
+                "processing_protocol_id": {
+                    "type": "string"
+                },
+                "measurement_protocols": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SensorProtocolMapping"
+                    }
+                },
+                "processing_protocols": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SensorProtocolMapping"
+                    }
+                },
+                "runs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RunDetail"
+                    }
+                }
+            },
+            "required": [
+                "assay_file_name",
+                "used_sensor",
+                "runs"
+            ]
+        },
+        "Study": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "submissionDate": {
+                    "type": "string"
+                },
+                "publicationDate": {
+                    "type": "string"
+                },
+                "runCount": {
+                    "type": "integer"
+                },
+                "total_runs": {
+                    "type": "integer"
+                },
+                "configurationId": {
+                    "type": "string"
+                },
+                "outputMode": {
+                    "type": "string"
+                },
+                "selectedMeasurementProtocolId": {
+                    "type": "string"
+                },
+                "selectedProcessingProtocolId": {
+                    "type": "string"
+                },
+                "used_setup": {
+                    "$ref": "#/definitions/TestSetup"
+                },
+                "study_to_study_variable_mapping": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StudyVariableMapping"
+                    }
+                },
+                "assay_details": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AssayDetail"
+                    }
+                },
+                "publications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Publication"
+                    }
+                },
+                "contacts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Contact"
+                    }
+                }
+            },
+            "required": [
+                "id",
+                "name",
+                "total_runs",
+                "used_setup",
+                "assay_details"
+            ]
+        }
+    }
+}

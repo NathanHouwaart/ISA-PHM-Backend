@@ -1,8 +1,12 @@
-name: isa-phm-converter-env
+name: isa-phm-backend
 channels:
   - conda-forge
 dependencies:
-  - python=3.9
+  - python=3.13
   - pip
   - pip:
-      - isatools==0.14.2
+      - isatools==0.14.3
+      - uvicorn==0.35.0
+      - fastapi==0.116.1
+      - python-multipart==0.0.20
+      - jsonschema==4.23.0

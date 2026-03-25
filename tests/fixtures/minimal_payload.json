@@ -1,0 +1,175 @@
+{
+  "identifier": "INV-001",
+  "title": "ISA-PHM Demo",
+  "description": "Minimal payload for backend smoke and integration tests",
+  "submission_date": "2026-03-20",
+  "public_release_date": "2026-03-21",
+  "experiment_type": "Diagnostics",
+  "publications": [],
+  "contacts": [],
+  "study_variables": [
+    {
+      "id": "var-load",
+      "name": "Load",
+      "type": "numeric",
+      "unit": "N",
+      "description": "Applied load"
+    }
+  ],
+  "measurement_protocols": [
+    {
+      "id": "mp-1",
+      "name": "Measurement Protocol",
+      "parameters": [
+        {
+          "id": "param-sr",
+          "name": "Sampling Rate",
+          "unit": "Hz"
+        }
+      ]
+    }
+  ],
+  "processing_protocols": [
+    {
+      "id": "pp-1",
+      "name": "Processing Protocol",
+      "parameters": [
+        {
+          "id": "param-window",
+          "name": "Window Function",
+          "unit": ""
+        }
+      ]
+    }
+  ],
+  "studies": [
+    {
+      "id": "study-1",
+      "name": "Study 1",
+      "description": "Demo study",
+      "submissionDate": "2026-03-20",
+      "publicationDate": "2026-03-21",
+      "total_runs": 1,
+      "configurationId": "cfg-1",
+      "selectedMeasurementProtocolId": "mp-1",
+      "selectedProcessingProtocolId": "pp-1",
+      "used_setup": {
+        "id": "setup-1",
+        "name": "Rig A",
+        "description": "Demo setup",
+        "experimentPreparationProtocolName": "Experiment Preparation",
+        "characteristics": [
+          {
+            "category": "Machine",
+            "value": "Rig",
+            "unit": ""
+          }
+        ],
+        "sensors": [
+          {
+            "id": "sensor-1",
+            "alias": "S1",
+            "technologyPlatform": "DAQ",
+            "technologyType": "Accelerometer",
+            "measurementType": "Vibration",
+            "description": "Accelerometer on housing"
+          }
+        ],
+        "configurations": [
+          {
+            "id": "cfg-1",
+            "name": "Configuration 1",
+            "replaceableComponentId": "bearing-1",
+            "details": [
+              {
+                "name": "Bearing type",
+                "value": "6205"
+              }
+            ]
+          }
+        ],
+        "measurementProtocols": [
+          {
+            "id": "mp-1",
+            "name": "Measurement Protocol",
+            "parameters": [
+              {
+                "id": "param-sr",
+                "name": "Sampling Rate",
+                "unit": "Hz"
+              }
+            ]
+          }
+        ],
+        "processingProtocols": [
+          {
+            "id": "pp-1",
+            "name": "Processing Protocol",
+            "parameters": [
+              {
+                "id": "param-window",
+                "name": "Window Function",
+                "unit": ""
+              }
+            ]
+          }
+        ]
+      },
+      "study_to_study_variable_mapping": [
+        {
+          "studyId": "study-1",
+          "studyRunId": "study-1::run-01",
+          "runNumber": 1,
+          "studyVariableId": "var-load",
+          "value": "1200",
+          "variableName": "Load"
+        }
+      ],
+      "assay_details": [
+        {
+          "assay_file_name": "se01",
+          "used_sensor": {
+            "id": "sensor-1",
+            "alias": "S1",
+            "technologyPlatform": "DAQ",
+            "technologyType": "Accelerometer",
+            "measurementType": "Vibration"
+          },
+          "measurement_protocol_id": "mp-1",
+          "processing_protocol_id": "pp-1",
+          "measurement_protocols": [
+            {
+              "sourceId": "sensor-1",
+              "targetId": "param-sr",
+              "protocolId": "mp-1",
+              "value": [
+                "25600",
+                "Hz"
+              ]
+            }
+          ],
+          "processing_protocols": [
+            {
+              "sourceId": "sensor-1",
+              "targetId": "param-window",
+              "protocolId": "pp-1",
+              "value": [
+                "hanning",
+                ""
+              ]
+            }
+          ],
+          "runs": [
+            {
+              "run_number": 1,
+              "study_run_id": "study-1::run-01",
+              "study_id": "study-1",
+              "raw_file_name": "raw/study1_run1.csv",
+              "processed_file_name": "processed/study1_run1.csv"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
