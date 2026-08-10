@@ -6,7 +6,7 @@ from dataclasses import replace
 
 from fastapi.testclient import TestClient
 
-import app.main as main_module
+import app.services.conversion as conversion_service
 from app.config import Settings
 from app.errors import ConverterNotFoundError, ConverterTimeoutError
 from app.main import create_app
@@ -55,7 +55,7 @@ def test_convert_reports_converter_not_found(client: TestClient, minimal_payload
     def _raise(*_args, **_kwargs):
         raise ConverterNotFoundError("missing converter")
 
-    monkeypatch.setattr(main_module, "_run_converter_subprocess", _raise)
+    monkeypatch.setattr(conversion_service, "_run_converter", _raise)
     response = _post_payload(client, minimal_payload)
     assert response.status_code == 503
     body = response.json()
@@ -66,7 +66,7 @@ def test_convert_reports_converter_timeout(client: TestClient, minimal_payload: 
     def _raise(*_args, **_kwargs):
         raise ConverterTimeoutError("timed out")
 
-    monkeypatch.setattr(main_module, "_run_converter_subprocess", _raise)
+    monkeypatch.setattr(conversion_service, "_run_converter", _raise)
     response = _post_payload(client, minimal_payload)
     assert response.status_code == 504
     body = response.json()

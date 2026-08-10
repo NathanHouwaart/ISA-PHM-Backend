@@ -34,6 +34,7 @@ def test_project_scoped_configuration_becomes_sample_characteristics(minimal_pay
             "id": "type-skf-6205",
             "name": "SKF 6205",
             "replaceableCharacteristicId": "component-bearing",
+            "datasheetPath": "./Datasheets/bearing.pdf",
             "characteristics": [
                 {"id": "type-detail-1", "name": "Material", "value": "Steel"},
                 {"id": "type-detail-2", "name": "Clearance", "value": "C3"},
@@ -59,7 +60,8 @@ def test_project_scoped_configuration_becomes_sample_characteristics(minimal_pay
     )
     assert bearing_characteristic.comments == []
     assert [(comment.name, comment.value) for comment in bearing_characteristic.category.comments] == [
-        ("description", "Replaceable drive-end bearing")
+        ("description", "Replaceable drive-end bearing"),
+        ("datasheet", "./Datasheets/bearing.pdf"),
     ]
 
 
@@ -97,6 +99,34 @@ def test_replaceable_components_are_excluded_from_source_and_comments_are_preser
         (comment.name, comment.value)
         for comment in source_characteristics[0].category.comments
     ] == [("Test Comment title", "Test Comment text")]
+
+
+def test_component_instances_become_sample_characteristics_with_datasheet(minimal_payload: dict):
+    payload = copy.deepcopy(minimal_payload)
+    setup = payload["studies"][0]["used_setup"]
+    setup["characteristics"] = [{
+        "id": "component-bearing", "category": "Bearing", "description": "Drive-end bearing", "isReplaceable": True,
+    }]
+    setup["configurations"] = [{
+        "id": "bearing-1", "replaceableCharacteristicId": "component-bearing", "componentId": "1.1", "typeId": "type-6205",
+    }]
+    setup["configurationTypes"] = [{
+        "id": "type-6205", "name": "SKF 6205", "replaceableCharacteristicId": "component-bearing", "datasheetPath": "./Datasheets/skf-6205.pdf",
+        "characteristics": [],
+    }]
+    payload["studies"][0]["componentAssignments"] = [{
+        "replaceableCharacteristicId": "component-bearing", "componentInstanceId": "bearing-1",
+    }]
+    payload["studies"][0].pop("configurationId", None)
+
+    investigation = create_isa_data(payload)
+    bearing = next(characteristic for characteristic in investigation.studies[0].samples[0].characteristics if characteristic.category.term == "Bearing")
+    assert bearing.value == "SKF 6205"
+    assert [(comment.name, comment.value) for comment in bearing.category.comments] == [
+        ("description", "Drive-end bearing"),
+        ("component_id", "1.1"),
+        ("datasheet", "./Datasheets/skf-6205.pdf"),
+    ]
 
 
 def test_samples_use_readable_one_based_run_names(minimal_payload: dict):

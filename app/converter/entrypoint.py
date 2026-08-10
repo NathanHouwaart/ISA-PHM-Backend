@@ -90,16 +90,17 @@ def _add_configuration_characteristics(
             )
             type_name = configuration_type.get("name") or assignment["typeId"]
             component_description = component.get("description", "")
+            component_comments = []
+            if component_description:
+                component_comments.append({"name": "description", "value": component_description})
+            if configuration_type.get("datasheetPath"):
+                component_comments.append({"name": "datasheet", "value": configuration_type["datasheetPath"]})
             _add_sample_characteristic(
                 study_obj,
                 sample,
                 component_name,
                 type_name,
-                comments=(
-                    [{"name": "description", "value": component_description}]
-                    if component_description
-                    else None
-                ),
+                comments=component_comments or None,
             )
 
             for detail in configuration_type.get("characteristics", []):
@@ -129,6 +130,55 @@ def _add_configuration_characteristics(
             detail.get("name", "Configuration Detail"),
             detail.get("value", ""),
         )
+
+
+def _add_component_instance_characteristics(
+    study_obj: Study,
+    sample: Sample,
+    test_setup: Dict[str, Any],
+    assignments: List[Dict[str, Any]],
+) -> None:
+    """Map the current per-replaceable-component experiment assignments."""
+    components_by_id = {
+        str(component.get("id")): component
+        for component in test_setup.get("characteristics", [])
+        if isinstance(component, dict) and component.get("id")
+    }
+    instances_by_id = {
+        str(instance.get("id")): instance
+        for instance in test_setup.get("configurations", [])
+        if isinstance(instance, dict) and instance.get("id")
+    }
+    types_by_id = {
+        str(component_type.get("id")): component_type
+        for component_type in test_setup.get("configurationTypes", [])
+        if isinstance(component_type, dict) and component_type.get("id")
+    }
+
+    for assignment in assignments:
+        if not isinstance(assignment, dict):
+            continue
+        component = components_by_id.get(str(assignment.get("replaceableCharacteristicId")), {})
+        instance = instances_by_id.get(str(assignment.get("componentInstanceId")), {})
+        if not component or not instance:
+            continue
+        component_type = types_by_id.get(str(instance.get("typeId")), {})
+        component_name = component.get("category") or component.get("description") or "Replaceable Component"
+        comments = [{"name": "component_id", "value": instance.get("componentId", "")}]
+        if component.get("description"):
+            comments.insert(0, {"name": "description", "value": component["description"]})
+        if component_type.get("datasheetPath"):
+            comments.append({"name": "datasheet", "value": component_type["datasheetPath"]})
+        _add_sample_characteristic(
+            study_obj,
+            sample,
+            component_name,
+            component_type.get("name") or instance.get("typeId") or "Unknown",
+            comments=comments,
+        )
+        for detail in component_type.get("characteristics", []):
+            if isinstance(detail, dict) and detail.get("name"):
+                _add_sample_characteristic(study_obj, sample, detail["name"], detail.get("value", ""))
 
 
 def create_isa_data(
@@ -376,19 +426,29 @@ def create_isa_data(
 
         study_obj.sources.append(source)
 
+        component_assignments = study.get("componentAssignments")
         configuration_id = study.get("configurationId")
         active_config = next(
             (configuration for configuration in test_setup.get("configurations", []) if configuration.get("id") == configuration_id),
             None,
         )
 
-        if active_config:
+        if isinstance(component_assignments, list):
+            sample_name = f"{test_setup.get('name', 'Test Setup')} - Replaceable Components"
+        elif active_config:
             sample_name = f"{test_setup.get('name', 'Test Setup')} - {active_config.get('name', 'Configuration')}"
         else:
             sample_name = f"{test_setup.get('name', 'Test Setup')} - No Configuration"
         dummy_sample = Sample(name=sample_name, derives_from=[source])
 
-        if active_config:
+        if isinstance(component_assignments, list):
+            _add_component_instance_characteristics(
+                study_obj,
+                dummy_sample,
+                test_setup,
+                component_assignments,
+            )
+        elif active_config:
             _add_configuration_characteristics(
                 study_obj,
                 dummy_sample,
