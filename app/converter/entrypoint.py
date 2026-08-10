@@ -43,17 +43,18 @@ def _add_sample_characteristic(
 ) -> None:
     """Add a configuration characteristic while registering its ISA category."""
     category = OntologyAnnotation(term=str(category_name or "Configuration Detail"))
+    characteristic = Characteristic(category=category, value=as_comment_value(value))
     for comment in comments or []:
         if not isinstance(comment, dict):
             continue
-        category.comments.append(
+        characteristic.comments.append(
             Comment(
                 name=as_comment_value(comment.get("name", "Comment")),
                 value=as_comment_value(comment.get("value", "")),
             )
         )
     study_obj.characteristic_categories.append(category)
-    sample.characteristics.append(Characteristic(category=category, value=as_comment_value(value)))
+    sample.characteristics.append(characteristic)
 
 
 def _add_configuration_characteristics(
@@ -95,6 +96,11 @@ def _add_configuration_characteristics(
                 component_comments.append({"name": "description", "value": component_description})
             if configuration_type.get("datasheetPath"):
                 component_comments.append({"name": "datasheet", "value": configuration_type["datasheetPath"]})
+            component_comments.extend(
+                {"name": detail["name"], "value": detail.get("value", "")}
+                for detail in configuration_type.get("characteristics", [])
+                if isinstance(detail, dict) and detail.get("name")
+            )
             _add_sample_characteristic(
                 study_obj,
                 sample,
@@ -102,16 +108,6 @@ def _add_configuration_characteristics(
                 type_name,
                 comments=component_comments or None,
             )
-
-            for detail in configuration_type.get("characteristics", []):
-                if not isinstance(detail, dict) or not detail.get("name"):
-                    continue
-                _add_sample_characteristic(
-                    study_obj,
-                    sample,
-                    detail["name"],
-                    detail.get("value", ""),
-                )
         return
 
     # Backward compatibility for configurations embedded in the older setup editor.
@@ -164,11 +160,16 @@ def _add_component_instance_characteristics(
             continue
         component_type = types_by_id.get(str(instance.get("typeId")), {})
         component_name = component.get("category") or component.get("description") or "Replaceable Component"
-        comments = [{"name": "component_id", "value": instance.get("componentId", "")}]
+        comments = [{"name": "component ID", "value": instance.get("componentId", "")}]
         if component.get("description"):
             comments.insert(0, {"name": "description", "value": component["description"]})
         if component_type.get("datasheetPath"):
             comments.append({"name": "datasheet", "value": component_type["datasheetPath"]})
+        comments.extend(
+            {"name": detail["name"], "value": detail.get("value", "")}
+            for detail in component_type.get("characteristics", [])
+            if isinstance(detail, dict) and detail.get("name")
+        )
         _add_sample_characteristic(
             study_obj,
             sample,
@@ -176,9 +177,6 @@ def _add_component_instance_characteristics(
             component_type.get("name") or instance.get("typeId") or "Unknown",
             comments=comments,
         )
-        for detail in component_type.get("characteristics", []):
-            if isinstance(detail, dict) and detail.get("name"):
-                _add_sample_characteristic(study_obj, sample, detail["name"], detail.get("value", ""))
 
 
 def create_isa_data(
@@ -407,21 +405,20 @@ def create_isa_data(
             if _is_replaceable_characteristic(characteristic):
                 continue
             category = OntologyAnnotation(term=characteristic.get("category", "unknown"))
+            characteristic_obj = Characteristic()
+            characteristic_obj.category = category
+            characteristic_obj.value = characteristic.get("value", "")
+            characteristic_obj.unit = context.add_unit_to_study(study_obj, characteristic.get("unit", ""))
             for comment in characteristic.get("comments", []):
                 if not isinstance(comment, dict):
                     continue
-                category.comments.append(
+                characteristic_obj.comments.append(
                     Comment(
                         name=as_comment_value(comment.get("name", "Comment")),
                         value=as_comment_value(comment.get("value", "")),
                     )
                 )
             study_obj.characteristic_categories.append(category)
-
-            characteristic_obj = Characteristic()
-            characteristic_obj.category = category
-            characteristic_obj.value = characteristic.get("value", "")
-            characteristic_obj.unit = context.add_unit_to_study(study_obj, characteristic.get("unit", ""))
             source.characteristics.append(characteristic_obj)
 
         study_obj.sources.append(source)
