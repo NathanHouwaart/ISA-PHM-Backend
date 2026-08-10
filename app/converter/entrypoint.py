@@ -29,6 +29,108 @@ from .protocol_mapping import (
 )
 
 
+def _is_replaceable_characteristic(characteristic: Dict[str, Any]) -> bool:
+    value = characteristic.get("isReplaceable", False)
+    return value is True or str(value).strip().lower() in {"true", "1", "yes"}
+
+
+def _add_sample_characteristic(
+    study_obj: Study,
+    sample: Sample,
+    category_name: Any,
+    value: Any,
+    comments: Optional[List[Dict[str, Any]]] = None,
+) -> None:
+    """Add a configuration characteristic while registering its ISA category."""
+    category = OntologyAnnotation(term=str(category_name or "Configuration Detail"))
+    for comment in comments or []:
+        if not isinstance(comment, dict):
+            continue
+        category.comments.append(
+            Comment(
+                name=as_comment_value(comment.get("name", "Comment")),
+                value=as_comment_value(comment.get("value", "")),
+            )
+        )
+    study_obj.characteristic_categories.append(category)
+    sample.characteristics.append(Characteristic(category=category, value=as_comment_value(value)))
+
+
+def _add_configuration_characteristics(
+    study_obj: Study,
+    sample: Sample,
+    test_setup: Dict[str, Any],
+    configuration: Dict[str, Any],
+) -> None:
+    """Represent either the legacy or project-scoped configuration model in ISA."""
+    _add_sample_characteristic(study_obj, sample, "Configuration Name", configuration.get("name", ""))
+
+    assignments = configuration.get("typeAssignments")
+    if isinstance(assignments, list):
+        components_by_id = {
+            str(component.get("id")): component
+            for component in test_setup.get("characteristics", [])
+            if isinstance(component, dict) and component.get("id")
+        }
+        types_by_id = {
+            str(configuration_type.get("id")): configuration_type
+            for configuration_type in test_setup.get("configurationTypes", [])
+            if isinstance(configuration_type, dict) and configuration_type.get("id")
+        }
+
+        for assignment in assignments:
+            if not isinstance(assignment, dict) or not assignment.get("typeId"):
+                continue
+            component = components_by_id.get(str(assignment.get("replaceableCharacteristicId")), {})
+            configuration_type = types_by_id.get(str(assignment["typeId"]), {})
+            component_name = (
+                component.get("category")
+                or component.get("description")
+                or "Replaceable Component"
+            )
+            type_name = configuration_type.get("name") or assignment["typeId"]
+            component_description = component.get("description", "")
+            _add_sample_characteristic(
+                study_obj,
+                sample,
+                component_name,
+                type_name,
+                comments=(
+                    [{"name": "description", "value": component_description}]
+                    if component_description
+                    else None
+                ),
+            )
+
+            for detail in configuration_type.get("characteristics", []):
+                if not isinstance(detail, dict) or not detail.get("name"):
+                    continue
+                _add_sample_characteristic(
+                    study_obj,
+                    sample,
+                    detail["name"],
+                    detail.get("value", ""),
+                )
+        return
+
+    # Backward compatibility for configurations embedded in the older setup editor.
+    _add_sample_characteristic(
+        study_obj,
+        sample,
+        "Replaceable Component",
+        configuration.get("replaceableComponentId", ""),
+    )
+    for detail in configuration.get("details", []):
+        if not isinstance(detail, dict):
+            continue
+        _add_sample_characteristic(
+            study_obj,
+            sample,
+            detail.get("name", "Configuration Detail"),
+            detail.get("value", ""),
+        )
+
+
 def create_isa_data(
     isa_phm_info: Dict[str, Any],
     output_path: Optional[str] = None,
@@ -112,7 +214,7 @@ def create_isa_data(
         study_total_runs = study.get("total_runs", 1)
         study_obj.comments.append(Comment(name="total_runs", value=as_comment_value(study_total_runs)))
 
-        test_setup = study.get("used_setup", {})
+        test_setup = study.get("used_setup") or isa_phm_info.get("test_setup") or {}
         measurement_protocol_variants = test_setup.get("measurementProtocols", []) or []
         processing_protocol_variants = test_setup.get("processingProtocols", []) or []
 
@@ -173,7 +275,21 @@ def create_isa_data(
         experiment_prep_protocol.protocol_type = OntologyAnnotation("Experiment Preparation Protocol")
         study_obj.protocols.append(experiment_prep_protocol)
 
-        for sensor in test_setup.get("sensors", []):
+        # Derive the set of sensor IDs that were actually used in this study from assay_details.
+        # Only these sensors get measurement/processing protocols in the ISA output.
+        # If assay_details is absent or empty, fall back to all sensors so existing payloads
+        # without subset filtering continue to work unchanged.
+        assay_sensor_ids: set[str] = {
+            str(assay.get("used_sensor", {}).get("id", ""))
+            for assay in study.get("assay_details", [])
+            if assay.get("used_sensor", {}).get("id")
+        }
+        all_setup_sensors = test_setup.get("sensors", [])
+        applicable_sensors = [
+            s for s in all_setup_sensors if str(s.get("id", "")) in assay_sensor_ids
+        ] if assay_sensor_ids else all_setup_sensors
+
+        for sensor in applicable_sensors:
             sensor_id = (
                 sensor.get("id", "")
                 or sensor.get("name", "")
@@ -204,7 +320,7 @@ def create_isa_data(
             )
             study_obj.protocols.append(measurement_protocol)
 
-        for sensor in test_setup.get("sensors", []):
+        for sensor in applicable_sensors:
             sensor_id = (
                 sensor.get("id", "")
                 or sensor.get("name", "")
@@ -238,7 +354,18 @@ def create_isa_data(
         source = Source(name=test_setup.get("name", "Test Setup"))
         source.comments.append(Comment(name="description", value=as_comment_value(test_setup.get("description", ""))))
         for characteristic in test_setup.get("characteristics", []):
+            if _is_replaceable_characteristic(characteristic):
+                continue
             category = OntologyAnnotation(term=characteristic.get("category", "unknown"))
+            for comment in characteristic.get("comments", []):
+                if not isinstance(comment, dict):
+                    continue
+                category.comments.append(
+                    Comment(
+                        name=as_comment_value(comment.get("name", "Comment")),
+                        value=as_comment_value(comment.get("value", "")),
+                    )
+                )
             study_obj.characteristic_categories.append(category)
 
             characteristic_obj = Characteristic()
@@ -262,27 +389,20 @@ def create_isa_data(
         dummy_sample = Sample(name=sample_name, derives_from=[source])
 
         if active_config:
-            for config_category, config_value in [
-                ("Configuration Name", active_config.get("name", "")),
-                ("Replaceable Component", active_config.get("replaceableComponentId", "")),
-            ]:
-                annotation = OntologyAnnotation(term=config_category)
-                study_obj.characteristic_categories.append(annotation)
-                dummy_sample.characteristics.append(Characteristic(category=annotation, value=config_value))
-
-            for detail in active_config.get("details", []):
-                detail_category = OntologyAnnotation(term=detail.get("name", "Configuration Detail"))
-                study_obj.characteristic_categories.append(detail_category)
-                dummy_sample.characteristics.append(
-                    Characteristic(category=detail_category, value=detail.get("value", ""))
-                )
+            _add_configuration_characteristics(
+                study_obj,
+                dummy_sample,
+                test_setup,
+                active_config,
+            )
 
         study_variables = isa_phm_info.get("study_variables", [])
         add_study_factors(study_obj, study_variables)
 
         study_obj.samples = batch_create_materials(dummy_sample, n=study_total_runs)
-        for sample in study_obj.samples:
+        for run_number, sample in enumerate(study_obj.samples, start=1):
             sample.id = ""
+            sample.name = f"{sample_name} - Run {run_number}"
 
         assign_factor_values(
             study_obj=study_obj,

@@ -63,7 +63,7 @@ def validate_payload_semantics(payload: dict[str, Any]) -> list[SemanticIssue]:
             )
             total_runs = None
 
-        used_setup = _as_object(study.get("used_setup"))
+        used_setup = _as_object(study.get("used_setup") or payload.get("test_setup"))
         sensors = _as_list(used_setup.get("sensors"))
         sensor_ids = {
             str(sensor.get("id"))

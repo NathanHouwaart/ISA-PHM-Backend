@@ -41,7 +41,7 @@ ISA-PHM-Backend/
 |---|---|---|
 | `CONVERTER_PYTHON` | current Python interpreter | Python executable used to run `app/web-to-isa-phm.py` |
 | `CONVERTER_TIMEOUT_SECONDS` | `120` | Converter subprocess timeout |
-| `MAX_UPLOAD_MB` | `50` | Max upload size for `/convert` |
+| `MAX_UPLOAD_MB` | `200` | Max upload size for `/convert` |
 | `CORS_ALLOW_ORIGINS` | `https://nathanhouwaart.github.io,http://localhost:5173` | Comma-separated origin list |
 | `STRICT_SCHEMA` | `false` | If `true`, validates against `IsaPhmInfo.strict.schema.json` |
 

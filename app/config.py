@@ -37,7 +37,7 @@ class Settings:
 
         converter_python = os.getenv("CONVERTER_PYTHON", sys.executable)
         timeout_value = os.getenv("CONVERTER_TIMEOUT_SECONDS", "120")
-        max_upload_value = os.getenv("MAX_UPLOAD_MB", "50")
+        max_upload_value = os.getenv("MAX_UPLOAD_MB", "200")
         strict_schema = os.getenv("STRICT_SCHEMA", "false").strip().lower() in {"1", "true", "yes", "on"}
 
         try:
