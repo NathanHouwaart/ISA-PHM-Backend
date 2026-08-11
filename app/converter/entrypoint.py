@@ -401,6 +401,8 @@ def create_isa_data(
 
         source = Source(name=test_setup.get("name", "Test Setup"))
         source.comments.append(Comment(name="description", value=as_comment_value(test_setup.get("description", ""))))
+        for image_path in test_setup.get("imagePaths", []):
+            source.comments.append(Comment(name="image", value=as_comment_value(image_path)))
         for characteristic in test_setup.get("characteristics", []):
             if _is_replaceable_characteristic(characteristic):
                 continue

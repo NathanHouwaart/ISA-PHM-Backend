@@ -147,3 +147,22 @@ def test_samples_use_readable_one_based_run_names(minimal_payload: dict):
         "Rig A - Configuration 1 - Run 1",
         "Rig A - Configuration 1 - Run 2",
     ]
+
+
+def test_test_setup_image_paths_become_source_comments(minimal_payload: dict):
+    payload = copy.deepcopy(minimal_payload)
+    payload["studies"][0]["used_setup"]["imagePaths"] = [
+        "./Images/motor-rig.png",
+        "./Images/detail.jpg",
+    ]
+
+    investigation = create_isa_data(payload)
+
+    assert [
+        (comment.name, comment.value)
+        for comment in investigation.studies[0].sources[0].comments
+        if comment.name == "image"
+    ] == [
+        ("image", "./Images/motor-rig.png"),
+        ("image", "./Images/detail.jpg"),
+    ]

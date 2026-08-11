@@ -9,10 +9,17 @@ import zipfile
 from io import BytesIO
 
 from fastapi.testclient import TestClient
+from PIL import Image
 
 
 def _post_payload(client: TestClient, payload: dict):
     return client.post("/convert", files={"file": ("input.json", json.dumps(payload), "application/json")})
+
+
+def _png_bytes() -> bytes:
+    output = BytesIO()
+    Image.new("RGB", (8, 6), color=(30, 90, 150)).save(output, format="PNG")
+    return output.getvalue()
 
 
 def test_convert_integration_returns_parsable_isa_json(client: TestClient, minimal_payload: dict):
@@ -108,3 +115,61 @@ def test_convert_packages_sensor_type_datasheet(client: TestClient, minimal_payl
         output = json.loads(archive.read("ISA-PHM-Out.json"))
     serialized_output = json.dumps(output)
     assert f'"value": "./{datasheet_path}"' in serialized_output
+
+
+def test_convert_normalizes_and_packages_test_setup_image(client: TestClient, minimal_payload: dict):
+    setup = minimal_payload["studies"][0]["used_setup"]
+    setup["images"] = [{
+        "attachmentId": "setup-image-1",
+        "fileName": "Motor Rig.png",
+        "mimeType": "image/png",
+        "size": len(_png_bytes()),
+    }]
+    minimal_payload["test_setup"] = setup
+    manifest = [{
+        "attachmentId": "setup-image-1",
+        "originalFileName": "Motor Rig.png",
+        "owner": {"kind": "test_setup", "id": setup["id"]},
+    }]
+    response = client.post(
+        "/convert",
+        data={"image_manifest": json.dumps(manifest)},
+        files=[
+            ("file", ("input.json", json.dumps(minimal_payload), "application/json")),
+            ("images", ("setup-image-1.png", _png_bytes(), "image/png")),
+        ],
+    )
+
+    assert response.status_code == 200
+    with zipfile.ZipFile(BytesIO(response.content)) as archive:
+        image_path = "Images/Motor-Rig-setup-image-1.png"
+        assert image_path in archive.namelist()
+        with Image.open(BytesIO(archive.read(image_path))) as packaged_image:
+            assert packaged_image.format == "PNG"
+            assert packaged_image.size == (8, 6)
+        output = json.loads(archive.read("ISA-PHM-Out.json"))
+    serialized_output = json.dumps(output)
+    assert '"name": "image"' in serialized_output
+    assert f'"value": "./{image_path}"' in serialized_output
+
+
+def test_convert_rejects_disguised_test_setup_image(client: TestClient, minimal_payload: dict):
+    setup = minimal_payload["studies"][0]["used_setup"]
+    setup["images"] = [{"attachmentId": "bad-image", "fileName": "bad.png"}]
+    minimal_payload["test_setup"] = setup
+    manifest = [{
+        "attachmentId": "bad-image",
+        "originalFileName": "bad.png",
+        "owner": {"kind": "test_setup", "id": setup["id"]},
+    }]
+    response = client.post(
+        "/convert",
+        data={"image_manifest": json.dumps(manifest)},
+        files=[
+            ("file", ("input.json", json.dumps(minimal_payload), "application/json")),
+            ("images", ("bad-image.png", b"not really an image", "image/png")),
+        ],
+    )
+
+    assert response.status_code == 400
+    assert response.json()["error"]["code"] == "invalid_image"
