@@ -24,5 +24,9 @@ def export_archive_response(archive_path: str) -> FileResponse:
         archive_path,
         media_type="application/zip",
         filename="ISA-PHM-Out.zip",
+        headers={
+            "Cache-Control": "no-store",
+            "X-Content-Type-Options": "nosniff",
+        },
         background=BackgroundTask(Path(archive_path).unlink, missing_ok=True),
     )

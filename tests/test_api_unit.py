@@ -39,6 +39,16 @@ def test_convert_rejects_malformed_json(client: TestClient):
     assert body["error"]["code"] == "invalid_json"
 
 
+def test_convert_rejects_oversized_request_before_parsing(client: TestClient):
+    response = client.post(
+        "/convert",
+        files={"file": ("input.json", b" " * (6 * 1024 * 1024), "application/json")},
+    )
+
+    assert response.status_code == 413
+    assert response.json()["error"]["code"] == "request_too_large"
+
+
 def test_convert_rejects_semantic_mismatch(client: TestClient, minimal_payload: dict):
     broken = copy.deepcopy(minimal_payload)
     broken["studies"][0]["study_to_study_variable_mapping"][0]["studyVariableId"] = "missing-variable"

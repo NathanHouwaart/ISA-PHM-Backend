@@ -30,10 +30,14 @@ async def convert_json(
     payload, input_size = await read_and_validate_payload(
         file, request.app.state.payload_schema, request.app.state.schema_path, settings,
     )
+    remaining_upload_bytes = settings.max_upload_bytes - input_size
     attachments = await prepare_datasheets(
-        payload, datasheet_manifest, datasheets, settings.max_upload_bytes,
+        payload, datasheet_manifest, datasheets, remaining_upload_bytes,
     )
-    image_attachments = await prepare_images(payload, image_manifest, images)
+    remaining_upload_bytes -= sum(len(attachment.content) for attachment in attachments)
+    image_attachments = await prepare_images(
+        payload, image_manifest, images, remaining_upload_bytes,
+    )
     raw_json = await run_in_threadpool(convert_payload, payload, settings)
     archive_path = await run_in_threadpool(
         create_export_archive, raw_json, [*attachments, *image_attachments],

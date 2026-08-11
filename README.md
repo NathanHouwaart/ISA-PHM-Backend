@@ -41,7 +41,7 @@ ISA-PHM-Backend/
 |---|---|---|
 | `CONVERTER_PYTHON` | current Python interpreter | Python executable used to run `app/web-to-isa-phm.py` |
 | `CONVERTER_TIMEOUT_SECONDS` | `120` | Converter subprocess timeout |
-| `MAX_UPLOAD_MB` | `200` | Max upload size for `/convert` |
+| `MAX_UPLOAD_MB` | `50` | Maximum combined JSON and attachment size for `/convert` (multipart overhead gets a 1 MB allowance) |
 | `CORS_ALLOW_ORIGINS` | `https://nathanhouwaart.github.io,http://localhost:5173` | Comma-separated origin list |
 | `STRICT_SCHEMA` | `false` | If `true`, validates against `IsaPhmInfo.strict.schema.json` |
 
@@ -100,12 +100,14 @@ Error response shape:
 ## Validation Flow
 
 1. File extension and content type checks
-2. Upload size guard (`MAX_UPLOAD_MB`)
+2. Request and per-file size guards (`MAX_UPLOAD_MB`)
 3. JSON parse validation
 4. JSON schema validation (compat or strict schema)
 5. Semantic validation (runs/protocol selections/reference integrity)
-6. Converter subprocess execution
-7. Converter output JSON parse check
+6. PDF structural/policy validation and PNG/JPEG decode/re-encode
+7. Attachment manifest ownership and declaration checks
+8. Converter subprocess execution
+9. Converter output JSON parse check
 
 ## Tests
 

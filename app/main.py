@@ -16,6 +16,7 @@ from fastapi.responses import JSONResponse
 
 from app.config import Settings
 from app.errors import APIError
+from app.middleware import RequestBodyLimitMiddleware
 from app.routes.conversion import router as conversion_router
 from app.services.conversion import check_converter_readiness
 
@@ -129,6 +130,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_credentials=True,
         allow_methods=["POST", "GET", "OPTIONS"],
         allow_headers=["Content-Type", "X-Request-ID"],
+    )
+    app.add_middleware(
+        RequestBodyLimitMiddleware,
+        max_bytes=runtime_settings.max_upload_bytes + 1024 * 1024,
     )
 
     @app.middleware("http")

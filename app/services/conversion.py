@@ -12,6 +12,7 @@ from fastapi import UploadFile
 from app.config import Settings
 from app.errors import APIError, ConverterFailedError, ConverterNotFoundError, ConverterTimeoutError
 from app.semantic_validation import validate_payload_semantics
+from app.services.upload_validation import read_upload_limited
 
 
 def check_converter_readiness(settings: Settings) -> list[str]:
@@ -54,9 +55,12 @@ async def read_and_validate_payload(
             "content_type": file.content_type, "allowed": sorted(allowed_types),
         })
 
-    raw_bytes = await file.read()
-    if len(raw_bytes) > settings.max_upload_bytes:
-        raise APIError(413, "payload_too_large", f"Uploaded file exceeds {settings.max_upload_mb} MB limit")
+    raw_bytes = await read_upload_limited(
+        file,
+        settings.max_upload_bytes,
+        error_code="payload_too_large",
+        error_message=f"Uploaded file exceeds {settings.max_upload_mb} MB limit",
+    )
     try:
         payload_text = raw_bytes.decode("utf-8-sig")
     except UnicodeDecodeError as exc:
