@@ -1,7 +1,8 @@
 isatools==0.14.3
 uvicorn==0.35.0
-fastapi==0.116.1
-python-multipart==0.0.20
+fastapi==0.139.2
+starlette==0.52.1
+python-multipart==0.0.27
 jsonschema==4.23.0
 Pillow==12.3.0
 pypdf==6.14.2

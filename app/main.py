@@ -15,6 +15,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 
 from app.config import Settings
+from app.concurrency import ConversionCapacityLimiter
 from app.errors import APIError
 from app.middleware import RequestBodyLimitMiddleware
 from app.routes.conversion import router as conversion_router
@@ -122,6 +123,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app = FastAPI(lifespan=lifespan)
     app.state.settings = runtime_settings
+    app.state.conversion_limiter = ConversionCapacityLimiter(
+        runtime_settings.max_concurrent_conversions,
+    )
 
     app.add_middleware(GZipMiddleware, minimum_size=1024)
     app.add_middleware(

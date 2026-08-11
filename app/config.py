@@ -17,6 +17,7 @@ DEFAULT_CORS_ORIGINS = [
 class Settings:
     converter_python: str
     converter_timeout_seconds: int
+    max_concurrent_conversions: int
     max_upload_mb: int
     cors_allow_origins: List[str]
     strict_schema: bool
@@ -37,6 +38,7 @@ class Settings:
 
         converter_python = os.getenv("CONVERTER_PYTHON", sys.executable)
         timeout_value = os.getenv("CONVERTER_TIMEOUT_SECONDS", "120")
+        max_concurrent_value = os.getenv("MAX_CONCURRENT_CONVERSIONS", "2")
         max_upload_value = os.getenv("MAX_UPLOAD_MB", "50")
         strict_schema = os.getenv("STRICT_SCHEMA", "false").strip().lower() in {"1", "true", "yes", "on"}
 
@@ -44,6 +46,11 @@ class Settings:
             converter_timeout_seconds = max(1, int(timeout_value))
         except ValueError:
             converter_timeout_seconds = 120
+
+        try:
+            max_concurrent_conversions = max(1, int(max_concurrent_value))
+        except ValueError:
+            max_concurrent_conversions = 2
 
         try:
             max_upload_mb = max(1, int(max_upload_value))
@@ -59,6 +66,7 @@ class Settings:
         return cls(
             converter_python=converter_python,
             converter_timeout_seconds=converter_timeout_seconds,
+            max_concurrent_conversions=max_concurrent_conversions,
             max_upload_mb=max_upload_mb,
             cors_allow_origins=cors_allow_origins,
             strict_schema=strict_schema,

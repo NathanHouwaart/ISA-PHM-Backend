@@ -83,6 +83,33 @@ def test_convert_reports_converter_timeout(client: TestClient, minimal_payload: 
     assert body["error"]["code"] == "converter_timeout"
 
 
+def test_convert_rejects_when_conversion_capacity_is_exhausted(
+    client: TestClient,
+    minimal_payload: dict,
+):
+    class ExhaustedLimiter:
+        async def __aenter__(self):
+            from app.errors import APIError
+
+            raise APIError(
+                429,
+                "conversion_capacity_exceeded",
+                "The conversion service is busy. Please try again shortly.",
+                {"max_concurrent_conversions": 2},
+            )
+
+        async def __aexit__(self, _exc_type, _exc, _traceback):
+            return None
+
+    client.app.state.conversion_limiter = ExhaustedLimiter()
+    response = _post_payload(client, minimal_payload)
+
+    assert response.status_code == 429
+    body = response.json()
+    assert body["error"]["code"] == "conversion_capacity_exceeded"
+    assert body["error"]["details"] == {"max_concurrent_conversions": 2}
+
+
 def test_healthz_and_readyz(client: TestClient):
     health = client.get("/healthz")
     assert health.status_code == 200
