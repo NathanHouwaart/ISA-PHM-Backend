@@ -84,6 +84,7 @@ def test_convert_integration_returns_parsable_isa_json(client: TestClient, minim
             check=False,
             capture_output=True,
             text=True,
+            timeout=30,
         )
     finally:
         os.unlink(path)

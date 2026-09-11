@@ -68,6 +68,14 @@ docker build -t isa-phm-backend .
 docker run -p 8080:8080 isa-phm-backend
 ```
 
+The container runs as a non-root user and reports readiness through Docker's
+health check. Verify it after startup with:
+
+```bash
+curl http://localhost:8080/readyz
+docker inspect --format='{{.State.Health.Status}}' isa-phm-backend
+```
+
 ## API
 
 ### `GET /`

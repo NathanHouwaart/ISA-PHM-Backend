@@ -36,7 +36,7 @@ def _is_replaceable_characteristic(characteristic: Dict[str, Any]) -> bool:
 
 def _add_sample_characteristic(
     study_obj: Study,
-    sample: Sample,
+    material: Source | Sample,
     category_name: Any,
     value: Any,
     comments: Optional[List[Dict[str, Any]]] = None,
@@ -54,17 +54,17 @@ def _add_sample_characteristic(
             )
         )
     study_obj.characteristic_categories.append(category)
-    sample.characteristics.append(characteristic)
+    material.characteristics.append(characteristic)
 
 
 def _add_configuration_characteristics(
     study_obj: Study,
-    sample: Sample,
+    material: Source | Sample,
     test_setup: Dict[str, Any],
     configuration: Dict[str, Any],
 ) -> None:
     """Represent either the legacy or project-scoped configuration model in ISA."""
-    _add_sample_characteristic(study_obj, sample, "Configuration Name", configuration.get("name", ""))
+    _add_sample_characteristic(study_obj, material, "Configuration Name", configuration.get("name", ""))
 
     assignments = configuration.get("typeAssignments")
     if isinstance(assignments, list):
@@ -103,7 +103,7 @@ def _add_configuration_characteristics(
             )
             _add_sample_characteristic(
                 study_obj,
-                sample,
+                material,
                 component_name,
                 type_name,
                 comments=component_comments or None,
@@ -113,7 +113,7 @@ def _add_configuration_characteristics(
     # Backward compatibility for configurations embedded in the older setup editor.
     _add_sample_characteristic(
         study_obj,
-        sample,
+        material,
         "Replaceable Component",
         configuration.get("replaceableComponentId", ""),
     )
@@ -122,7 +122,7 @@ def _add_configuration_characteristics(
             continue
         _add_sample_characteristic(
             study_obj,
-            sample,
+            material,
             detail.get("name", "Configuration Detail"),
             detail.get("value", ""),
         )
@@ -130,7 +130,7 @@ def _add_configuration_characteristics(
 
 def _add_component_instance_characteristics(
     study_obj: Study,
-    sample: Sample,
+    material: Source | Sample,
     test_setup: Dict[str, Any],
     assignments: List[Dict[str, Any]],
 ) -> None:
@@ -172,7 +172,7 @@ def _add_component_instance_characteristics(
         )
         _add_sample_characteristic(
             study_obj,
-            sample,
+            material,
             component_name,
             component_type.get("name") or instance.get("typeId") or "Unknown",
             comments=comments,
@@ -443,14 +443,14 @@ def create_isa_data(
         if isinstance(component_assignments, list):
             _add_component_instance_characteristics(
                 study_obj,
-                dummy_sample,
+                source,
                 test_setup,
                 component_assignments,
             )
         elif active_config:
             _add_configuration_characteristics(
                 study_obj,
-                dummy_sample,
+                source,
                 test_setup,
                 active_config,
             )

@@ -14,11 +14,9 @@ def add_study_factors(study_obj: Study, study_variables: List[Dict[str, Any]]) -
             name=variable.get("name", ""),
             factor_type=OntologyAnnotation(variable.get("type", "unknown")),
         )
-        study_factor.comments.append(Comment(name="description", value=as_comment_value(variable.get("description", ""))))
-        study_factor.comments.append(Comment(name="unit", value=as_comment_value(variable.get("unit", ""))))
-        study_factor.comments.append(Comment(name="min", value=as_comment_value(variable.get("min", ""))))
-        study_factor.comments.append(Comment(name="max", value=as_comment_value(variable.get("max", ""))))
-        study_factor.comments.append(Comment(name="step", value=as_comment_value(variable.get("step", ""))))
+        description = as_comment_value(variable.get("description", ""))
+        if description:
+            study_factor.comments.append(Comment(name="description", value=description))
         study_obj.factors.append(study_factor)
 
 

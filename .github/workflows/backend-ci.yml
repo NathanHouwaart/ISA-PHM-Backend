@@ -29,4 +29,32 @@ jobs:
         run: |
           TMP_OUT=$(mktemp /tmp/isa-phm-out-XXXXXX.json)
           python app/web-to-isa-phm.py tests/fixtures/minimal_payload.json "$TMP_OUT"
-          python tools/verify-isa-json.py "$TMP_OUT"
+          timeout 60s python tools/verify-isa-json.py "$TMP_OUT"
+
+  container:
+    name: Build and smoke-test container
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t isa-phm-backend:ci .
+
+      - name: Start container and wait for readiness
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --detach --name isa-phm-backend-ci --publish 8080:8080 isa-phm-backend:ci
+          for _ in {1..30}; do
+            if curl --fail --silent --show-error http://127.0.0.1:8080/readyz > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          docker logs isa-phm-backend-ci
+          exit 1
+
+      - name: Stop container
+        if: ${{ always() }}
+        run: docker rm --force isa-phm-backend-ci || true
