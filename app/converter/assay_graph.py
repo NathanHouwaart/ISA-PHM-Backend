@@ -46,6 +46,8 @@ def append_assays_to_study(
         sensor_alias_value = assay_sensor.get("alias", "") or assay_sensor.get("id", "")
         if sensor_alias_value:
             assay_obj.comments.append(Comment(name="sensor alias", value=sensor_alias_value))
+        if assay_sensor.get("datasheetPath"):
+            assay_obj.comments.append(Comment(name="datasheet", value=assay_sensor["datasheetPath"]))
 
         for sample in study_obj.samples:
             assay_obj.samples.append(sample)

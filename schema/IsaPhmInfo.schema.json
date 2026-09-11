@@ -135,7 +135,19 @@
                 "id":                     { "type": "string" },
                 "name":                   { "type": "string" },
                 "replaceableComponentId": { "type": "string" },
-                "details":                { "type": "array" }
+                "details":                { "type": "array" },
+                "typeAssignments": {
+                    "description": "Assignments from replaceable characteristic IDs to configuration type IDs.",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": true,
+                        "properties": {
+                            "replaceableCharacteristicId": { "type": "string" },
+                            "typeId": { "type": "string" }
+                        }
+                    }
+                }
             }
         },
         "SensorProtocolMapping": {
@@ -172,6 +184,20 @@
                 "configurations": {
                     "type": "array",
                     "items": { "$ref": "#/definitions/Configuration" }
+                },
+                "configurationTypes": {
+                    "description": "Reusable type definitions referenced by project-scoped configurations.",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": true,
+                        "properties": {
+                            "id": { "type": "string" },
+                            "name": { "type": "string" },
+                            "replaceableCharacteristicId": { "type": "string" },
+                            "characteristics": { "type": "array" }
+                        }
+                    }
                 },
                 "measurementProtocols": {
                     "type": "array",

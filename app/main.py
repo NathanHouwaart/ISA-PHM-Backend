@@ -2,24 +2,24 @@ from __future__ import annotations
 
 import json
 import logging
-import subprocess
-import tempfile
 import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-import jsonschema
-from fastapi import FastAPI, File, HTTPException, Request, UploadFile
-from fastapi.concurrency import run_in_threadpool
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.responses import JSONResponse
 
 from app.config import Settings
-from app.errors import APIError, ConverterFailedError, ConverterNotFoundError, ConverterTimeoutError
-from app.semantic_validation import validate_payload_semantics
+from app.concurrency import ConversionCapacityLimiter
+from app.errors import APIError
+from app.middleware import RequestBodyLimitMiddleware
+from app.routes.conversion import router as conversion_router
+from app.services.conversion import check_converter_readiness
 
 logger = logging.getLogger("isa_phm_backend")
 
@@ -31,17 +31,6 @@ def configure_logging() -> None:
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(name)s %(message)s",
     )
-
-
-def _schema_validation_error_details(exc: jsonschema.ValidationError) -> dict[str, Any]:
-    if exc.path:
-        path = "$" + "".join(
-            f"[{segment}]" if isinstance(segment, int) else f".{segment}"
-            for segment in exc.path
-        )
-    else:
-        path = "$"
-    return {"path": path, "validator": exc.validator, "message": exc.message}
 
 
 def _error_payload(request_id: str, code: str, message: str, details: Any = None) -> dict[str, Any]:
@@ -98,65 +87,6 @@ def _load_schema(settings: Settings) -> tuple[dict[str, Any] | None, Path, list[
     return schema, schema_path, errors
 
 
-def _check_converter_readiness(settings: Settings) -> list[str]:
-    errors: list[str] = []
-
-    if not settings.converter_script_path.exists():
-        errors.append(f"Converter script not found: {settings.converter_script_path}")
-        return errors
-
-    try:
-        result = subprocess.run(
-            [settings.converter_python, "--version"],
-            check=False,
-            capture_output=True,
-            text=True,
-            timeout=5,
-        )
-    except FileNotFoundError:
-        errors.append(f"Converter interpreter not found: {settings.converter_python}")
-        return errors
-    except subprocess.TimeoutExpired:
-        errors.append(f"Converter interpreter timed out: {settings.converter_python}")
-        return errors
-
-    if result.returncode != 0:
-        output = (result.stderr or result.stdout or "").strip()
-        errors.append(
-            f"Converter interpreter check failed (exit {result.returncode}): {output}"
-        )
-
-    return errors
-
-
-def _run_converter_subprocess(settings: Settings, input_path: str, output_path: str) -> None:
-    command = [
-        settings.converter_python,
-        str(settings.converter_script_path),
-        input_path,
-        output_path,
-    ]
-
-    try:
-        result = subprocess.run(
-            command,
-            check=False,
-            capture_output=True,
-            text=True,
-            timeout=settings.converter_timeout_seconds,
-        )
-    except FileNotFoundError as exc:
-        raise ConverterNotFoundError(str(exc)) from exc
-    except subprocess.TimeoutExpired as exc:
-        raise ConverterTimeoutError(str(exc)) from exc
-
-    if result.returncode != 0:
-        stderr = (result.stderr or "").strip()
-        stdout = (result.stdout or "").strip()
-        detail = stderr or stdout or "converter process exited with non-zero status"
-        raise ConverterFailedError(detail)
-
-
 def create_app(settings: Settings | None = None) -> FastAPI:
     configure_logging()
     runtime_settings = settings or Settings.from_env()
@@ -164,7 +94,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         schema, schema_path, schema_errors = _load_schema(runtime_settings)
-        converter_errors = _check_converter_readiness(runtime_settings)
+        converter_errors = check_converter_readiness(runtime_settings)
 
         app.state.payload_schema = schema
         app.state.schema_path = str(schema_path)
@@ -193,13 +123,21 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app = FastAPI(lifespan=lifespan)
     app.state.settings = runtime_settings
+    app.state.conversion_limiter = ConversionCapacityLimiter(
+        runtime_settings.max_concurrent_conversions,
+    )
 
+    app.add_middleware(GZipMiddleware, minimum_size=1024)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=runtime_settings.cors_allow_origins,
         allow_credentials=True,
         allow_methods=["POST", "GET", "OPTIONS"],
         allow_headers=["Content-Type", "X-Request-ID"],
+    )
+    app.add_middleware(
+        RequestBodyLimitMiddleware,
+        max_bytes=runtime_settings.max_upload_bytes + 1024 * 1024,
     )
 
     @app.middleware("http")
@@ -287,144 +225,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             },
         )
 
-    @app.post("/convert")
-    async def convert_json(request: Request, file: UploadFile = File(...)):
-        request_id = _request_id_from_request(request)
-        current_settings: Settings = request.app.state.settings
-
-        if not file.filename or not file.filename.lower().endswith(".json"):
-            raise APIError(status_code=400, code="invalid_file_extension", message="Only .json files are allowed")
-
-        allowed_content_types = {"application/json", "text/json"}
-        if file.content_type not in allowed_content_types:
-            raise APIError(
-                status_code=400,
-                code="invalid_file_type",
-                message="Invalid file type",
-                details={"content_type": file.content_type, "allowed": sorted(allowed_content_types)},
-            )
-
-        input_path: str | None = None
-        output_path: str | None = None
-        started = time.perf_counter()
-
-        try:
-            raw_bytes = await file.read()
-            if len(raw_bytes) > current_settings.max_upload_bytes:
-                raise APIError(
-                    status_code=413,
-                    code="payload_too_large",
-                    message=f"Uploaded file exceeds {current_settings.max_upload_mb} MB limit",
-                )
-
-            try:
-                payload_text = raw_bytes.decode("utf-8-sig")
-            except UnicodeDecodeError as exc:
-                raise APIError(
-                    status_code=400,
-                    code="invalid_encoding",
-                    message="Payload must be UTF-8 encoded JSON",
-                    details={"message": str(exc)},
-                ) from exc
-
-            try:
-                payload = json.loads(payload_text)
-            except json.JSONDecodeError as exc:
-                raise APIError(
-                    status_code=400,
-                    code="invalid_json",
-                    message="Invalid JSON payload",
-                    details={"line": exc.lineno, "column": exc.colno, "message": exc.msg},
-                ) from exc
-
-            schema = request.app.state.payload_schema
-            if schema is None:
-                raise APIError(
-                    status_code=503,
-                    code="schema_unavailable",
-                    message="Payload schema is not available",
-                    details={"schema_path": request.app.state.schema_path},
-                )
-
-            try:
-                jsonschema.validate(instance=payload, schema=schema)
-            except jsonschema.ValidationError as exc:
-                raise APIError(
-                    status_code=422,
-                    code="schema_validation_failed",
-                    message="Payload validation failed",
-                    details=_schema_validation_error_details(exc),
-                ) from exc
-
-            semantic_issues = [issue.as_dict() for issue in validate_payload_semantics(payload)]
-            if semantic_issues:
-                raise APIError(
-                    status_code=422,
-                    code="semantic_validation_failed",
-                    message="Payload semantic validation failed",
-                    details=semantic_issues,
-                )
-
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as input_file:
-                input_path = input_file.name
-                input_file.write(raw_bytes)
-
-            output_file = tempfile.NamedTemporaryFile(delete=False, suffix=".json")
-            output_path = output_file.name
-            output_file.close()
-
-            try:
-                await run_in_threadpool(_run_converter_subprocess, current_settings, input_path, output_path)
-            except ConverterNotFoundError as exc:
-                raise APIError(
-                    status_code=503,
-                    code="converter_not_found",
-                    message="Converter runtime is not available",
-                    details={"converter_python": current_settings.converter_python, "error": str(exc)},
-                ) from exc
-            except ConverterTimeoutError as exc:
-                raise APIError(
-                    status_code=504,
-                    code="converter_timeout",
-                    message="Converter process timed out",
-                    details={"timeout_seconds": current_settings.converter_timeout_seconds, "error": str(exc)},
-                ) from exc
-            except ConverterFailedError as exc:
-                raise APIError(
-                    status_code=500,
-                    code="converter_failed",
-                    message="Conversion process failed",
-                    details={"error": str(exc)},
-                ) from exc
-
-            with open(output_path, "r", encoding="utf-8") as output_handle:
-                raw_json = output_handle.read()
-
-            try:
-                json.loads(raw_json)
-            except json.JSONDecodeError as exc:
-                raise APIError(
-                    status_code=500,
-                    code="invalid_converter_output",
-                    message="Converter produced invalid JSON",
-                    details={"line": exc.lineno, "column": exc.colno, "message": exc.msg},
-                ) from exc
-
-            duration_ms = int((time.perf_counter() - started) * 1000)
-            logger.info(
-                "convert_success request_id=%s filename=%s size_bytes=%s duration_ms=%s",
-                request_id,
-                file.filename,
-                len(raw_bytes),
-                duration_ms,
-            )
-            return PlainTextResponse(content=raw_json, media_type="application/json")
-
-        finally:
-            if input_path and Path(input_path).exists():
-                Path(input_path).unlink(missing_ok=True)
-            if output_path and Path(output_path).exists():
-                Path(output_path).unlink(missing_ok=True)
+    app.include_router(conversion_router)
 
     return app
 

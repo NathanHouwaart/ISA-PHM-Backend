@@ -6,7 +6,7 @@ from dataclasses import replace
 
 from fastapi.testclient import TestClient
 
-import app.main as main_module
+import app.services.conversion as conversion_service
 from app.config import Settings
 from app.errors import ConverterNotFoundError, ConverterTimeoutError
 from app.main import create_app
@@ -39,6 +39,16 @@ def test_convert_rejects_malformed_json(client: TestClient):
     assert body["error"]["code"] == "invalid_json"
 
 
+def test_convert_rejects_oversized_request_before_parsing(client: TestClient):
+    response = client.post(
+        "/convert",
+        files={"file": ("input.json", b" " * (6 * 1024 * 1024), "application/json")},
+    )
+
+    assert response.status_code == 413
+    assert response.json()["error"]["code"] == "request_too_large"
+
+
 def test_convert_rejects_semantic_mismatch(client: TestClient, minimal_payload: dict):
     broken = copy.deepcopy(minimal_payload)
     broken["studies"][0]["study_to_study_variable_mapping"][0]["studyVariableId"] = "missing-variable"
@@ -55,7 +65,7 @@ def test_convert_reports_converter_not_found(client: TestClient, minimal_payload
     def _raise(*_args, **_kwargs):
         raise ConverterNotFoundError("missing converter")
 
-    monkeypatch.setattr(main_module, "_run_converter_subprocess", _raise)
+    monkeypatch.setattr(conversion_service, "_run_converter", _raise)
     response = _post_payload(client, minimal_payload)
     assert response.status_code == 503
     body = response.json()
@@ -66,11 +76,38 @@ def test_convert_reports_converter_timeout(client: TestClient, minimal_payload: 
     def _raise(*_args, **_kwargs):
         raise ConverterTimeoutError("timed out")
 
-    monkeypatch.setattr(main_module, "_run_converter_subprocess", _raise)
+    monkeypatch.setattr(conversion_service, "_run_converter", _raise)
     response = _post_payload(client, minimal_payload)
     assert response.status_code == 504
     body = response.json()
     assert body["error"]["code"] == "converter_timeout"
+
+
+def test_convert_rejects_when_conversion_capacity_is_exhausted(
+    client: TestClient,
+    minimal_payload: dict,
+):
+    class ExhaustedLimiter:
+        async def __aenter__(self):
+            from app.errors import APIError
+
+            raise APIError(
+                429,
+                "conversion_capacity_exceeded",
+                "The conversion service is busy. Please try again shortly.",
+                {"max_concurrent_conversions": 2},
+            )
+
+        async def __aexit__(self, _exc_type, _exc, _traceback):
+            return None
+
+    client.app.state.conversion_limiter = ExhaustedLimiter()
+    response = _post_payload(client, minimal_payload)
+
+    assert response.status_code == 429
+    body = response.json()
+    assert body["error"]["code"] == "conversion_capacity_exceeded"
+    assert body["error"]["details"] == {"max_concurrent_conversions": 2}
 
 
 def test_healthz_and_readyz(client: TestClient):

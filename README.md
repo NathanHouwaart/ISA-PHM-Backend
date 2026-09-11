@@ -4,7 +4,7 @@ FastAPI backend for converting ISA-PHM Wizard payloads into ISA-JSON.
 
 ## What Improved
 
-- Config-driven runtime (`CONVERTER_PYTHON`, `CONVERTER_TIMEOUT_SECONDS`, `MAX_UPLOAD_MB`, `CORS_ALLOW_ORIGINS`, `STRICT_SCHEMA`)
+- Config-driven runtime (`CONVERTER_PYTHON`, `CONVERTER_TIMEOUT_SECONDS`, `MAX_CONCURRENT_CONVERSIONS`, `MAX_UPLOAD_MB`, `CORS_ALLOW_ORIGINS`, `STRICT_SCHEMA`)
 - Structured error responses with request correlation (`request_id`)
 - Liveness/readiness endpoints (`/healthz`, `/readyz`)
 - Semantic payload validation before conversion
@@ -41,7 +41,8 @@ ISA-PHM-Backend/
 |---|---|---|
 | `CONVERTER_PYTHON` | current Python interpreter | Python executable used to run `app/web-to-isa-phm.py` |
 | `CONVERTER_TIMEOUT_SECONDS` | `120` | Converter subprocess timeout |
-| `MAX_UPLOAD_MB` | `50` | Max upload size for `/convert` |
+| `MAX_CONCURRENT_CONVERSIONS` | `2` | Maximum conversions processed concurrently per backend process |
+| `MAX_UPLOAD_MB` | `50` | Maximum combined JSON and attachment size for `/convert` (multipart overhead gets a 1 MB allowance) |
 | `CORS_ALLOW_ORIGINS` | `https://nathanhouwaart.github.io,http://localhost:5173` | Comma-separated origin list |
 | `STRICT_SCHEMA` | `false` | If `true`, validates against `IsaPhmInfo.strict.schema.json` |
 
@@ -67,6 +68,14 @@ docker build -t isa-phm-backend .
 docker run -p 8080:8080 isa-phm-backend
 ```
 
+The container runs as a non-root user and reports readiness through Docker's
+health check. Verify it after startup with:
+
+```bash
+curl http://localhost:8080/readyz
+docker inspect --format='{{.State.Health.Status}}' isa-phm-backend
+```
+
 ## API
 
 ### `GET /`
@@ -82,7 +91,7 @@ Readiness endpoint (schema + converter readiness details). Returns `503` when no
 Accepts `multipart/form-data` with field `file` containing a `.json` payload.
 
 Success response:
-- `200` with ISA-JSON body (`application/json`)
+- `200` with `ISA-PHM-Out.zip` (`application/zip`), containing `ISA-PHM-Out.json` and uploaded attachments
 
 Error response shape:
 
@@ -100,12 +109,14 @@ Error response shape:
 ## Validation Flow
 
 1. File extension and content type checks
-2. Upload size guard (`MAX_UPLOAD_MB`)
+2. Request and per-file size guards (`MAX_UPLOAD_MB`)
 3. JSON parse validation
 4. JSON schema validation (compat or strict schema)
 5. Semantic validation (runs/protocol selections/reference integrity)
-6. Converter subprocess execution
-7. Converter output JSON parse check
+6. PDF structural/policy validation and PNG/JPEG decode/re-encode
+7. Attachment manifest ownership and declaration checks
+8. Converter subprocess execution
+9. Converter output JSON parse check
 
 ## Tests
 
