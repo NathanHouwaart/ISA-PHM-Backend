@@ -75,6 +75,11 @@ checks only. When the validator is absent or fails, the report explicitly
 states that validation was unavailable. Docker builds install the pinned
 submodule automatically; initialize submodules before building the image.
 
+Datasheet upload manifests identify each unique PDF once. An entry can use
+`owners: [{"kind": "sensor_type", "id": "..."}, ...]` when multiple
+entities share it. Existing entries with a single `owner` remain supported;
+each entity referencing that attachment must appear in its owner list.
+
 Conda option:
 
 ```bash

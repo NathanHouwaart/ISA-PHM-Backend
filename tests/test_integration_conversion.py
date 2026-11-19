@@ -208,6 +208,71 @@ def test_convert_packages_sensor_type_datasheet(client: TestClient, minimal_payl
     assert f'"value": "./{datasheet_path}"' in serialized_output
 
 
+def test_convert_packages_one_datasheet_shared_by_sensor_types(client: TestClient, minimal_payload: dict):
+    setup = minimal_payload["studies"][0]["used_setup"]
+    sheet = {"attachmentId": "shared-sheet", "fileName": "Sensor.pdf"}
+    setup["sensorTypes"] = [
+        {"id": "type-1", "name": "Type one", "datasheet": sheet},
+        {"id": "type-2", "name": "Type two", "datasheet": sheet},
+    ]
+    setup["sensors"][0]["sensorTypeId"] = "type-1"
+    minimal_payload["test_setup"] = setup
+    manifest = [{
+        "attachmentId": "shared-sheet", "originalFileName": "Sensor.pdf",
+        "owners": [{"kind": "sensor_type", "id": "type-1"}, {"kind": "sensor_type", "id": "type-2"}],
+    }]
+    response = client.post('/convert', data={'datasheet_manifest': json.dumps(manifest)}, files=[
+        ('file', ('input.json', json.dumps(minimal_payload), 'application/json')),
+        ('datasheets', ('shared-sheet.pdf', _pdf_bytes(), 'application/pdf')),
+    ])
+    assert response.status_code == 200, response.text
+    with zipfile.ZipFile(BytesIO(response.content)) as archive:
+        sheets = [name for name in archive.namelist() if name.startswith('Datasheets/')]
+        assert len(sheets) == 1
+        output = json.loads(archive.read('ISA-PHM-Out.isa-phm.json'))
+        assert f'./{sheets[0]}' in json.dumps(output)
+
+
+def test_convert_rejects_undeclared_shared_datasheet_owner(client: TestClient, minimal_payload: dict):
+    setup = minimal_payload["studies"][0]["used_setup"]
+    setup["sensorTypes"] = [{
+        "id": "actual", "name": "Type", "datasheet": {"attachmentId": "sheet", "fileName": "Sensor.pdf"},
+    }]
+    minimal_payload["test_setup"] = setup
+    manifest = [{"attachmentId": "sheet", "originalFileName": "Sensor.pdf", "owners": [{"kind": "sensor_type", "id": "other"}]}]
+    response = client.post('/convert', data={'datasheet_manifest': json.dumps(manifest)}, files=[
+        ('file', ('input.json', json.dumps(minimal_payload), 'application/json')),
+        ('datasheets', ('sheet.pdf', _pdf_bytes(), 'application/pdf')),
+    ])
+    assert response.status_code == 400
+    assert response.json()['error']['code'] == 'missing_datasheet'
+
+
+def test_shared_datasheet_is_assigned_to_each_sensor(minimal_payload: dict):
+    import asyncio
+    from fastapi import UploadFile
+    from app.services.datasheets import prepare_datasheets
+
+    setup = minimal_payload["studies"][0]["used_setup"]
+    sheet = {"attachmentId": "shared", "fileName": "Sensor.pdf"}
+    setup["sensorTypes"] = [
+        {"id": "one", "datasheet": sheet}, {"id": "two", "datasheet": sheet},
+    ]
+    setup["sensors"] = [
+        {"id": "sensor-one", "sensorTypeId": "one"},
+        {"id": "sensor-two", "sensorTypeId": "two"},
+    ]
+    minimal_payload["test_setup"] = setup
+    manifest = [{"attachmentId": "shared", "originalFileName": "Sensor.pdf", "owners": [
+        {"kind": "sensor_type", "id": "one"}, {"kind": "sensor_type", "id": "two"},
+    ]}]
+    upload = UploadFile(file=BytesIO(_pdf_bytes()), filename='shared.pdf')
+    attachments = asyncio.run(prepare_datasheets(minimal_payload, json.dumps(manifest), [upload], 1024 * 1024))
+    assert len(attachments) == 1
+    assert setup['sensors'][0]['datasheetPath'] == setup['sensors'][1]['datasheetPath']
+    assert setup['sensors'][0]['datasheetPath'] == f"./{attachments[0].archive_path}"
+
+
 def test_convert_packages_physical_device_datasheet(client: TestClient, minimal_payload: dict):
     setup = minimal_payload['studies'][0]['used_setup']
     device = {'id': 'device-1', 'name': 'DAQ', 'model': 'Model A', 'serialNumber': 'SN1',

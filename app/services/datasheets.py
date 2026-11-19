@@ -66,9 +66,12 @@ def _parse_manifest(manifest_text: str) -> dict[str, dict[str, Any]]:
         original_name = str(entry.get("originalFileName") or "")
         if Path(original_name).suffix.lower() != ".pdf":
             raise APIError(400, "invalid_datasheet_manifest", "Every datasheet must have a .pdf filename")
-        if not isinstance(entry.get("owner"), dict):
-            raise APIError(400, "invalid_datasheet_manifest", "Every datasheet manifest entry requires an owner")
-        entries[attachment_id] = entry
+        owners = entry.get("owners") if "owners" in entry else [entry.get("owner")]
+        if not isinstance(owners, list) or not owners or any(
+            not isinstance(owner, dict) or not owner.get("kind") or not owner.get("id") for owner in owners
+        ):
+            raise APIError(400, "invalid_datasheet_manifest", "Every datasheet manifest entry requires valid owners")
+        entries[attachment_id] = {**entry, "owners": owners}
     return entries
 
 
@@ -213,8 +216,8 @@ def _resolve_attachment(
         return None
 
     entry = manifest.get(attachment_id)
-    owner = entry.get("owner") if entry else None
-    if not isinstance(owner, dict) or owner.get("kind") != owner_kind or owner.get("id") != owner_id:
+    owners = entry.get("owners", []) if entry else []
+    if not any(owner.get("kind") == owner_kind and owner.get("id") == owner_id for owner in owners):
         raise APIError(400, "missing_datasheet", f"Datasheet manifest does not match its {owner_label}")
     content = files.get(attachment_id)
     if content is None:
