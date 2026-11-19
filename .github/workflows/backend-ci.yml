@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - uses: actions/setup-python@v5
         with:
@@ -18,6 +20,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
+          pip install ./vendor/isa-phm-specification
 
       - name: Lint
         run: python -m ruff check app tests tools
@@ -37,9 +40,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Build image
         run: docker build -t isa-phm-backend:ci .
+
+      - name: Check shared validator is installed
+        run: docker run --rm isa-phm-backend:ci python -c "from validator import validate_dataset; print('Shared validator available')"
 
       - name: Start container and wait for readiness
         shell: bash

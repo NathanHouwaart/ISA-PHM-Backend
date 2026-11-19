@@ -6,8 +6,10 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 COPY requirements.txt .
+COPY vendor/isa-phm-specification ./vendor/isa-phm-specification
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir ./vendor/isa-phm-specification \
     && addgroup --system app \
     && adduser --system --ingroup app --home /app app
 

@@ -11,6 +11,7 @@ from app.services.archive import create_export_archive, export_archive_response
 from app.services.conversion import convert_payload, read_and_validate_payload
 from app.services.datasheets import prepare_datasheets
 from app.services.images import prepare_images
+from app.services.specification_validation import validate_export
 
 router = APIRouter()
 logger = logging.getLogger("isa_phm_backend")
@@ -40,8 +41,9 @@ async def convert_json(
             payload, image_manifest, images, remaining_upload_bytes,
         )
         raw_json = await run_in_threadpool(convert_payload, payload, settings)
+        validation_report = await run_in_threadpool(validate_export, raw_json)
         archive_path = await run_in_threadpool(
-            create_export_archive, raw_json, [*attachments, *image_attachments],
+            create_export_archive, raw_json, [*attachments, *image_attachments], validation_report,
         )
 
     logger.info(

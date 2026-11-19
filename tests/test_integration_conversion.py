@@ -118,7 +118,7 @@ def test_convert_integration_returns_parsable_isa_json(client: TestClient, minim
     assert response.headers["content-type"].startswith("application/zip")
 
     with zipfile.ZipFile(BytesIO(response.content)) as archive:
-        assert archive.namelist() == ["ISA-PHM-Out.isa-phm.json"]
+        assert set(archive.namelist()) == {"ISA-PHM-Out.isa-phm.json", "isa-phm-validation-report.json"}
         output_bytes = archive.read("ISA-PHM-Out.isa-phm.json")
     output = json.loads(output_bytes)
     assert isinstance(output, dict)

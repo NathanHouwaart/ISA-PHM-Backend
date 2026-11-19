@@ -59,6 +59,22 @@ python -m pip install -r requirements.txt
 uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
 ```
 
+The Backend pins the shared Specification as a Git submodule. Initialize it
+and install the draft validator into the same Python environment:
+
+```powershell
+git submodule update --init --recursive
+python -m pip install ./vendor/isa-phm-specification
+```
+
+Each conversion ZIP includes `isa-phm-validation-report.json`. The service
+checks the generated ISA-JSON but does not receive measurement CSVs, so it
+cannot check dataset file paths or CSV contents. Errors and incomplete checks
+are reported without blocking the download; a pass covers selected draft
+checks only. When the validator is absent or fails, the report explicitly
+states that validation was unavailable. Docker builds install the pinned
+submodule automatically; initialize submodules before building the image.
+
 Conda option:
 
 ```bash
