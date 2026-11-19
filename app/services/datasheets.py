@@ -234,6 +234,7 @@ async def prepare_datasheets(
     files = await _read_uploads(uploaded_files, manifest, max_upload_bytes)
     attachments: dict[str, DatasheetAttachment] = {}
     sensor_paths: dict[str, str] = {}
+    device_paths: dict[str, str] = {}
     used_ids: set[str] = set()
 
     for test_setup in _test_setups(payload):
@@ -255,6 +256,19 @@ async def prepare_datasheets(
             characteristic["comments"] = [*comments, {"name": "datasheet", "value": f"./{archive_path}"}]
             attachments.setdefault(attachment_id, DatasheetAttachment(archive_path, content))
 
+        for device in test_setup.get("physicalDevices", []):
+            if not isinstance(device, dict):
+                continue
+            resolved = _resolve_attachment(
+                device.get("datasheet"), "physical_device", device.get("id"),
+                "physical device", manifest, files,
+            )
+            if resolved:
+                attachment_id, archive_path, content = resolved
+                used_ids.add(attachment_id)
+                device_paths[str(device.get("id"))] = f"./{archive_path}"
+                attachments.setdefault(attachment_id, DatasheetAttachment(archive_path, content))
+
         for sensor_type in test_setup.get("sensorTypes", []):
             if not isinstance(sensor_type, dict):
                 continue
@@ -273,6 +287,24 @@ async def prepare_datasheets(
                     sensor["datasheetPath"] = relative_path
                     if sensor.get("id"):
                         sensor_paths[str(sensor["id"])] = relative_path
+            attachments.setdefault(attachment_id, DatasheetAttachment(archive_path, content))
+
+        # An individual sensor datasheet takes precedence over a reusable type's
+        # datasheet; the device datasheet remains a separate reference.
+        for sensor in test_setup.get("sensors", []):
+            if not isinstance(sensor, dict):
+                continue
+            resolved = _resolve_attachment(
+                sensor.get("datasheet"), "sensor", sensor.get("id"),
+                "sensor", manifest, files,
+            )
+            if not resolved:
+                continue
+            attachment_id, archive_path, content = resolved
+            used_ids.add(attachment_id)
+            sensor["datasheetPath"] = f"./{archive_path}"
+            if sensor.get("id"):
+                sensor_paths[str(sensor["id"])] = sensor["datasheetPath"]
             attachments.setdefault(attachment_id, DatasheetAttachment(archive_path, content))
 
         for component_type in test_setup.get("configurationTypes", []):
@@ -297,6 +329,9 @@ async def prepare_datasheets(
             sensor_id = str(used_sensor.get("id") or "") if isinstance(used_sensor, dict) else ""
             if sensor_id in sensor_paths:
                 used_sensor["datasheetPath"] = sensor_paths[sensor_id]
+            device = used_sensor.get("physicalDevice") if isinstance(used_sensor, dict) else None
+            if isinstance(device, dict) and str(device.get("id") or "") in device_paths:
+                device["datasheetPath"] = device_paths[str(device["id"])]
 
     if set(manifest) != used_ids or set(files) != used_ids:
         raise APIError(

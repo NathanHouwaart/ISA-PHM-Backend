@@ -58,5 +58,15 @@ def assign_factor_values(
             factor_value = FactorValue()
             factor_value.factor_name = study_factor
             factor_value.value = mapping.get("value", "unknown")
-            factor_value.unit = add_unit_to_study(study_obj, variable.get("unit", ""))
+            unit = add_unit_to_study(study_obj, variable.get("unit", ""), variable.get("unitIdentifier", ""))
+            if unit:
+                # ISA tools serializes FactorValue unit references using the
+                # ontology_annotation prefix, even for a #unit annotation.
+                # Register the referenced annotation so it remains resolvable.
+                factor_unit_id = unit.id.replace("#unit/", "#ontology_annotation/")
+                factor_unit = next((item for item in study_obj.units if item.id == factor_unit_id), None)
+                if factor_unit is None:
+                    factor_unit = OntologyAnnotation(term=unit.term, term_accession=unit.term_accession, id_=factor_unit_id)
+                    study_obj.units.append(factor_unit)
+                factor_value.unit = factor_unit
             sample.factor_values.append(factor_value)

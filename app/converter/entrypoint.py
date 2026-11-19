@@ -379,7 +379,7 @@ def create_isa_data(
 
             processing_protocol = Protocol(
                 name=f"{measurement_type} processing ({sensor_id})",
-                description=sensor.get("description", ""),
+                description=(selected_processing_protocol or {}).get("description") or "",
             )
             processing_protocol.protocol_type = OntologyAnnotation("Processing Protocol")
             processing_protocol.comments.append(Comment(name="Sensor id", value=as_comment_value(sensor.get("id", ""))))
@@ -410,7 +410,7 @@ def create_isa_data(
             characteristic_obj = Characteristic()
             characteristic_obj.category = category
             characteristic_obj.value = characteristic.get("value", "")
-            characteristic_obj.unit = context.add_unit_to_study(study_obj, characteristic.get("unit", ""))
+            characteristic_obj.unit = context.add_unit_to_study(study_obj, characteristic.get("unit", ""), characteristic.get("unitIdentifier", ""))
             for comment in characteristic.get("comments", []):
                 if not isinstance(comment, dict):
                     continue

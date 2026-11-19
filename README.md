@@ -1,5 +1,11 @@
 # ISA-PHM Backend
 
+Processed-only exports use a provisional pathless `Raw Data File` placeholder
+with the comment `availability: not included`, preserving the measurement →
+processing → processed-file relationship without inventing a real file. This
+is a draft convention pending further ISA-PHM specification and ISA validation.
+Existing exports are not retroactively changed.
+
 FastAPI backend for converting ISA-PHM Wizard payloads into ISA-JSON.
 
 ## What Improved
@@ -91,7 +97,7 @@ Readiness endpoint (schema + converter readiness details). Returns `503` when no
 Accepts `multipart/form-data` with field `file` containing a `.json` payload.
 
 Success response:
-- `200` with `ISA-PHM-Out.zip` (`application/zip`), containing `ISA-PHM-Out.json` and uploaded attachments
+- `200` with `ISA-PHM-Out.zip` (`application/zip`), containing `ISA-PHM-Out.isa-phm.json` and uploaded attachments
 
 Error response shape:
 

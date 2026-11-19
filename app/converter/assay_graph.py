@@ -40,12 +40,26 @@ def append_assays_to_study(
         assay_sensor = assay.get("used_sensor", {})
         assay_measurement_type = assay_sensor.get("measurementType", "") or "Unknown"
 
-        assay_obj.measurement_type = OntologyAnnotation(assay_measurement_type)
+        assay_obj.measurement_type = OntologyAnnotation(
+            term=assay_measurement_type,
+            term_accession=assay_sensor.get("quantityKindIdentifier") or "",
+        )
         assay_obj.technology_type = OntologyAnnotation(assay_sensor.get("technologyType", "unknown"))
         assay_obj.technology_platform = assay_sensor.get("technologyPlatform", "unknown")
         sensor_alias_value = assay_sensor.get("alias", "") or assay_sensor.get("id", "")
         if sensor_alias_value:
             assay_obj.comments.append(Comment(name="sensor alias", value=sensor_alias_value))
+        physical_device = assay_sensor.get("physicalDevice")
+        if isinstance(physical_device, dict) and physical_device.get("id"):
+            for field, comment_name in (
+                ("id", "physical device id"),
+                ("name", "physical device name"),
+                ("model", "physical device model"),
+                ("serialNumber", "physical device serial number"),
+                ("datasheetPath", "physical device datasheet"),
+            ):
+                if physical_device.get(field):
+                    assay_obj.comments.append(Comment(name=comment_name, value=str(physical_device[field])))
         if assay_sensor.get("datasheetPath"):
             assay_obj.comments.append(Comment(name="datasheet", value=assay_sensor["datasheetPath"]))
 
@@ -70,6 +84,14 @@ def append_assays_to_study(
                 run_raw_df_index[run_index] = len(assay_obj.data_files)
                 assay_obj.data_files.append(
                     DataFile(filename=raw_name, label="Raw Data File", generated_from=dummy_sample)
+                )
+            elif has_proc:
+                # Provisional ISA-PHM convention: preserve the measurement →
+                # processing link without pretending an unavailable raw file exists.
+                run_raw_df_index[run_index] = len(assay_obj.data_files)
+                assay_obj.data_files.append(
+                    DataFile(filename="", label="Raw Data File", generated_from=dummy_sample,
+                             comments=[Comment(name="availability", value="not included")])
                 )
 
             if has_proc:
@@ -133,8 +155,15 @@ def append_assays_to_study(
                     )
                     category = matching_param or ProtocolParameter(parameter_name=OntologyAnnotation(parameter_name))
                     parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
+                    value_identifier = entry.get("valueIdentifier")
+                    if value_identifier and parameter_name.strip().lower() == "measured unit":
+                        if not isinstance(value_identifier, str) or not isinstance(raw_value, str):
+                            raise ValueError("Measured unit identifier and value must be strings")
+                        if raw_value.strip().lower() in {"unknown", "not applicable"}:
+                            raise ValueError("Measured unit statuses cannot have a unit identifier")
+                        parsed_value = OntologyAnnotation(term=raw_value, term_accession=value_identifier)
                     clean_unit = normalize_unit(raw_unit)
-                    unit = add_unit_to_study(study_obj, clean_unit) if clean_unit and is_numeric else None
+                    unit = add_unit_to_study(study_obj, clean_unit, entry.get("unitIdentifier") or "") if clean_unit and is_numeric else None
                     if clean_unit and not is_numeric:
                         logger.warning(
                             "Skipping unit for non-numeric measurement value",
@@ -171,7 +200,7 @@ def append_assays_to_study(
                     category = matching_param or ProtocolParameter(parameter_name=OntologyAnnotation(parameter_name))
                     parsed_value, is_numeric = parse_numeric_if_possible(raw_value)
                     clean_unit = normalize_unit(raw_unit)
-                    unit = add_unit_to_study(study_obj, clean_unit) if clean_unit and is_numeric else None
+                    unit = add_unit_to_study(study_obj, clean_unit, entry.get("unitIdentifier") or "") if clean_unit and is_numeric else None
                     if clean_unit and not is_numeric:
                         logger.warning(
                             "Skipping unit for non-numeric processing value",
@@ -189,14 +218,14 @@ def append_assays_to_study(
                 logger.warning("Skipping run without output files", extra={"run_number": run_number})
                 continue
 
-            raw_df = assay_obj.data_files[run_raw_df_index[index]] if has_raw else None
+            raw_df = assay_obj.data_files[run_raw_df_index[index]] if has_raw or has_proc else None
             proc_df = assay_obj.data_files[run_processed_df_index[index]] if has_proc else None
 
             measurement_process = None
             processing_process = None
 
             if measurement_protocol_obj:
-                measurement_output = raw_df if has_raw else proc_df
+                measurement_output = raw_df
                 measurement_process = Process(
                     executes_protocol=measurement_protocol_obj,
                     parameter_values=measurement_params,
@@ -207,7 +236,7 @@ def append_assays_to_study(
                 assay_obj.process_sequence.append(measurement_process)
 
             if processing_protocol_obj and has_proc:
-                processing_input = raw_df if has_raw else proc_df
+                processing_input = raw_df
                 processing_process = Process(
                     executes_protocol=processing_protocol_obj,
                     parameter_values=processing_params,

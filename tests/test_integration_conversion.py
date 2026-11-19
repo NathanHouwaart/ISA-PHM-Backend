@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import copy
 import os
 import subprocess
 import sys
@@ -12,6 +13,58 @@ from fastapi.testclient import TestClient
 from PIL import Image
 from pypdf import PdfWriter
 from pypdf.generic import ArrayObject, NameObject, NumberObject
+import pytest
+
+
+@pytest.mark.parametrize('mode', ['raw', 'processed', 'both'])
+def test_output_mode_process_file_links(minimal_payload, mode):
+    from app.converter.entrypoint import create_isa_data
+    from isatools import isajson
+
+    payload = copy.deepcopy(minimal_payload)
+    run = payload['studies'][0]['assay_details'][0]['runs'][0]
+    run['raw_file_name'] = 'Data/raw.csv' if mode in ('raw', 'both') else ''
+    run['processed_file_name'] = 'Data/processed.csv' if mode in ('processed', 'both') else ''
+    output = json.loads(json.dumps(create_isa_data(payload), cls=isajson.ISAJSONEncoder))
+    assay = output['studies'][0]['assays'][0]
+    files = {item['@id']: item for item in assay['dataFiles']}
+    measurement = assay['processSequence'][0]
+    measurement_output = files[measurement['outputs'][0]['@id']]
+    if mode == 'processed':
+        assert measurement_output['name'] == ''
+        assert measurement_output['type'] == 'Raw Data File'
+        assert {'name': 'availability', 'value': 'not included'} in measurement_output['comments']
+    else:
+        assert measurement_output['name'] == 'Data/raw.csv'
+    if mode == 'raw':
+        assert len(assay['processSequence']) == 1
+    else:
+        processing = assay['processSequence'][1]
+        assert processing['inputs'][0]['@id'] == measurement_output['@id']
+        assert files[processing['outputs'][0]['@id']]['name'] == 'Data/processed.csv'
+        assert processing['inputs'][0]['@id'] != processing['outputs'][0]['@id']
+
+
+def test_component_and_protocol_unit_identifiers_are_exported(minimal_payload):
+    from app.converter.entrypoint import create_isa_data
+    from isatools import isajson
+
+    payload = copy.deepcopy(minimal_payload)
+    study = payload['studies'][0]
+    component = study['used_setup']['characteristics'][0]
+    component.update(value='2.2', unit='kW', unitIdentifier='http://qudt.org/vocab/unit/KiloW')
+    assay = study['assay_details'][0]
+    assay['measurement_protocols'][0]['unitIdentifier'] = 'http://qudt.org/vocab/unit/HZ'
+    assay['processing_protocols'][0].update(value=['10', 's'], unitIdentifier='http://qudt.org/vocab/unit/SEC')
+    assay['runs'][0]['processed_file_name'] = 'Data/processed.csv'
+    output = json.loads(json.dumps(create_isa_data(payload), cls=isajson.ISAJSONEncoder))
+    result_study = output['studies'][0]
+    units = {u['@id']: u for u in result_study['unitCategories']}
+    values = result_study['assays'][0]['processSequence']
+    assert units[values[0]['parameterValues'][0]['unit']['@id']]['termAccession'] == 'http://qudt.org/vocab/unit/HZ'
+    assert units[values[1]['parameterValues'][0]['unit']['@id']]['termAccession'] == 'http://qudt.org/vocab/unit/SEC'
+    char = result_study['materials']['sources'][0]['characteristics'][0]
+    assert units[char['unit']['@id']]['termAccession'] == 'http://qudt.org/vocab/unit/KiloW'
 
 
 def _post_payload(client: TestClient, payload: dict):
@@ -65,8 +118,8 @@ def test_convert_integration_returns_parsable_isa_json(client: TestClient, minim
     assert response.headers["content-type"].startswith("application/zip")
 
     with zipfile.ZipFile(BytesIO(response.content)) as archive:
-        assert archive.namelist() == ["ISA-PHM-Out.json"]
-        output_bytes = archive.read("ISA-PHM-Out.json")
+        assert archive.namelist() == ["ISA-PHM-Out.isa-phm.json"]
+        output_bytes = archive.read("ISA-PHM-Out.isa-phm.json")
     output = json.loads(output_bytes)
     assert isinstance(output, dict)
     assert output.get("title") == minimal_payload["title"]
@@ -117,7 +170,7 @@ def test_convert_packages_nonreplaceable_characteristic_datasheet(client: TestCl
     with zipfile.ZipFile(BytesIO(response.content)) as archive:
         datasheet_path = next(name for name in archive.namelist() if name.startswith("Datasheets/Rig-Manual-"))
         assert datasheet_path in archive.namelist()
-        output = json.loads(archive.read("ISA-PHM-Out.json"))
+        output = json.loads(archive.read("ISA-PHM-Out.isa-phm.json"))
     serialized_output = json.dumps(output)
     assert '"name": "datasheet"' in serialized_output
     assert f'"value": "./{datasheet_path}"' in serialized_output
@@ -150,9 +203,54 @@ def test_convert_packages_sensor_type_datasheet(client: TestClient, minimal_payl
     with zipfile.ZipFile(BytesIO(response.content)) as archive:
         datasheet_path = next(name for name in archive.namelist() if name.startswith("Datasheets/Accelerometer-"))
         assert datasheet_path in archive.namelist()
-        output = json.loads(archive.read("ISA-PHM-Out.json"))
+        output = json.loads(archive.read("ISA-PHM-Out.isa-phm.json"))
     serialized_output = json.dumps(output)
     assert f'"value": "./{datasheet_path}"' in serialized_output
+
+
+def test_convert_packages_physical_device_datasheet(client: TestClient, minimal_payload: dict):
+    setup = minimal_payload['studies'][0]['used_setup']
+    device = {'id': 'device-1', 'name': 'DAQ', 'model': 'Model A', 'serialNumber': 'SN1',
+              'datasheet': {'attachmentId': 'device-sheet', 'fileName': 'Device.pdf'}}
+    setup['physicalDevices'] = [device]
+    minimal_payload['test_setup'] = setup
+    minimal_payload['studies'][0]['assay_details'][0]['used_sensor']['physicalDevice'] = dict(device)
+    manifest = [{'attachmentId': 'device-sheet', 'originalFileName': 'Device.pdf',
+                 'owner': {'kind': 'physical_device', 'id': 'device-1'}}]
+    response = client.post('/convert', data={'datasheet_manifest': json.dumps(manifest)}, files=[
+        ('file', ('input.json', json.dumps(minimal_payload), 'application/json')),
+        ('datasheets', ('device-sheet.pdf', _pdf_bytes(), 'application/pdf')),
+    ])
+    assert response.status_code == 200, response.text
+    with zipfile.ZipFile(BytesIO(response.content)) as archive:
+        path = next(name for name in archive.namelist() if name.startswith('Datasheets/Device-'))
+        output = json.loads(archive.read('ISA-PHM-Out.isa-phm.json'))
+    comments = output['studies'][0]['assays'][0]['comments']
+    assert {'name': 'physical device id', 'value': 'device-1'} in comments
+    assert {'name': 'physical device datasheet', 'value': f'./{path}'} in comments
+
+
+def test_sensor_datasheet_overrides_type_datasheet(client: TestClient, minimal_payload: dict):
+    setup = minimal_payload['studies'][0]['used_setup']
+    sensor = setup['sensors'][0]
+    sensor['sensorTypeId'] = 'type-1'
+    sensor['datasheet'] = {'attachmentId': 'sensor-sheet', 'fileName': 'Sensor.pdf'}
+    setup['sensorTypes'] = [{'id': 'type-1', 'name': 'Type', 'datasheet': {'attachmentId': 'type-sheet', 'fileName': 'Type.pdf'}}]
+    minimal_payload['test_setup'] = setup
+    manifest = [
+        {'attachmentId': 'sensor-sheet', 'originalFileName': 'Sensor.pdf', 'owner': {'kind': 'sensor', 'id': sensor['id']}},
+        {'attachmentId': 'type-sheet', 'originalFileName': 'Type.pdf', 'owner': {'kind': 'sensor_type', 'id': 'type-1'}},
+    ]
+    response = client.post('/convert', data={'datasheet_manifest': json.dumps(manifest)}, files=[
+        ('file', ('input.json', json.dumps(minimal_payload), 'application/json')),
+        ('datasheets', ('sensor-sheet.pdf', _pdf_bytes(), 'application/pdf')),
+        ('datasheets', ('type-sheet.pdf', _pdf_bytes(), 'application/pdf')),
+    ])
+    assert response.status_code == 200, response.text
+    with zipfile.ZipFile(BytesIO(response.content)) as archive:
+        sensor_path = next(name for name in archive.namelist() if name.startswith('Datasheets/Sensor-'))
+        output = json.loads(archive.read('ISA-PHM-Out.isa-phm.json'))
+    assert {'name': 'datasheet', 'value': f'./{sensor_path}'} in output['studies'][0]['assays'][0]['comments']
 
 
 def test_convert_normalizes_and_packages_test_setup_image(client: TestClient, minimal_payload: dict):
@@ -185,7 +283,7 @@ def test_convert_normalizes_and_packages_test_setup_image(client: TestClient, mi
         with Image.open(BytesIO(archive.read(image_path))) as packaged_image:
             assert packaged_image.format == "PNG"
             assert packaged_image.size == (8, 6)
-        output = json.loads(archive.read("ISA-PHM-Out.json"))
+        output = json.loads(archive.read("ISA-PHM-Out.isa-phm.json"))
     serialized_output = json.dumps(output)
     assert '"name": "image"' in serialized_output
     assert f'"value": "./{image_path}"' in serialized_output

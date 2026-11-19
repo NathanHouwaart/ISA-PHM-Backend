@@ -13,7 +13,7 @@ def create_export_archive(raw_json: str, attachments: list[object]) -> str:
     archive_file.close()
 
     with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-        archive.writestr("ISA-PHM-Out.json", raw_json)
+        archive.writestr("ISA-PHM-Out.isa-phm.json", raw_json)
         for attachment in attachments:
             archive.writestr(attachment.archive_path, attachment.content)
     return archive_path
