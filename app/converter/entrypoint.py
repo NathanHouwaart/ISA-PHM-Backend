@@ -160,7 +160,7 @@ def _add_component_instance_characteristics(
             continue
         component_type = types_by_id.get(str(instance.get("typeId")), {})
         component_name = component.get("category") or component.get("description") or "Replaceable Component"
-        comments = [{"name": "component ID", "value": instance.get("componentId", "")}]
+        comments = [{"name": "component_id", "value": instance.get("componentId", "")}]
         if component.get("description"):
             comments.insert(0, {"name": "description", "value": component["description"]})
         if component_type.get("datasheetPath"):
@@ -351,7 +351,7 @@ def create_isa_data(
                 description=sensor.get("description", "no description provided"),
             )
             measurement_protocol.protocol_type = OntologyAnnotation("Measurement Protocol")
-            measurement_protocol.comments.append(Comment(name="Sensor id", value=as_comment_value(sensor.get("id", ""))))
+            measurement_protocol.comments.append(Comment(name="sensor_id", value=as_comment_value(sensor.get("id", ""))))
             measurement_protocol.comments.append(
                 Comment(
                     name="selected_measurement_protocol_id",
@@ -382,7 +382,7 @@ def create_isa_data(
                 description=(selected_processing_protocol or {}).get("description") or "",
             )
             processing_protocol.protocol_type = OntologyAnnotation("Processing Protocol")
-            processing_protocol.comments.append(Comment(name="Sensor id", value=as_comment_value(sensor.get("id", ""))))
+            processing_protocol.comments.append(Comment(name="sensor_id", value=as_comment_value(sensor.get("id", ""))))
             processing_protocol.comments.append(
                 Comment(
                     name="selected_processing_protocol_id",

@@ -48,15 +48,15 @@ def append_assays_to_study(
         assay_obj.technology_platform = assay_sensor.get("technologyPlatform", "unknown")
         sensor_alias_value = assay_sensor.get("alias", "") or assay_sensor.get("id", "")
         if sensor_alias_value:
-            assay_obj.comments.append(Comment(name="sensor alias", value=sensor_alias_value))
+            assay_obj.comments.append(Comment(name="sensor_alias", value=sensor_alias_value))
         physical_device = assay_sensor.get("physicalDevice")
         if isinstance(physical_device, dict) and physical_device.get("id"):
             for field, comment_name in (
-                ("id", "physical device id"),
-                ("name", "physical device name"),
-                ("model", "physical device model"),
-                ("serialNumber", "physical device serial number"),
-                ("datasheetPath", "physical device datasheet"),
+                ("id", "physical_device_id"),
+                ("name", "physical_device_name"),
+                ("model", "physical_device_model"),
+                ("serialNumber", "physical_device_serial_number"),
+                ("datasheetPath", "physical_device_datasheet"),
             ):
                 if physical_device.get(field):
                     assay_obj.comments.append(Comment(name=comment_name, value=str(physical_device[field])))

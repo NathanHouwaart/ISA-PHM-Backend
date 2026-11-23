@@ -273,6 +273,21 @@ def test_shared_datasheet_is_assigned_to_each_sensor(minimal_payload: dict):
     assert setup['sensors'][0]['datasheetPath'] == f"./{attachments[0].archive_path}"
 
 
+
+def test_explicit_unavailable_sensor_datasheet_does_not_inherit_type_datasheet(minimal_payload: dict):
+    import asyncio
+    from fastapi import UploadFile
+    from app.services.datasheets import prepare_datasheets
+
+    setup = minimal_payload["studies"][0]["used_setup"]
+    setup["sensorTypes"] = [{"id": "type", "datasheet": {"attachmentId": "sheet", "fileName": "Sensor.pdf"}}]
+    setup["sensors"] = [{"id": "sensor", "sensorTypeId": "type", "datasheet": {"notAvailable": True}}]
+    minimal_payload["test_setup"] = setup
+    manifest = [{"attachmentId": "sheet", "originalFileName": "Sensor.pdf", "owner": {"kind": "sensor_type", "id": "type"}}]
+    upload = UploadFile(file=BytesIO(_pdf_bytes()), filename="sheet.pdf")
+    asyncio.run(prepare_datasheets(minimal_payload, json.dumps(manifest), [upload], 1024 * 1024))
+    assert "datasheetPath" not in setup["sensors"][0]
+
 def test_convert_packages_physical_device_datasheet(client: TestClient, minimal_payload: dict):
     setup = minimal_payload['studies'][0]['used_setup']
     device = {'id': 'device-1', 'name': 'DAQ', 'model': 'Model A', 'serialNumber': 'SN1',
@@ -291,8 +306,8 @@ def test_convert_packages_physical_device_datasheet(client: TestClient, minimal_
         path = next(name for name in archive.namelist() if name.startswith('Datasheets/Device-'))
         output = json.loads(archive.read('ISA-PHM-Out.isa-phm.json'))
     comments = output['studies'][0]['assays'][0]['comments']
-    assert {'name': 'physical device id', 'value': 'device-1'} in comments
-    assert {'name': 'physical device datasheet', 'value': f'./{path}'} in comments
+    assert {'name': 'physical_device_id', 'value': 'device-1'} in comments
+    assert {'name': 'physical_device_datasheet', 'value': f'./{path}'} in comments
 
 
 def test_sensor_datasheet_overrides_type_datasheet(client: TestClient, minimal_payload: dict):

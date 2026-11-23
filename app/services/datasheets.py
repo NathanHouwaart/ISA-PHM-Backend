@@ -286,7 +286,8 @@ async def prepare_datasheets(
             relative_path = f"./{archive_path}"
             sensor_type["datasheetPath"] = relative_path
             for sensor in test_setup.get("sensors", []):
-                if isinstance(sensor, dict) and sensor.get("sensorTypeId") == sensor_type.get("id"):
+                if (isinstance(sensor, dict) and sensor.get("sensorTypeId") == sensor_type.get("id")
+                        and not (isinstance(sensor.get("datasheet"), dict) and sensor["datasheet"].get("notAvailable") is True)):
                     sensor["datasheetPath"] = relative_path
                     if sensor.get("id"):
                         sensor_paths[str(sensor["id"])] = relative_path

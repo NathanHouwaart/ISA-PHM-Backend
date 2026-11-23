@@ -127,7 +127,7 @@ def test_component_instances_become_study_source_characteristics_with_datasheet(
     assert bearing.category.comments == []
     assert [(comment.name, comment.value) for comment in bearing.comments] == [
         ("description", "Drive-end bearing"),
-        ("component ID", "1.1"),
+        ("component_id", "1.1"),
         ("datasheet", "./Datasheets/skf-6205.pdf"),
         ("Material", "Steel"),
     ]
